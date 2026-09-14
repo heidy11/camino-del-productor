@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://dbgnlmi852iep"]
+
+[ext_resource type="Script" uid="uid://da17x0tea1ak4" path="res://scripts/Story.gd" id="1_8j2hn"]
+
+[node name="Story" type="Control" unique_id=960974247]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="." unique_id=448613217]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.050980393, 0.23137255, 0.4, 1)
+
+[node name="Title" type="Label" parent="." unique_id=1514668059]
+layout_mode = 0
+offset_left = 519.0
+offset_top = 62.0
+offset_right = 627.0
+offset_bottom = 85.0
+text = "EL COMIENZO"
+
+[node name="StoryText" type="Label" parent="." unique_id=2122454569]
+layout_mode = 0
+offset_left = 391.0
+offset_top = 180.0
+offset_right = 724.0
+offset_bottom = 333.0
+text = "En una comunidad de los Andes bolivianos,
+cada decisión cuenta.
+
+Tu misión será aprender a producir,
+administrar tus recursos y prepararte
+para el futuro."
+
+[node name="ContinueButton" type="Button" parent="." unique_id=1543567208]
+layout_mode = 0
+offset_left = 547.0
+offset_top = 502.0
+offset_right = 650.0
+offset_bottom = 533.0
+text = "CONTINUAR
+"
+script = ExtResource("1_8j2hn")
