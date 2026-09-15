@@ -1,5 +1,10 @@
 [gd_scene format=3 uid="uid://d4j1gueusfcu2"]
 
+[ext_resource type="Script" uid="uid://mih1lk3uq2gk" path="res://scripts/RegionSelection.gd" id="1_e6hxf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3kx7e"]
+font_color = Color(0.101960786, 0.16862746, 0.40784314, 1)
+
 [node name="RegionSelection" type="Control" unique_id=578081286]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +12,60 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_e6hxf")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1563996837]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.91764706, 0.95686275, 0.972549, 1)
+
+[node name="Title" type="Label" parent="." unique_id=315049328]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "SELECCIONA TU REGIÓN"
+label_settings = SubResource("LabelSettings_3kx7e")
+
+[node name="AndesButton" type="Button" parent="." unique_id=810351599]
+layout_mode = 0
+offset_left = 567.0
+offset_top = 121.0
+offset_right = 669.0
+offset_bottom = 175.0
+text = "🏔️ ANDES
+DISPONIBLE
+"
+
+[node name="VallesButton" type="Button" parent="." unique_id=1963215984]
+layout_mode = 0
+offset_left = 199.0
+offset_top = 174.0
+offset_right = 335.0
+offset_bottom = 228.0
+text = "🌄 VALLES
+PRÓXIMAMENTE
+"
+
+[node name="LlanosButton" type="Button" parent="." unique_id=949448136]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 252.0
+offset_right = 221.0
+offset_bottom = 306.0
+text = "🌴 LLANOS
+PRÓXIMAMENTE
+"
+
+[node name="BackButton" type="Button" parent="." unique_id=2052806088]
+layout_mode = 0
+offset_left = 284.0
+offset_top = 386.0
+offset_right = 353.0
+offset_bottom = 417.0
+text = "VOLVER"
+
+[connection signal="pressed" from="AndesButton" to="." method="_on_andes_button_pressed"]

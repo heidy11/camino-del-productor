@@ -2,6 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dlm84octicure" path="res://scripts/Tutorial.gd" id="1_cfv3y"]
 
+[sub_resource type="Theme" id="Theme_cfv3y"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3kx7e"]
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pypcl"]
+font_size = 20
+font_color = Color(0.14901961, 0.15686275, 0.22745098, 1)
+
 [node name="Tutorial" type="Control" unique_id=1241019138]
 layout_mode = 3
 anchors_preset = 15
@@ -10,3 +20,41 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cfv3y")
+
+[node name="Background" type="ColorRect" parent="." unique_id=516298467]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.91764706, 0.95686275, 0.972549, 1)
+
+[node name="Content" type="VBoxContainer" parent="." unique_id=421423864]
+custom_minimum_size = Vector2(700, 400)
+layout_mode = 0
+offset_left = 281.0
+offset_top = 190.0
+offset_right = 981.0
+offset_bottom = 590.0
+theme = SubResource("Theme_cfv3y")
+theme_override_constants/separation = 25
+
+[node name="Title" type="Label" parent="Content" unique_id=1375155766]
+layout_mode = 2
+text = "EL CÓNDOR GUARDIÁN"
+label_settings = SubResource("LabelSettings_3kx7e")
+
+[node name="WelcomeText" type="Label" parent="Content" unique_id=443219494]
+layout_mode = 2
+text = "¡Bienvenido al Camino del Productor!
+
+Aquí aprenderás a producir, vender y tomar
+decisiones para cuidar tus recursos."
+label_settings = SubResource("LabelSettings_pypcl")
+
+[node name="StartButton" type="Button" parent="Content" unique_id=1769805358]
+layout_mode = 2
+text = "COMENZAR TUTORIAL"
+
+[connection signal="pressed" from="Content/StartButton" to="." method="_on_start_button_pressed"]

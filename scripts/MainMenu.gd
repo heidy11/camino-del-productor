@@ -12,4 +12,5 @@ func _process(delta: float) -> void:
 
 
 func _on_new_game_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Story.tscn") # Replace with function body.
+	GameState.nueva_partida()
+	get_tree().change_scene_to_file("res://scenes/Story.tscn")

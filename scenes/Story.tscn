@@ -49,3 +49,5 @@ offset_bottom = 533.0
 text = "CONTINUAR
 "
 script = ExtResource("1_8j2hn")
+
+[connection signal="pressed" from="ContinueButton" to="ContinueButton" method="_on_pressed"]
