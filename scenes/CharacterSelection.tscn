@@ -1,5 +1,10 @@
 [gd_scene format=3 uid="uid://cu1a5b5iyyosj"]
 
+[ext_resource type="Script" uid="uid://dr1caf4vf3b4i" path="res://scripts/CharacterSelection.gd" id="1_8om47"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
+font_color = Color(0.09803922, 0.13333334, 0.14509805, 1)
+
 [node name="CharacterSelection" type="Control" unique_id=820050564]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +12,76 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_8om47")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1292419549]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.91764706, 0.95686275, 0.972549, 1)
+
+[node name="Title" type="Label" parent="." unique_id=1204393100]
+layout_mode = 0
+offset_left = 553.0
+offset_top = 102.0
+offset_right = 713.0
+offset_bottom = 125.0
+text = "ELIGE TU PERSONAJE"
+label_settings = SubResource("LabelSettings_jdr30")
+
+[node name="CharacterContainer" type="HBoxContainer" parent="." unique_id=1858513850]
+layout_mode = 0
+offset_left = 249.0
+offset_top = 234.0
+offset_right = 995.0
+offset_bottom = 458.0
+
+[node name="FoxMaleButton" type="Button" parent="CharacterContainer" unique_id=1069721767]
+layout_mode = 2
+text = "🦊 Zorro ♂
+"
+
+[node name="FoxFemaleButton" type="Button" parent="CharacterContainer" unique_id=1669359190]
+layout_mode = 2
+text = "🦊 Zorro ♀
+"
+
+[node name="JucumariMaleButton" type="Button" parent="CharacterContainer" unique_id=1174999222]
+layout_mode = 2
+text = "🐻 Jucumari ♂
+"
+
+[node name="JucumariFemaleButton" type="Button" parent="CharacterContainer" unique_id=812417419]
+layout_mode = 2
+text = "🐻 Jucumari ♀
+"
+
+[node name="CapibaraMaleButton" type="Button" parent="CharacterContainer" unique_id=1579430194]
+layout_mode = 2
+text = "🦫 Capibara ♂
+"
+
+[node name="CapibaraFemaleButton" type="Button" parent="CharacterContainer" unique_id=1338544659]
+layout_mode = 2
+text = "🦫 Capibara ♀
+"
+
+[node name="ContinueButton" type="Button" parent="." unique_id=1556041783]
+layout_mode = 0
+offset_left = 597.0
+offset_top = 608.0
+offset_right = 700.0
+offset_bottom = 639.0
+text = "CONTINUAR
+"
+
+[connection signal="pressed" from="CharacterContainer/FoxMaleButton" to="." method="_on_fox_male_button_pressed"]
+[connection signal="pressed" from="CharacterContainer/FoxFemaleButton" to="." method="_on_fox_female_button_pressed"]
+[connection signal="pressed" from="CharacterContainer/JucumariMaleButton" to="." method="_on_jucumari_male_button_pressed"]
+[connection signal="pressed" from="CharacterContainer/JucumariFemaleButton" to="." method="_on_jucumari_female_button_pressed"]
+[connection signal="pressed" from="CharacterContainer/CapibaraMaleButton" to="." method="_on_capibara_male_button_pressed"]
+[connection signal="pressed" from="CharacterContainer/CapibaraFemaleButton" to="." method="_on_capibara_female_button_pressed"]
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

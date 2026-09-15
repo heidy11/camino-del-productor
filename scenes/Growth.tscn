@@ -1,5 +1,25 @@
 [gd_scene format=3 uid="uid://1ulj7md36ni4"]
 
+[ext_resource type="Script" uid="uid://bei1pt8at4hwg" path="res://scripts/Growth.gd" id="1_mbqei"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
+font_color = Color(0.10980392, 0.13333334, 0.19215687, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vognv"]
+font_color = Color(0.14509805, 0.18039216, 0.21568628, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m1xdu"]
+font_color = Color(0.047058824, 0.078431375, 0.1764706, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_w28mw"]
+font_color = Color(0.14901961, 0.1254902, 0.16862746, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hcd26"]
+font_color = Color(0.12156863, 0.1254902, 0.14509805, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wlxg1"]
+font_color = Color(0.19215687, 0.1764706, 0.18039216, 1)
+
 [node name="Growth" type="Control" unique_id=1805660410]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +27,140 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_mbqei")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1495131822]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.91764706, 0.95686275, 0.972549, 1)
+
+[node name="Title" type="Label" parent="." unique_id=583212951]
+layout_mode = 0
+offset_left = 407.0
+offset_top = 96.0
+offset_right = 636.0
+offset_bottom = 119.0
+text = "TU CULTIVO ESTÁ CRECIENDO"
+label_settings = SubResource("LabelSettings_jdr30")
+
+[node name="CropLabel" type="Label" parent="." unique_id=1896831125]
+layout_mode = 0
+offset_left = 251.0
+offset_top = 379.0
+offset_right = 421.0
+offset_bottom = 402.0
+text = "🌱 Cargando cultivo..."
+label_settings = SubResource("LabelSettings_vognv")
+
+[node name="GrowthProgress" type="ProgressBar" parent="." unique_id=1890482776]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 336.0
+offset_right = 568.0
+offset_bottom = 363.0
+
+[node name="TipLabel" type="Label" parent="." unique_id=1414445097]
+layout_mode = 0
+offset_left = 201.0
+offset_top = 188.0
+offset_right = 503.0
+offset_bottom = 263.0
+text = "🦅 El Cóndor Guardián:
+Si ahorras hoy, mañana podrás invertir
+en tu producción."
+label_settings = SubResource("LabelSettings_m1xdu")
+
+[node name="ChallengePanel" type="Panel" parent="." unique_id=341695666]
+layout_mode = 0
+offset_left = 756.0
+offset_top = 53.0
+offset_right = 1117.0
+offset_bottom = 301.0
+
+[node name="QuestionLabel" type="Label" parent="ChallengePanel" unique_id=2082727775]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 24.0
+offset_right = 324.0
+offset_bottom = 73.0
+text = "Si tienes monedas, ¿qué opción te ayuda
+a prepararte para un imprevisto?"
+label_settings = SubResource("LabelSettings_w28mw")
+
+[node name="OptionAButton" type="Button" parent="ChallengePanel" unique_id=1498687335]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 92.0
+offset_right = 240.0
+offset_bottom = 123.0
+text = "Gastar todas las monedas"
+
+[node name="OptionBButton" type="Button" parent="ChallengePanel" unique_id=643191356]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 137.0
+offset_right = 194.0
+offset_bottom = 168.0
+text = "Guardar una parte"
+
+[node name="OptionCButton" type="Button" parent="ChallengePanel" unique_id=720697713]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 176.0
+offset_right = 286.0
+offset_bottom = 207.0
+text = "Comprar algo que no necesitas"
+
+[node name="ContinueButton" type="Button" parent="." unique_id=286523051]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 595.0
+offset_right = 455.0
+offset_bottom = 626.0
+text = "CONTINUAR
+"
+
+[node name="EventPanel" type="Panel" parent="." unique_id=65125909]
+visible = false
+layout_mode = 0
+offset_left = 780.0
+offset_top = 469.0
+offset_right = 1125.0
+offset_bottom = 677.0
+
+[node name="EventTitle" type="Label" parent="EventPanel" unique_id=2066202271]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 45.0
+offset_right = 260.0
+offset_bottom = 68.0
+text = "EVENTO CLIMÁTICO"
+label_settings = SubResource("LabelSettings_hcd26")
+
+[node name="EventDescription" type="Label" parent="EventPanel" unique_id=1539609813]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 86.0
+offset_right = 332.0
+offset_bottom = 135.0
+text = "El clima puede afectar tu producción.
+Prepárate para enfrentar el imprevisto."
+label_settings = SubResource("LabelSettings_wlxg1")
+
+[node name="EventButton" type="Button" parent="EventPanel" unique_id=2083778271]
+layout_mode = 0
+offset_left = 139.0
+offset_top = 155.0
+offset_right = 242.0
+offset_bottom = 186.0
+text = "CONTINUAR"
+
+[connection signal="pressed" from="ChallengePanel/OptionAButton" to="." method="_on_option_a_button_pressed"]
+[connection signal="pressed" from="ChallengePanel/OptionBButton" to="." method="_on_option_b_button_pressed"]
+[connection signal="pressed" from="ChallengePanel/OptionCButton" to="." method="_on_option_c_button_pressed"]
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="EventPanel/EventButton" to="." method="_on_event_button_pressed"]

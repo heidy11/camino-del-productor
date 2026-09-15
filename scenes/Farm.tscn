@@ -1,3 +1,56 @@
 [gd_scene format=3 uid="uid://bjngqgquvo584"]
 
+[ext_resource type="Script" uid="uid://b3626xb5oba6n" path="res://scripts/Farm.gd" id="1_rcidk"]
+
 [node name="Farm" type="Node2D" unique_id=1295895810]
+script = ExtResource("1_rcidk")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1213321194]
+offset_right = 1150.0
+offset_bottom = 648.0
+color = Color(0.8627451, 0.9254902, 0.8117647, 1)
+
+[node name="Title" type="Label" parent="." unique_id=831368784]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "LA FINCA DE LAS ALTURAS"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=442177272]
+offset_left = 250.0
+offset_top = 180.0
+offset_right = 900.0
+offset_bottom = 480.0
+color = Color(0.6509804, 0.4862745, 0.32156864, 1)
+
+[node name="PrepareButton" type="Button" parent="." unique_id=1855813572]
+offset_left = 486.0
+offset_top = 370.0
+offset_right = 652.0
+offset_bottom = 401.0
+text = "PREPARAR TERRENO"
+
+[node name="PapaButton" type="Button" parent="." unique_id=619243516]
+offset_left = 294.0
+offset_top = 519.0
+offset_right = 448.0
+offset_bottom = 550.0
+text = "🥔 SEMBRAR PAPA"
+
+[node name="QuinuaButton" type="Button" parent="." unique_id=1296148857]
+offset_left = 706.0
+offset_top = 517.0
+offset_right = 883.0
+offset_bottom = 548.0
+text = "🌾 SEMBRAR QUINUA"
+
+[node name="PlantButton" type="Button" parent="." unique_id=1220252278]
+offset_left = 534.0
+offset_top = 524.0
+offset_right = 643.0
+offset_bottom = 555.0
+text = "🌱 SEMBRAR"
+
+[connection signal="pressed" from="PrepareButton" to="." method="_on_prepare_button_pressed"]
+[connection signal="pressed" from="PapaButton" to="." method="_on_papa_button_pressed"]
+[connection signal="pressed" from="QuinuaButton" to="." method="_on_quinua_button_pressed"]
+[connection signal="pressed" from="PlantButton" to="." method="_on_plant_button_pressed"]

@@ -1,5 +1,22 @@
 [gd_scene format=3 uid="uid://cr1hky6lxu5ah"]
 
+[ext_resource type="Script" uid="uid://c7h7gpkcmenaw" path="res://scripts/Market.gd" id="1_byv1b"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
+font_color = Color(0.12156863, 0.12156863, 0.16078432, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vognv"]
+font_color = Color(0.16078432, 0.12156863, 0.20392157, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m1xdu"]
+font_color = Color(0.043137256, 0.078431375, 0.10980392, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_w28mw"]
+font_color = Color(0.10980392, 0.11372549, 0.13333334, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hcd26"]
+font_color = Color(0.1764706, 0.1882353, 0.16078432, 1)
+
 [node name="Market" type="Control" unique_id=1515062040]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +24,67 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_byv1b")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1812755874]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="." unique_id=521782835]
+layout_mode = 0
+offset_left = 147.0
+offset_top = 73.0
+offset_right = 348.0
+offset_bottom = 96.0
+text = "🏪 FERIA DE LAS ALTURAS"
+label_settings = SubResource("LabelSettings_jdr30")
+
+[node name="CropLabel" type="Label" parent="." unique_id=785843677]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 324.0
+offset_right = 356.0
+offset_bottom = 347.0
+text = "Cultivo: Papa"
+label_settings = SubResource("LabelSettings_vognv")
+
+[node name="ProductionLabel" type="Label" parent="." unique_id=1256797876]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 207.0
+offset_right = 388.0
+offset_bottom = 230.0
+text = "Producción: 70 unidades"
+label_settings = SubResource("LabelSettings_m1xdu")
+
+[node name="PriceLabel" type="Label" parent="." unique_id=2078445714]
+layout_mode = 0
+offset_left = 331.0
+offset_top = 420.0
+offset_right = 562.0
+offset_bottom = 443.0
+text = "Precio: 2 monedas por unidad"
+label_settings = SubResource("LabelSettings_w28mw")
+
+[node name="TotalLabel" type="Label" parent="." unique_id=2034852827]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 535.0
+offset_right = 648.0
+offset_bottom = 558.0
+text = "Ganancia: 140 monedas"
+label_settings = SubResource("LabelSettings_hcd26")
+
+[node name="SellButton" type="Button" parent="." unique_id=99688049]
+layout_mode = 0
+offset_left = 818.0
+offset_top = 606.0
+offset_right = 1026.0
+offset_bottom = 637.0
+text = "💰 VENDER PRODUCCIÓN"
+
+[connection signal="pressed" from="SellButton" to="." method="_on_sell_button_pressed"]
