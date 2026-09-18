@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://d4j1gueusfcu2"]
 
 [ext_resource type="Script" uid="uid://mih1lk3uq2gk" path="res://scripts/RegionSelection.gd" id="1_e6hxf"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_3kx7e"]
-font_color = Color(0.101960786, 0.16862746, 0.40784314, 1)
+[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioRegionSelection.png" id="2_bg"]
+[ext_resource type="Theme" path="res://theme/game_theme.tres" id="3_theme"]
 
 [node name="RegionSelection" type="Control" unique_id=578081286]
 layout_mode = 3
@@ -12,60 +11,70 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_theme")
 script = ExtResource("1_e6hxf")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1563996837]
+[node name="ColorRect" type="TextureRect" parent="." unique_id=1563996837]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.91764706, 0.95686275, 0.972549, 1)
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="Title" type="Label" parent="." unique_id=315049328]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 0.0
+offset_top = 34.0
+offset_right = 1280.0
+offset_bottom = 80.0
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
 text = "SELECCIONA TU REGIÓN"
-label_settings = SubResource("LabelSettings_3kx7e")
 
-[node name="AndesButton" type="Button" parent="." unique_id=810351599]
+[node name="RegionRow" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 567.0
-offset_top = 121.0
-offset_right = 669.0
-offset_bottom = 175.0
-text = "🏔️ ANDES
-DISPONIBLE
-"
+offset_left = 280.0
+offset_top = 460.0
+offset_right = 1000.0
+offset_bottom = 620.0
+theme_override_constants/separation = 30
 
-[node name="VallesButton" type="Button" parent="." unique_id=1963215984]
-layout_mode = 0
-offset_left = 199.0
-offset_top = 174.0
-offset_right = 335.0
-offset_bottom = 228.0
-text = "🌄 VALLES
-PRÓXIMAMENTE
-"
+[node name="AndesButton" type="Button" parent="RegionRow" unique_id=810351599]
+custom_minimum_size = Vector2(220, 160)
+layout_mode = 2
+theme_type_variation = &"SelectionCard"
+text = "ANDES
+Disponible"
 
-[node name="LlanosButton" type="Button" parent="." unique_id=949448136]
-layout_mode = 0
-offset_left = 85.0
-offset_top = 252.0
-offset_right = 221.0
-offset_bottom = 306.0
-text = "🌴 LLANOS
-PRÓXIMAMENTE
-"
+[node name="VallesButton" type="Button" parent="RegionRow" unique_id=1963215984]
+custom_minimum_size = Vector2(220, 160)
+layout_mode = 2
+disabled = true
+theme_type_variation = &"SelectionCard"
+text = "VALLES
+Próximamente"
+
+[node name="LlanosButton" type="Button" parent="RegionRow" unique_id=949448136]
+custom_minimum_size = Vector2(220, 160)
+layout_mode = 2
+disabled = true
+theme_type_variation = &"SelectionCard"
+text = "LLANOS
+Próximamente"
 
 [node name="BackButton" type="Button" parent="." unique_id=2052806088]
 layout_mode = 0
-offset_left = 284.0
-offset_top = 386.0
-offset_right = 353.0
-offset_bottom = 417.0
+offset_left = 570.0
+offset_top = 646.0
+offset_right = 710.0
+offset_bottom = 690.0
+theme_type_variation = &"SecondaryButton"
 text = "VOLVER"
 
-[connection signal="pressed" from="AndesButton" to="." method="_on_andes_button_pressed"]
+[connection signal="pressed" from="RegionRow/AndesButton" to="." method="_on_andes_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

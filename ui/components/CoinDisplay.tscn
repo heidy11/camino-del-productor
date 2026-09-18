@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/components/CoinDisplay.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/icons/coin.png" id="2_coin"]
+
+[node name="CoinDisplay" type="HBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture = ExtResource("2_coin")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="AmountLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"CardTitleLabel"
+text = "0"

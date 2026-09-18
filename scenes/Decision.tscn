@@ -1,5 +1,19 @@
 [gd_scene format=3 uid="uid://bvf5s7t7n38e2"]
 
+[ext_resource type="Script" uid="uid://di4w4lya41cr5" path="res://scripts/Decision.gd" id="1_wnkek"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioDecision.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/icons/coin.png" id="3_coin"]
+[ext_resource type="Texture2D" path="res://assets/props/financial/CajaDeAhorro.png" id="4_ahorro"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3kx7e"]
+font_color = Color(0.10980392, 0.101960786, 0.11764706, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rfcoj"]
+font_color = Color(0.09019608, 0.10980392, 0.1764706, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pypcl"]
+font_color = Color(0.09019608, 0.08235294, 0.11764706, 1)
+
 [node name="Decision" type="Control" unique_id=1092839033]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +21,99 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_wnkek")
+
+[node name="Background" type="TextureRect" parent="." unique_id=494426974]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.91764706, 0.95686275, 0.972549, 0.4)
+
+[node name="MoneyIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 305.0
+offset_top = 118.0
+offset_right = 329.0
+offset_bottom = 142.0
+texture = ExtResource("3_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="." unique_id=1748763559]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 40.0
+offset_right = 489.0
+offset_bottom = 63.0
+text = "💰 DECISIÓN FINANCIERA"
+label_settings = SubResource("LabelSettings_3kx7e")
+
+[node name="MoneyLabel" type="Label" parent="." unique_id=1895417606]
+layout_mode = 0
+offset_left = 338.0
+offset_top = 117.0
+offset_right = 378.0
+offset_bottom = 140.0
+label_settings = SubResource("LabelSettings_rfcoj")
+
+[node name="QuestionLabel" type="Label" parent="." unique_id=1359997324]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 170.0
+offset_right = 594.0
+offset_bottom = 193.0
+text = "¿Qué quieres hacer con tus monedas?"
+label_settings = SubResource("LabelSettings_pypcl")
+
+[node name="GoalLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 220.0
+offset_right = 594.0
+offset_bottom = 243.0
+theme_override_colors/font_color = Color(0.11, 0.14, 0.2, 1)
+text = "Meta de ahorro: 0 / 100"
+
+[node name="SaveButton" type="Button" parent="." unique_id=1006306978]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 288.0
+offset_right = 306.0
+offset_bottom = 319.0
+text = "AHORRAR"
+icon = ExtResource("4_ahorro")
+theme_override_constants/icon_max_width = 26
+
+[node name="InvestButton" type="Button" parent="." unique_id=320860457]
+layout_mode = 0
+offset_left = 444.0
+offset_top = 292.0
+offset_right = 549.0
+offset_bottom = 323.0
+text = "🚜 INVERTIR"
+
+[node name="SpendButton" type="Button" parent="." unique_id=701275252]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 312.0
+offset_right = 767.0
+offset_bottom = 343.0
+text = "🍬 GASTAR"
+
+[connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="InvestButton" to="." method="_on_invest_button_pressed"]
+[connection signal="pressed" from="SpendButton" to="." method="_on_spend_button_pressed"]

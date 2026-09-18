@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://cu1a5b5iyyosj"]
 
 [ext_resource type="Script" uid="uid://dr1caf4vf3b4i" path="res://scripts/CharacterSelection.gd" id="1_8om47"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
-font_color = Color(0.09803922, 0.13333334, 0.14509805, 1)
+[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioCharacterSelection.png" id="2_bg"]
+[ext_resource type="Theme" path="res://theme/game_theme.tres" id="3_theme"]
+[ext_resource type="Texture2D" path="res://assets/characters/zorro_m.png" id="4_zm"]
+[ext_resource type="Texture2D" path="res://assets/characters/zorro_f.png" id="5_zf"]
+[ext_resource type="Texture2D" path="res://assets/characters/jucumari_m.png" id="6_jm"]
+[ext_resource type="Texture2D" path="res://assets/characters/jucumari/JucumariFemenino.png" id="7_jf"]
+[ext_resource type="Texture2D" path="res://assets/characters/capibara_m.png" id="8_cm"]
+[ext_resource type="Texture2D" path="res://assets/characters/capibara/CapibaraFemenino.png" id="9_cf"]
+[ext_resource type="Texture2D" path="res://assets/icons/status_success.png" id="10_badge"]
 
 [node name="CharacterSelection" type="Control" unique_id=820050564]
 layout_mode = 3
@@ -12,71 +18,228 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_theme")
 script = ExtResource("1_8om47")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1292419549]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.91764706, 0.95686275, 0.972549, 1)
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="Title" type="Label" parent="." unique_id=1204393100]
+[node name="Panel" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = 553.0
-offset_top = 102.0
-offset_right = 713.0
-offset_bottom = 125.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(1, 1, 1, 0.28)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 24.0
+offset_right = 1280.0
+offset_bottom = 68.0
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
 text = "ELIGE TU PERSONAJE"
-label_settings = SubResource("LabelSettings_jdr30")
+
+[node name="PreviewCard" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 76.0
+offset_right = 800.0
+offset_bottom = 470.0
+theme_type_variation = &"CardPanel"
+
+[node name="PreviewFrame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 530.0
+offset_top = 96.0
+offset_right = 750.0
+offset_bottom = 366.0
+texture = ExtResource("4_zm")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 372.0
+offset_right = 800.0
+offset_bottom = 404.0
+theme_type_variation = &"CardTitleLabel"
+horizontal_alignment = 1
+text = "ZORRO"
+
+[node name="GenderLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 404.0
+offset_right = 800.0
+offset_bottom = 428.0
+horizontal_alignment = 1
+text = "Masculino"
+
+[node name="SelectedTag" type="Label" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 430.0
+offset_right = 800.0
+offset_bottom = 456.0
+theme_override_colors/font_color = Color(0.306, 0.576, 0.314, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+text = "✓ Seleccionado"
 
 [node name="CharacterContainer" type="HBoxContainer" parent="." unique_id=1858513850]
 layout_mode = 0
-offset_left = 249.0
-offset_top = 234.0
-offset_right = 995.0
-offset_bottom = 458.0
+offset_left = 140.0
+offset_top = 500.0
+offset_right = 1140.0
+offset_bottom = 656.0
+theme_override_constants/separation = 20
+alignment = 1
 
 [node name="FoxMaleButton" type="Button" parent="CharacterContainer" unique_id=1069721767]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "🦊 Zorro ♂
-"
+theme_type_variation = &"SelectionCard"
+text = "Zorro ♂"
+icon = ExtResource("4_zm")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SelectedBadge" type="TextureRect" parent="CharacterContainer/FoxMaleButton"]
+visible = true
+layout_mode = 0
+offset_left = 116.0
+offset_top = -8.0
+offset_right = 148.0
+offset_bottom = 24.0
+texture = ExtResource("10_badge")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="FoxFemaleButton" type="Button" parent="CharacterContainer" unique_id=1669359190]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "🦊 Zorro ♀
-"
+theme_type_variation = &"SelectionCard"
+text = "Zorro ♀"
+icon = ExtResource("5_zf")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SelectedBadge" type="TextureRect" parent="CharacterContainer/FoxFemaleButton"]
+visible = false
+layout_mode = 0
+offset_left = 116.0
+offset_top = -8.0
+offset_right = 148.0
+offset_bottom = 24.0
+texture = ExtResource("10_badge")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="JucumariMaleButton" type="Button" parent="CharacterContainer" unique_id=1174999222]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "🐻 Jucumari ♂
-"
+theme_type_variation = &"SelectionCard"
+text = "Jucumari ♂"
+icon = ExtResource("6_jm")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SelectedBadge" type="TextureRect" parent="CharacterContainer/JucumariMaleButton"]
+visible = false
+layout_mode = 0
+offset_left = 116.0
+offset_top = -8.0
+offset_right = 148.0
+offset_bottom = 24.0
+texture = ExtResource("10_badge")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="JucumariFemaleButton" type="Button" parent="CharacterContainer" unique_id=812417419]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "🐻 Jucumari ♀
-"
+theme_type_variation = &"SelectionCard"
+text = "Jucumari ♀"
+icon = ExtResource("7_jf")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SelectedBadge" type="TextureRect" parent="CharacterContainer/JucumariFemaleButton"]
+visible = false
+layout_mode = 0
+offset_left = 116.0
+offset_top = -8.0
+offset_right = 148.0
+offset_bottom = 24.0
+texture = ExtResource("10_badge")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="CapibaraMaleButton" type="Button" parent="CharacterContainer" unique_id=1579430194]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "🦫 Capibara ♂
-"
+theme_type_variation = &"SelectionCard"
+text = "Capibara ♂"
+icon = ExtResource("8_cm")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SelectedBadge" type="TextureRect" parent="CharacterContainer/CapibaraMaleButton"]
+visible = false
+layout_mode = 0
+offset_left = 116.0
+offset_top = -8.0
+offset_right = 148.0
+offset_bottom = 24.0
+texture = ExtResource("10_badge")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="CapibaraFemaleButton" type="Button" parent="CharacterContainer" unique_id=1338544659]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "🦫 Capibara ♀
-"
+theme_type_variation = &"SelectionCard"
+text = "Capibara ♀"
+icon = ExtResource("9_cf")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SelectedBadge" type="TextureRect" parent="CharacterContainer/CapibaraFemaleButton"]
+visible = false
+layout_mode = 0
+offset_left = 116.0
+offset_top = -8.0
+offset_right = 148.0
+offset_bottom = 24.0
+texture = ExtResource("10_badge")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="ContinueButton" type="Button" parent="." unique_id=1556041783]
 layout_mode = 0
-offset_left = 597.0
-offset_top = 608.0
-offset_right = 700.0
-offset_bottom = 639.0
-text = "CONTINUAR
-"
+offset_left = 565.0
+offset_top = 672.0
+offset_right = 715.0
+offset_bottom = 712.0
+theme_type_variation = &"PrimaryButton"
+text = "CONTINUAR"
 
 [connection signal="pressed" from="CharacterContainer/FoxMaleButton" to="." method="_on_fox_male_button_pressed"]
 [connection signal="pressed" from="CharacterContainer/FoxFemaleButton" to="." method="_on_fox_female_button_pressed"]

@@ -1,0 +1,102 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://theme/game_theme.tres" id="1_theme"]
+[ext_resource type="PackedScene" path="res://ui/components/CoinDisplay.tscn" id="2_coin"]
+[ext_resource type="PackedScene" path="res://ui/components/CycleIndicator.tscn" id="3_cycle"]
+[ext_resource type="PackedScene" path="res://ui/components/DialogBox.tscn" id="4_dialog"]
+[ext_resource type="PackedScene" path="res://ui/components/EventCard.tscn" id="5_event"]
+[ext_resource type="PackedScene" path="res://ui/components/AchievementBadge.tscn" id="6_badge"]
+[ext_resource type="PackedScene" path="res://ui/components/StatusIndicator.tscn" id="7_status"]
+[ext_resource type="PackedScene" path="res://ui/components/StarRating.tscn" id="8_stars"]
+[ext_resource type="Script" path="res://theme/StyleGuide.gd" id="9_script"]
+
+[node name="StyleGuide" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("9_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.31, 0.72, 0.91, 1)
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 1000.0
+offset_bottom = 690.0
+theme_override_constants/separation = 20
+
+[node name="TitleSample" type="Label" parent="Layout"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "EL CAMINO DEL PRODUCTOR"
+
+[node name="SubtitleSample" type="Label" parent="Layout"]
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "Subtítulo de muestra sobre fondo de color"
+
+[node name="ButtonsRow" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PrimaryBtn" type="Button" parent="Layout/ButtonsRow"]
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "BOTÓN PRIMARIO"
+
+[node name="SecondaryBtn" type="Button" parent="Layout/ButtonsRow"]
+layout_mode = 2
+theme_type_variation = &"SecondaryButton"
+text = "BOTÓN SECUNDARIO"
+
+[node name="SelectionBtn" type="Button" parent="Layout/ButtonsRow"]
+layout_mode = 2
+theme_type_variation = &"SelectionCard"
+text = "TARJETA SELECCIÓN"
+
+[node name="DisabledBtn" type="Button" parent="Layout/ButtonsRow"]
+layout_mode = 2
+disabled = true
+theme_type_variation = &"SelectionCard"
+text = "DESHABILITADO"
+
+[node name="ComponentsRow" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="CoinDisplay" parent="Layout/ComponentsRow" instance=ExtResource("2_coin")]
+layout_mode = 2
+
+[node name="CycleIndicator" parent="Layout/ComponentsRow" instance=ExtResource("3_cycle")]
+layout_mode = 2
+
+[node name="AchievementBadge" parent="Layout/ComponentsRow" instance=ExtResource("6_badge")]
+layout_mode = 2
+
+[node name="StatusIndicator" parent="Layout/ComponentsRow" instance=ExtResource("7_status")]
+layout_mode = 2
+
+[node name="StarRating" parent="Layout/ComponentsRow" instance=ExtResource("8_stars")]
+layout_mode = 2
+
+[node name="DialogBox" parent="Layout" instance=ExtResource("4_dialog")]
+layout_mode = 2
+
+[node name="EventCard" parent="Layout" instance=ExtResource("5_event")]
+layout_mode = 2
+
+[node name="ProgressSample" type="ProgressBar" parent="Layout"]
+layout_mode = 2
+value = 65.0

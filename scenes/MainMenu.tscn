@@ -1,12 +1,8 @@
 [gd_scene format=3 uid="uid://deelhqp5wl561"]
 
 [ext_resource type="Script" uid="uid://bfrljxrrby4sd" path="res://scripts/MainMenu.gd" id="1_yqorp"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
-font_size = 42
-
-[sub_resource type="LabelSettings" id="LabelSettings_vognv"]
-font_size = 21
+[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioMainMenu.png" id="2_bg"]
+[ext_resource type="Theme" path="res://theme/game_theme.tres" id="3_theme"]
 
 [node name="MainMenu" type="Control" unique_id=160020476]
 layout_mode = 3
@@ -15,56 +11,71 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_theme")
 script = ExtResource("1_yqorp")
 
-[node name="Background" type="ColorRect" parent="." unique_id=2139899337]
+[node name="Background" type="TextureRect" parent="." unique_id=2139899337]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.050980393, 0.23137255, 0.4, 1)
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="Title" type="Label" parent="." unique_id=410727992]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 327.0
-offset_top = 138.0
-offset_right = -367.0
-offset_bottom = -524.0
+layout_mode = 0
+offset_left = 175.0
+offset_top = 96.0
+offset_right = 1105.0
+offset_bottom = 152.0
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
 text = "EL CAMINO DEL PRODUCTOR"
-label_settings = SubResource("LabelSettings_jdr30")
 
 [node name="Subtitle" type="Label" parent="." unique_id=1822566422]
 layout_mode = 0
-offset_left = 345.0
-offset_top = 209.0
-offset_right = 921.0
-offset_bottom = 239.0
+offset_left = 175.0
+offset_top = 156.0
+offset_right = 1105.0
+offset_bottom = 186.0
+theme_type_variation = &"SubtitleLabel"
+horizontal_alignment = 1
 text = "Aprende a producir, ahorrar y tomar mejores decisiones."
-label_settings = SubResource("LabelSettings_vognv")
+
+[node name="MenuCard" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 372.0
+offset_right = 823.0
+offset_bottom = 606.0
+theme_type_variation = &"CardPanel"
 
 [node name="MenuButtons" type="VBoxContainer" parent="." unique_id=2084042397]
 layout_mode = 0
-offset_left = 528.0
-offset_top = 397.0
-offset_right = 773.0
-offset_bottom = 566.0
+offset_left = 508.0
+offset_top = 402.0
+offset_right = 793.0
+offset_bottom = 576.0
+theme_override_constants/separation = 16
 
 [node name="NewGameButton" type="Button" parent="MenuButtons" unique_id=212051859]
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 text = "NUEVA PARTIDA"
-script = ExtResource("1_yqorp")
 
 [node name="AlbumButton" type="Button" parent="MenuButtons" unique_id=1310273367]
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "ÁLBUM DE LOGROS"
 
 [node name="ExitButton" type="Button" parent="MenuButtons" unique_id=103465756]
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "SALIR"
 
 [connection signal="pressed" from="MenuButtons/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="MenuButtons/AlbumButton" to="." method="_on_album_button_pressed"]
+[connection signal="pressed" from="MenuButtons/ExitButton" to="." method="_on_exit_button_pressed"]

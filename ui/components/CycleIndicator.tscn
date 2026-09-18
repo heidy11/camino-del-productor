@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/components/CycleIndicator.gd" id="1_script"]
+
+[node name="CycleIndicator" type="PanelContainer"]
+theme_type_variation = &"CardPanel"
+script = ExtResource("1_script")
+
+[node name="CycleLabel" type="Label" parent="."]
+layout_mode = 2
+theme_type_variation = &"CardTitleLabel"
+horizontal_alignment = 1
+text = "Ciclo 1 / 3"

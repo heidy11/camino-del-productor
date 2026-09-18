@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/components/EventCard.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/icons/sun.png" id="2_icon"]
+
+[node name="EventCard" type="PanelContainer"]
+custom_minimum_size = Vector2(320, 0)
+theme_type_variation = &"CardPanel"
+script = ExtResource("1_script")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Content/Header"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("2_icon")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="Content/Header"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"CardTitleLabel"
+text = "EVENTO CLIMÁTICO"
+
+[node name="DescriptionLabel" type="Label" parent="Content"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Descripción del evento."

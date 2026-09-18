@@ -1,5 +1,9 @@
 [gd_scene format=3 uid="uid://bnl06n5im5r3t"]
 
+[ext_resource type="Script" uid="uid://r0sxufq766h" path="res://scripts/Album.gd" id="1_alb001"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioAlbum.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/icons/seal.png" id="3_seal"]
+
 [node name="Album" type="Control" unique_id=158364568]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +11,77 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_alb001")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.91764706, 0.95686275, 0.972549, 0.25)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 40.0
+offset_right = 860.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.11, 0.14, 0.2, 1)
+text = "🛡️ CAMINO DEL GUARDIÁN"
+
+[node name="SealIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 85.0
+offset_right = 450.0
+offset_bottom = 115.0
+texture = ExtResource("3_seal")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="SealsLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 92.0
+offset_right = 900.0
+offset_bottom = 115.0
+theme_override_colors/font_color = Color(0.11, 0.14, 0.2, 1)
+text = "Sellos acumulados: 0"
+
+[node name="AchievementsCard" type="ColorRect" parent="."]
+offset_left = 350.0
+offset_top = 130.0
+offset_right = 930.0
+offset_bottom = 585.0
+color = Color(0.96, 0.96, 0.94, 0.88)
+
+[node name="AchievementsList" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 150.0
+offset_right = 900.0
+offset_bottom = 570.0
+theme_override_constants/separation = 10
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 550.0
+offset_top = 610.0
+offset_right = 730.0
+offset_bottom = 641.0
+text = "VOLVER"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

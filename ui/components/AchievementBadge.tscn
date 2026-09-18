@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/components/AchievementBadge.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/icons/seal.png" id="2_seal"]
+
+[node name="AchievementBadge" type="HBoxContainer"]
+theme_override_constants/separation = 10
+script = ExtResource("1_script")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("2_seal")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="TextLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Logro conseguido"
