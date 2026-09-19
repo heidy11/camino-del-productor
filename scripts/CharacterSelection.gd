@@ -7,11 +7,11 @@ var sprite_seleccionado = ""
 var boton_actual: Button = null
 
 const SPRITES = {
-	"Zorro_Masculino": "res://assets/characters/zorro_m.png",
-	"Zorro_Femenino": "res://assets/characters/zorro_f.png",
-	"Jucumari_Masculino": "res://assets/characters/jucumari_m.png",
+	"Zorro_Masculino": "res://assets/characters/zorro/ZorroMasculino.png",
+	"Zorro_Femenino": "res://assets/characters/zorro/ZorroFemenino.png",
+	"Jucumari_Masculino": "res://assets/characters/jucumari/JucumariMasculino.png",
 	"Jucumari_Femenino": "res://assets/characters/jucumari/JucumariFemenino.png",
-	"Capibara_Masculino": "res://assets/characters/capibara_m.png",
+	"Capibara_Masculino": "res://assets/characters/capibara/CapibaraMasculino.png",
 	"Capibara_Femenino": "res://assets/characters/capibara/CapibaraFemenino.png",
 }
 

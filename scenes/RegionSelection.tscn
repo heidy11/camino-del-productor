@@ -4,6 +4,16 @@
 [ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioRegionSelection.png" id="2_bg"]
 [ext_resource type="Theme" path="res://theme/game_theme.tres" id="3_theme"]
 
+[sub_resource type="StyleBoxFlat" id="sb_andes_glow"]
+bg_color = Color(0, 1, 0.9, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="CanvasItemMaterial" id="mat_neon_add"]
+blend_mode = 1
+
 [node name="RegionSelection" type="Control" unique_id=578081286]
 layout_mode = 3
 anchors_preset = 15
@@ -35,6 +45,16 @@ theme_type_variation = &"TitleLabel"
 theme_override_font_sizes/font_size = 34
 horizontal_alignment = 1
 text = "SELECCIONA TU REGIÓN"
+
+[node name="AndesGlow" type="Panel" parent="."]
+material = SubResource("mat_neon_add")
+layout_mode = 0
+offset_left = 268.0
+offset_top = 448.0
+offset_right = 512.0
+offset_bottom = 632.0
+modulate = Color(1, 1, 1, 0)
+theme_override_styles/panel = SubResource("sb_andes_glow")
 
 [node name="RegionRow" type="HBoxContainer" parent="."]
 layout_mode = 0

@@ -45,7 +45,7 @@ var fondo_emergencia = 0
 # META FINANCIERA
 # ==========================================
 
-var meta_ahorro = 100
+var meta_ahorro = 150
 var proteccion_activa = false
 
 
@@ -106,7 +106,7 @@ func nueva_partida():
 
 	fondo_emergencia = 0
 
-	meta_ahorro = 100
+	meta_ahorro = 150
 	proteccion_activa = false
 
 	salud_financiera = 100

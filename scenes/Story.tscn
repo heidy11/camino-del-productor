@@ -3,6 +3,49 @@
 [ext_resource type="Script" uid="uid://da17x0tea1ak4" path="res://scripts/Story.gd" id="1_8j2hn"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioStory.png" id="2_bg"]
 [ext_resource type="Theme" path="res://theme/game_theme.tres" id="3_theme"]
+[ext_resource type="PackedScene" path="res://ui/components/DialogBox.tscn" id="4_dialog"]
+[ext_resource type="Shader" path="res://ui/shaders/outline.gdshader" id="5_outline"]
+
+[sub_resource type="ShaderMaterial" id="mat_condor_outline"]
+shader = ExtResource("5_outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 22.0
+
+[sub_resource type="Gradient" id="grad_condor_glow"]
+colors = PackedColorArray(0.996, 0.827, 0.478, 0.6, 0.996, 0.827, 0.478, 0)
+offsets = PackedFloat32Array(0, 1)
+
+[sub_resource type="GradientTexture2D" id="tex_condor_glow"]
+gradient = SubResource("grad_condor_glow")
+width = 280
+height = 280
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="grad_condor_shadow"]
+colors = PackedColorArray(0.043, 0.031, 0.02, 0.5, 0.043, 0.031, 0.02, 0)
+offsets = PackedFloat32Array(0, 1)
+
+[sub_resource type="GradientTexture2D" id="tex_condor_shadow"]
+gradient = SubResource("grad_condor_shadow")
+width = 160
+height = 60
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="grad_button_glow"]
+colors = PackedColorArray(1, 0.816, 0.494, 0.65, 1, 0.816, 0.494, 0)
+offsets = PackedFloat32Array(0, 1)
+
+[sub_resource type="GradientTexture2D" id="tex_button_glow"]
+gradient = SubResource("grad_button_glow")
+width = 280
+height = 150
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [node name="Story" type="Control" unique_id=960974247]
 layout_mode = 3
@@ -12,6 +55,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_theme")
+script = ExtResource("1_8j2hn")
 
 [node name="Background" type="TextureRect" parent="." unique_id=448613217]
 layout_mode = 1
@@ -24,38 +68,84 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
+[node name="Vignette" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 130.0
+offset_right = 1280.0
+offset_bottom = 500.0
+color = Color(0.06, 0.05, 0.04, 0.22)
+
 [node name="Title" type="Label" parent="." unique_id=1514668059]
 layout_mode = 0
-offset_left = 391.0
-offset_top = 44.0
-offset_right = 890.0
-offset_bottom = 90.0
+offset_left = 260.0
+offset_top = 48.0
+offset_right = 1020.0
+offset_bottom = 100.0
 theme_type_variation = &"TitleLabel"
-theme_override_font_sizes/font_size = 34
+theme_override_font_sizes/font_size = 38
+horizontal_alignment = 1
 text = "EL COMIENZO"
 
-[node name="StoryText" type="Label" parent="." unique_id=2122454569]
+[node name="Subtitle" type="Label" parent="." unique_id=2374615823]
 layout_mode = 0
-offset_left = 391.0
-offset_top = 170.0
-offset_right = 780.0
-offset_bottom = 333.0
-theme_type_variation = &"BodyOnArtLabel"
-text = "En una comunidad de los Andes bolivianos,
-cada decisión cuenta.
+offset_left = 260.0
+offset_top = 100.0
+offset_right = 1020.0
+offset_bottom = 128.0
+theme_type_variation = &"SubtitleLabel"
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+text = "La Finca de las Alturas te espera"
 
-Tu misión será aprender a producir,
-administrar tus recursos y prepararte
-para el futuro."
+[node name="CondorGlow" type="TextureRect" parent="."]
+mouse_filter = 2
+offset_left = 180.0
+offset_top = 170.0
+offset_right = 460.0
+offset_bottom = 450.0
+texture = SubResource("tex_condor_glow")
+
+[node name="CondorShadow" type="TextureRect" parent="."]
+mouse_filter = 2
+offset_left = 240.0
+offset_top = 395.0
+offset_right = 400.0
+offset_bottom = 455.0
+texture = SubResource("tex_condor_shadow")
+
+[node name="CondorDialog" parent="." instance=ExtResource("4_dialog")]
+theme = ExtResource("3_theme")
+offset_left = 220.0
+offset_top = 170.0
+offset_right = 1060.0
+offset_bottom = 450.0
+
+[node name="Portrait" parent="CondorDialog" index="0"]
+material = SubResource("mat_condor_outline")
+custom_minimum_size = Vector2(200, 200)
+
+[node name="MessageLabel" parent="CondorDialog/Bubble" index="0"]
+theme_override_font_sizes/font_size = 20
+text = "Bienvenido a esta comunidad de los Andes bolivianos, donde cada decisión cuenta.
+
+Te acompañaré mientras aprendes a producir, administrar tus recursos y prepararte para el futuro."
+
+[node name="ButtonGlow" type="TextureRect" parent="."]
+mouse_filter = 2
+offset_left = 500.0
+offset_top = 424.0
+offset_right = 780.0
+offset_bottom = 574.0
+texture = SubResource("tex_button_glow")
 
 [node name="ContinueButton" type="Button" parent="." unique_id=1543567208]
 layout_mode = 0
-offset_left = 540.0
-offset_top = 502.0
-offset_right = 660.0
-offset_bottom = 546.0
+offset_left = 550.0
+offset_top = 476.0
+offset_right = 730.0
+offset_bottom = 522.0
 theme_type_variation = &"PrimaryButton"
 text = "CONTINUAR"
-script = ExtResource("1_8j2hn")
 
-[connection signal="pressed" from="ContinueButton" to="ContinueButton" method="_on_pressed"]
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
