@@ -11,7 +11,7 @@ script = ExtResource("1_script")
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture = ExtResource("2_seal")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="TextLabel" type="Label" parent="."]

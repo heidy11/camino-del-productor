@@ -1,0 +1,55 @@
+extends Node
+
+# Autoload que agrega una animación suave de hover/presión a TODOS los
+# botones del juego, sin tener que tocar cada escena. Puramente visual:
+# no cambia señales, no intercepta "pressed", no afecta la lógica.
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().node_added.connect(_on_node_added)
+
+
+func _on_node_added(node: Node) -> void:
+	if node is BaseButton:
+		_wire_button(node)
+
+
+func _wire_button(button: BaseButton) -> void:
+	if button.has_meta("_button_polish_wired"):
+		return
+	button.set_meta("_button_polish_wired", true)
+
+	button.mouse_entered.connect(_on_hover.bind(button))
+	button.mouse_exited.connect(_on_unhover.bind(button))
+	button.button_down.connect(_on_press.bind(button))
+	button.button_up.connect(_on_release.bind(button))
+
+
+func _target_scale(button: BaseButton, factor: float) -> void:
+	if not is_instance_valid(button) or not button.is_inside_tree():
+		return
+	if button.disabled:
+		return
+
+	button.pivot_offset = button.size / 2.0
+
+	var tw = button.create_tween()
+	tw.tween_property(button, "scale", Vector2(factor, factor), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+func _on_hover(button: BaseButton) -> void:
+	_target_scale(button, 1.045)
+
+
+func _on_unhover(button: BaseButton) -> void:
+	_target_scale(button, 1.0)
+
+
+func _on_press(button: BaseButton) -> void:
+	_target_scale(button, 0.96)
+
+
+func _on_release(button: BaseButton) -> void:
+	if is_instance_valid(button) and button.is_inside_tree():
+		var hovering = button.get_global_rect().has_point(button.get_global_mouse_position())
+		_target_scale(button, 1.045 if hovering else 1.0)

@@ -50,7 +50,7 @@ offset_top = 220.0
 offset_right = 260.0
 offset_bottom = 340.0
 texture = ExtResource("3_condor")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="Content" type="VBoxContainer" parent="." unique_id=421423864]

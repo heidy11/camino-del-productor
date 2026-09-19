@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameState="*uid://bawfh1b60pnw3"
+SceneTransition="*res://scripts/SceneTransition.gd"
+ButtonPolish="*res://scripts/ButtonPolish.gd"
 
 [display]
 

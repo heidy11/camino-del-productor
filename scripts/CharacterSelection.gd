@@ -104,4 +104,4 @@ func _on_continue_button_pressed() -> void:
 	print("Personaje guardado: ", GameState.personaje)
 	print("Sexo guardado: ", GameState.sexo)
 
-	get_tree().change_scene_to_file("res://scenes/Farm.tscn")
+	await SceneTransition.change_scene("res://scenes/Farm.tscn")

@@ -4,23 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioMarket.png" id="2_bg"]
 [ext_resource type="Texture2D" path="res://assets/crops/papa/PapaMadura.png" id="3_papa"]
 [ext_resource type="Texture2D" path="res://assets/icons/coin.png" id="4_coin"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
-font_color = Color(0.12156863, 0.12156863, 0.16078432, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_vognv"]
-font_color = Color(0.16078432, 0.12156863, 0.20392157, 1)
-font_size = 22
-
-[sub_resource type="LabelSettings" id="LabelSettings_m1xdu"]
-font_color = Color(0.043137256, 0.078431375, 0.10980392, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_w28mw"]
-font_color = Color(0.10980392, 0.11372549, 0.13333334, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_hcd26"]
-font_color = Color(0.1764706, 0.1882353, 0.16078432, 1)
-font_size = 22
+[ext_resource type="Theme" path="res://theme/game_theme.tres" id="5_theme"]
 
 [node name="Market" type="Control" unique_id=1515062040]
 layout_mode = 3
@@ -29,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("5_theme")
 script = ExtResource("1_byv1b")
 
 [node name="Background" type="TextureRect" parent="." unique_id=1812755874]
@@ -51,83 +36,132 @@ color = Color(0, 0, 0, 0.35)
 
 [node name="Title" type="Label" parent="." unique_id=521782835]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 16.0
-offset_right = 400.0
-offset_bottom = 44.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "🏪 FERIA DE LAS ALTURAS"
-label_settings = SubResource("LabelSettings_jdr30")
+offset_left = 0.0
+offset_top = 14.0
+offset_right = 1280.0
+offset_bottom = 48.0
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+text = "FERIA DE LAS ALTURAS"
 
-[node name="StatsCard" type="ColorRect" parent="."]
-offset_left = 140.0
-offset_top = 130.0
-offset_right = 620.0
-offset_bottom = 470.0
-color = Color(0.96, 0.96, 0.94, 0.88)
+[node name="StatsCard" type="Panel" parent="."]
+offset_left = 100.0
+offset_top = 150.0
+offset_right = 1180.0
+offset_bottom = 440.0
+theme_type_variation = &"CardPanel"
+
+[node name="ProductionHeader" type="Label" parent="."]
+offset_left = 150.0
+offset_top = 178.0
+offset_right = 410.0
+offset_bottom = 202.0
+theme_type_variation = &"CardTitleLabel"
+theme_override_font_sizes/font_size = 18
+text = "PRODUCCIÓN"
 
 [node name="CropIcon" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 175.0
-offset_top = 165.0
-offset_right = 255.0
-offset_bottom = 245.0
+offset_left = 190.0
+offset_top = 210.0
+offset_right = 310.0
+offset_bottom = 330.0
 texture = ExtResource("3_papa")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="CropLabel" type="Label" parent="." unique_id=785843677]
 layout_mode = 0
-offset_left = 280.0
-offset_top = 195.0
-offset_right = 580.0
-offset_bottom = 220.0
-text = "Cultivo: Papa"
-label_settings = SubResource("LabelSettings_vognv")
+offset_left = 150.0
+offset_top = 336.0
+offset_right = 410.0
+offset_bottom = 359.0
+horizontal_alignment = 1
+text = "Papa"
 
 [node name="ProductionLabel" type="Label" parent="." unique_id=1256797876]
 layout_mode = 0
-offset_left = 175.0
-offset_top = 280.0
-offset_right = 580.0
+offset_left = 150.0
+offset_top = 360.0
+offset_right = 410.0
+offset_bottom = 383.0
+horizontal_alignment = 1
+text = "70 unidades"
+
+[node name="Arrow1" type="Label" parent="."]
+offset_left = 405.0
+offset_top = 255.0
+offset_right = 465.0
 offset_bottom = 305.0
-text = "Producción: 70 unidades"
-label_settings = SubResource("LabelSettings_m1xdu")
+theme_override_colors/font_color = Color(0.09, 0.639, 0.596, 1)
+theme_override_font_sizes/font_size = 36
+text = "→"
+
+[node name="VentaHeader" type="Label" parent="."]
+offset_left = 490.0
+offset_top = 178.0
+offset_right = 750.0
+offset_bottom = 202.0
+theme_type_variation = &"CardTitleLabel"
+theme_override_font_sizes/font_size = 18
+text = "VENTA"
 
 [node name="PriceLabel" type="Label" parent="." unique_id=2078445714]
 layout_mode = 0
-offset_left = 175.0
-offset_top = 320.0
-offset_right = 580.0
-offset_bottom = 345.0
-text = "Precio: 2 monedas por unidad"
-label_settings = SubResource("LabelSettings_w28mw")
+offset_left = 490.0
+offset_top = 230.0
+offset_right = 750.0
+offset_bottom = 255.0
+horizontal_alignment = 1
+text = "2 monedas por unidad"
+
+[node name="SellButton" type="Button" parent="." unique_id=99688049]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 275.0
+offset_right = 700.0
+offset_bottom = 320.0
+theme_type_variation = &"PrimaryButton"
+text = "VENDER"
+
+[node name="Arrow2" type="Label" parent="."]
+offset_left = 755.0
+offset_top = 255.0
+offset_right = 815.0
+offset_bottom = 305.0
+theme_override_colors/font_color = Color(0.09, 0.639, 0.596, 1)
+theme_override_font_sizes/font_size = 36
+text = "→"
+
+[node name="GananciaHeader" type="Label" parent="."]
+offset_left = 850.0
+offset_top = 178.0
+offset_right = 1130.0
+offset_bottom = 202.0
+theme_type_variation = &"CardTitleLabel"
+theme_override_font_sizes/font_size = 18
+text = "GANANCIA"
 
 [node name="TotalIcon" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 175.0
-offset_top = 385.0
-offset_right = 205.0
-offset_bottom = 415.0
+offset_left = 955.0
+offset_top = 210.0
+offset_right = 1025.0
+offset_bottom = 280.0
 texture = ExtResource("4_coin")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="TotalLabel" type="Label" parent="." unique_id=2034852827]
 layout_mode = 0
-offset_left = 215.0
-offset_top = 390.0
-offset_right = 580.0
-offset_bottom = 413.0
-text = "Ganancia: 140 monedas"
-label_settings = SubResource("LabelSettings_hcd26")
-
-[node name="SellButton" type="Button" parent="." unique_id=99688049]
-layout_mode = 0
-offset_left = 818.0
-offset_top = 606.0
-offset_right = 1026.0
-offset_bottom = 637.0
-text = "💰 VENDER PRODUCCIÓN"
+offset_left = 850.0
+offset_top = 290.0
+offset_right = 1130.0
+offset_bottom = 316.0
+theme_type_variation = &"CardTitleLabel"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+text = "140 monedas"
 
 [connection signal="pressed" from="SellButton" to="." method="_on_sell_button_pressed"]

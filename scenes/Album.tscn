@@ -3,6 +3,12 @@
 [ext_resource type="Script" uid="uid://r0sxufq766h" path="res://scripts/Album.gd" id="1_alb001"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioAlbum.png" id="2_bg"]
 [ext_resource type="Texture2D" path="res://assets/icons/seal.png" id="3_seal"]
+[ext_resource type="Theme" path="res://theme/game_theme.tres" id="4_theme"]
+[ext_resource type="Texture2D" path="res://assets/icons/badge_ahorro.png" id="5_ahorro"]
+[ext_resource type="Texture2D" path="res://assets/icons/badge_productor.png" id="6_productor"]
+[ext_resource type="Texture2D" path="res://assets/icons/badge_futuro.png" id="7_futuro"]
+[ext_resource type="Texture2D" path="res://assets/icons/badge_inversor.png" id="8_inversor"]
+[ext_resource type="Texture2D" path="res://assets/icons/badge_aprendiz.png" id="9_aprendiz"]
 
 [node name="Album" type="Control" unique_id=158364568]
 layout_mode = 3
@@ -11,6 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_theme")
 script = ExtResource("1_alb001")
 
 [node name="Background" type="TextureRect" parent="."]
@@ -24,64 +31,151 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Overlay" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.91764706, 0.95686275, 0.972549, 0.25)
-
 [node name="Title" type="Label" parent="."]
-layout_mode = 0
-offset_left = 420.0
-offset_top = 40.0
-offset_right = 860.0
-offset_bottom = 70.0
-theme_override_colors/font_color = Color(0.11, 0.14, 0.2, 1)
-text = "🛡️ CAMINO DEL GUARDIÁN"
+offset_left = 0.0
+offset_top = 16.0
+offset_right = 1280.0
+offset_bottom = 50.0
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+text = "CAMINO DEL GUARDIÁN"
+
+[node name="SealBadge" type="Panel" parent="."]
+offset_left = 555.0
+offset_top = 62.0
+offset_right = 725.0
+offset_bottom = 100.0
+theme_type_variation = &"CardPanel"
 
 [node name="SealIcon" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 420.0
-offset_top = 85.0
-offset_right = 450.0
-offset_bottom = 115.0
+offset_left = 568.0
+offset_top = 70.0
+offset_right = 596.0
+offset_bottom = 98.0
 texture = ExtResource("3_seal")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="SealsLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 460.0
-offset_top = 92.0
-offset_right = 900.0
-offset_bottom = 115.0
-theme_override_colors/font_color = Color(0.11, 0.14, 0.2, 1)
-text = "Sellos acumulados: 0"
+offset_left = 604.0
+offset_top = 72.0
+offset_right = 714.0
+offset_bottom = 94.0
+theme_type_variation = &"CardTitleLabel"
+theme_override_font_sizes/font_size = 16
+text = "Sellos: 0"
 
-[node name="AchievementsCard" type="ColorRect" parent="."]
-offset_left = 350.0
-offset_top = 130.0
-offset_right = 930.0
-offset_bottom = 585.0
-color = Color(0.96, 0.96, 0.94, 0.88)
+[node name="Badge1Icon" type="TextureRect" parent="."]
+offset_left = 379.0
+offset_top = 142.0
+offset_right = 469.0
+offset_bottom = 232.0
+texture = ExtResource("5_ahorro")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="AchievementsList" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 380.0
-offset_top = 150.0
-offset_right = 900.0
-offset_bottom = 570.0
-theme_override_constants/separation = 10
+[node name="Badge1Label" type="Label" parent="."]
+offset_left = 334.0
+offset_top = 236.0
+offset_right = 514.0
+offset_bottom = 280.0
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+text = "Guardián del Ahorro"
+
+[node name="Badge2Icon" type="TextureRect" parent="."]
+offset_left = 571.0
+offset_top = 142.0
+offset_right = 661.0
+offset_bottom = 232.0
+texture = ExtResource("6_productor")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Badge2Label" type="Label" parent="."]
+offset_left = 526.0
+offset_top = 236.0
+offset_right = 706.0
+offset_bottom = 280.0
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+text = "Productor Responsable"
+
+[node name="Badge3Icon" type="TextureRect" parent="."]
+offset_left = 763.0
+offset_top = 142.0
+offset_right = 853.0
+offset_bottom = 232.0
+texture = ExtResource("7_futuro")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Badge3Label" type="Label" parent="."]
+offset_left = 718.0
+offset_top = 236.0
+offset_right = 898.0
+offset_bottom = 280.0
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+text = "Preparado para el Futuro"
+
+[node name="Badge4Icon" type="TextureRect" parent="."]
+offset_left = 955.0
+offset_top = 142.0
+offset_right = 1045.0
+offset_bottom = 232.0
+texture = ExtResource("8_inversor")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Badge4Label" type="Label" parent="."]
+offset_left = 910.0
+offset_top = 236.0
+offset_right = 1090.0
+offset_bottom = 280.0
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+text = "Inversor Inteligente"
+
+[node name="Badge5Icon" type="TextureRect" parent="."]
+offset_left = 379.0
+offset_top = 300.0
+offset_right = 469.0
+offset_bottom = 390.0
+texture = ExtResource("9_aprendiz")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Badge5Label" type="Label" parent="."]
+offset_left = 334.0
+offset_top = 394.0
+offset_right = 514.0
+offset_bottom = 438.0
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+text = "Aprendiz Financiero"
+
+[node name="CosmeticNote" type="Label" parent="."]
+offset_left = 300.0
+offset_top = 470.0
+offset_right = 980.0
+offset_bottom = 494.0
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+text = "Los emblemas son coleccionables y no otorgan ventajas de juego."
 
 [node name="BackButton" type="Button" parent="."]
-layout_mode = 0
 offset_left = 550.0
-offset_top = 610.0
+offset_top = 620.0
 offset_right = 730.0
-offset_bottom = 641.0
+offset_bottom = 664.0
+theme_type_variation = &"PrimaryButton"
 text = "VOLVER"
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

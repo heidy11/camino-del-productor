@@ -7,6 +7,24 @@
 [ext_resource type="Texture2D" uid="uid://bupcfnif8jo7t" path="res://assets/icons/coin.png" id="5_coin"]
 [ext_resource type="Texture2D" uid="uid://bbxusjqpmlu4" path="res://assets/characters/zorro_m.png" id="6_player"]
 [ext_resource type="Texture2D" uid="uid://dcmx5sklum2ug" path="res://assets/props/agriculture/Azadon.png" id="7_azadon"]
+[ext_resource type="Theme" path="res://theme/game_theme.tres" id="8_theme"]
+[ext_resource type="PackedScene" path="res://ui/components/DialogBox.tscn" id="9_dialog"]
+[ext_resource type="Texture2D" path="res://assets/props/agriculture/Pala.png" id="10_pala"]
+[ext_resource type="Texture2D" path="res://assets/icons/status_success.png" id="11_badge"]
+
+[sub_resource type="StyleBoxFlat" id="sb_plot_highlight"]
+bg_color = Color(1, 0.8, 0.3, 0.08)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.95, 0.73, 0.22, 0.9)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.95, 0.73, 0.22, 0.35)
+shadow_size = 16
 
 [node name="Farm" type="Node2D" unique_id=1295895810]
 script = ExtResource("1_rcidk")
@@ -62,15 +80,50 @@ offset_top = 480.0
 offset_right = 220.0
 offset_bottom = 660.0
 texture = ExtResource("6_player")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
-[node name="PlotPanel" type="ColorRect" parent="." unique_id=442177272]
-offset_left = 300.0
-offset_top = 480.0
-offset_right = 950.0
+[node name="CondorDialog" parent="." instance=ExtResource("9_dialog")]
+theme = ExtResource("8_theme")
+offset_left = 30.0
+offset_top = 76.0
+offset_right = 560.0
+offset_bottom = 186.0
+
+[node name="PlotHighlight" type="Panel" parent="."]
+offset_left = 600.0
+offset_top = 325.0
+offset_right = 935.0
 offset_bottom = 500.0
-color = Color(0.6509804, 0.4862745, 0.32156864, 0)
+theme_override_styles/panel = SubResource("sb_plot_highlight")
+
+[node name="CropChoiceBadge" type="TextureRect" parent="."]
+visible = false
+offset_left = 740.0
+offset_top = 268.0
+offset_right = 796.0
+offset_bottom = 324.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropSprite" type="TextureRect" parent="."]
+visible = false
+offset_left = 710.0
+offset_top = 352.0
+offset_right = 825.0
+offset_bottom = 467.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlotReadyBadge" type="TextureRect" parent="."]
+visible = false
+offset_left = 900.0
+offset_top = 330.0
+offset_right = 932.0
+offset_bottom = 362.0
+texture = ExtResource("11_badge")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="PrepareButton" type="Button" parent="." unique_id=1855813572]
 offset_left = 486.0
@@ -108,7 +161,9 @@ offset_left = 760.0
 offset_top = 590.0
 offset_right = 900.0
 offset_bottom = 621.0
-text = "🌱 SEMBRAR"
+theme_override_constants/icon_max_width = 26
+text = "SEMBRAR"
+icon = ExtResource("10_pala")
 
 [connection signal="pressed" from="PrepareButton" to="." method="_on_prepare_button_pressed"]
 [connection signal="pressed" from="PapaButton" to="." method="_on_papa_button_pressed"]

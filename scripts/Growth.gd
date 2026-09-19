@@ -14,6 +14,12 @@ var usa_etapas_papa = false
 var papa_stage_textures = []
 var papa_stage_index = -1
 
+var usa_quinua = false
+var quinua_brote_textura: Texture2D = null
+var quinua_madura_textura: Texture2D = null
+var quinua_madura_mostrada = false
+var brillo_cosecha_mostrado = false
+
 func _ready() -> void:
 	var crop_label = get_node("CropLabel")
 	var growth_progress = get_node("GrowthProgress")
@@ -36,14 +42,22 @@ func _ready() -> void:
 		crop_label.text = "🌾 QUINUA"
 		tiempo_crecimiento = 6.0
 		produccion_base = 70
-		crop_icon.texture = load("res://assets/icons/quinua.png")
+		usa_quinua = true
+		quinua_brote_textura = load("res://assets/crops/quinua/QuinuaBrote.png")
+		quinua_madura_textura = load("res://assets/crops/quinua/QuinuaMadura.png")
+		crop_icon.texture = quinua_brote_textura
 	else:
 		crop_label.text = "🌱 SIN CULTIVO"
 
 	produccion_final = produccion_base
 	growth_progress.value = 0
 	crop_icon.pivot_offset = crop_icon.size / 2.0
-	crop_icon.scale = Vector2(1, 1) if usa_etapas_papa else Vector2(0.3, 0.3)
+	crop_icon.scale = Vector2(1, 1) if usa_etapas_papa else Vector2(0.35, 0.35)
+
+	var condor = get_node("CondorDialog")
+	condor.set_pose("explicando")
+	condor.set_message("Si ahorras hoy, mañana podrás invertir en tu producción.")
+	condor.animate_in()
 
 
 func _process(delta: float) -> void:
@@ -59,6 +73,9 @@ func _process(delta: float) -> void:
 			if stage != papa_stage_index:
 				papa_stage_index = stage
 				crop_icon.texture = papa_stage_textures[stage]
+		elif usa_quinua:
+			var factor = 0.35 + (progreso / 100.0) * 0.85
+			crop_icon.scale = Vector2(factor, factor)
 		else:
 			var factor = 0.3 + (progreso / 100.0) * 0.9
 			crop_icon.scale = Vector2(factor, factor)
@@ -66,7 +83,29 @@ func _process(delta: float) -> void:
 		if progreso >= 100:
 			progreso = 100
 			crecimiento_completo = true
+			if usa_quinua and not quinua_madura_mostrada:
+				quinua_madura_mostrada = true
+				crop_icon.texture = quinua_madura_textura
+				crop_icon.scale = Vector2(1.0, 1.0)
+			_brillo_cosecha_lista(crop_icon)
 			print("El cultivo está listo para cosechar")
+
+
+func _brillo_cosecha_lista(crop_icon: TextureRect) -> void:
+	if brillo_cosecha_mostrado:
+		return
+	brillo_cosecha_mostrado = true
+
+	crop_icon.pivot_offset = crop_icon.size / 2.0
+	var escala_original = crop_icon.scale
+
+	var tw = create_tween()
+	tw.tween_property(crop_icon, "modulate", Color(1.5, 1.5, 1.1, 1.0), 0.18).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(crop_icon, "modulate", Color(1, 1, 1, 1), 0.28).set_trans(Tween.TRANS_SINE)
+
+	var tw_scale = create_tween()
+	tw_scale.tween_property(crop_icon, "scale", escala_original * 1.15, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw_scale.tween_property(crop_icon, "scale", escala_original, 0.22).set_trans(Tween.TRANS_SINE)
 			
 func generar_evento() -> void:
 	if evento_generado:
@@ -83,6 +122,11 @@ func generar_evento() -> void:
 	var event_button = get_node("EventPanel/EventButton")
 	var event_icon = get_node("EventPanel/EventIcon")
 	var background = get_node("Background")
+	var condor = get_node("CondorDialog")
+	var weather = get_node("WeatherEffects")
+	var risk_badge = get_node("EventPanel/RiskBadge")
+
+	risk_badge.visible = false
 
 	if evento == "Soleado":
 		event_title.text = "☀️ DÍA SOLEADO"
@@ -90,6 +134,9 @@ func generar_evento() -> void:
 		produccion_final = produccion_base
 		event_icon.texture = load("res://assets/icons/sun.png")
 		background.texture = load("res://assets/backgrounds/EscenarioGrowthVarianteSoleada.png")
+		condor.set_pose("neutral")
+		condor.set_message(event_description.text)
+		weather.set_weather("soleado")
 
 	elif evento == "Lluvia":
 		event_title.text = "🌧️ LLUVIA"
@@ -97,17 +144,25 @@ func generar_evento() -> void:
 		produccion_final = produccion_base
 		event_icon.texture = load("res://assets/icons/rain.png")
 		background.texture = load("res://assets/backgrounds/EscenarioGrowthVarianteLluvia.png")
+		condor.set_pose("senalando")
+		condor.set_message(event_description.text)
+		weather.set_weather("lluvia")
 
 	elif evento == "Helada":
 		event_title.text = "❄️ HELADA"
 		event_icon.texture = load("res://assets/icons/frost.png")
 		background.texture = load("res://assets/backgrounds/EscenarioGrowthVarianteHelada.png")
+		risk_badge.visible = true
 		if GameState.proteccion_activa:
 			event_description.text = "Gracias a tu inversión preventiva, el daño de la helada fue menor."
 			produccion_final = produccion_base * 0.85
 		else:
 			event_description.text = "Una helada puede reducir tu producción si no estás preparado."
 			produccion_final = produccion_base * 0.7
+		condor.set_pose("preocupado")
+		condor.set_message(event_description.text)
+		weather.set_weather("helada")
+		_sacudir_pantalla()
 
 	GameState.proteccion_activa = false
 
@@ -116,6 +171,15 @@ func generar_evento() -> void:
 	event_button.visible = true
 	print("Evento climático: ", evento)
 	print("Producción final: ", produccion_final)
+
+
+func _sacudir_pantalla() -> void:
+	var pos_original = position
+	var tw = create_tween()
+	tw.tween_property(self, "position", pos_original + Vector2(-6, 0), 0.045)
+	tw.tween_property(self, "position", pos_original + Vector2(6, 0), 0.045)
+	tw.tween_property(self, "position", pos_original + Vector2(-4, 0), 0.045)
+	tw.tween_property(self, "position", pos_original, 0.045)
 
 
 func _on_continue_button_pressed() -> void:
@@ -135,7 +199,7 @@ func _on_continue_button_pressed() -> void:
 
 	print("Cosechando producción: ", GameState.produccion)
 
-	get_tree().change_scene_to_file("res://scenes/Market.tscn")
+	await SceneTransition.change_scene("res://scenes/Market.tscn")
 	
 
 
@@ -147,8 +211,13 @@ func _on_option_a_button_pressed() -> void:
 	desafio_completado = true
 	GameState.salud_financiera = max(0, GameState.salud_financiera - 5)
 
+	var mensaje = "El dinero gastado ya no estará disponible para afrontar un imprevisto."
+	get_node("CondorDialog").set_pose("preocupado")
+	get_node("CondorDialog").set_message(mensaje)
+	_mostrar_resultado_desafio(false, "Incorrecto")
+
 	print("Respuesta incorrecta")
-	print("El dinero gastado ya no estará disponible para afrontar un imprevisto.")
+	print(mensaje)
 
 
 func _on_option_b_button_pressed() -> void:
@@ -159,8 +228,13 @@ func _on_option_b_button_pressed() -> void:
 	GameState.minidesafios_completados += 1
 	GameState.otorgar_sello("Mini desafío financiero superado")
 
+	var mensaje = "¡Correcto! Guardar una parte de tus monedas ayuda a prepararte para imprevistos."
+	get_node("CondorDialog").set_pose("celebrando")
+	get_node("CondorDialog").set_message(mensaje)
+	_mostrar_resultado_desafio(true, "¡Correcto!")
+
 	print("¡Correcto!")
-	print("Guardar una parte de tus monedas ayuda a prepararte para imprevistos.")
+	print(mensaje)
 
 func _on_option_c_button_pressed() -> void:
 
@@ -170,8 +244,26 @@ func _on_option_c_button_pressed() -> void:
 	desafio_completado = true
 	GameState.salud_financiera = max(0, GameState.salud_financiera - 5)
 
+	var mensaje = "Comprar algo innecesario reduce los recursos disponibles para el futuro."
+	get_node("CondorDialog").set_pose("preocupado")
+	get_node("CondorDialog").set_message(mensaje)
+	_mostrar_resultado_desafio(false, "Incorrecto")
+
 	print("Respuesta incorrecta")
-	print("Comprar algo innecesario reduce los recursos disponibles para el futuro.")
+	print(mensaje)
+
+
+func _mostrar_resultado_desafio(acierto: bool, mensaje: String) -> void:
+	var status = get_node("ChallengePanel/ResultStatus")
+	status.set_status(acierto, mensaje)
+	status.visible = true
+	status.modulate.a = 0.0
+	status.scale = Vector2(0.7, 0.7)
+	status.pivot_offset = Vector2(60, 13)
+
+	var tw = create_tween()
+	tw.tween_property(status, "modulate:a", 1.0, 0.15)
+	tw.parallel().tween_property(status, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _on_event_button_pressed() -> void:

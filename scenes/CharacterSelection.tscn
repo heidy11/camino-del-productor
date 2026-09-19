@@ -59,20 +59,20 @@ theme_type_variation = &"CardPanel"
 
 [node name="PreviewFrame" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 530.0
-offset_top = 96.0
-offset_right = 750.0
-offset_bottom = 366.0
+offset_left = 540.0
+offset_top = 88.0
+offset_right = 740.0
+offset_bottom = 308.0
 texture = ExtResource("4_zm")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="NameLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 480.0
-offset_top = 372.0
+offset_top = 324.0
 offset_right = 800.0
-offset_bottom = 404.0
+offset_bottom = 356.0
 theme_type_variation = &"CardTitleLabel"
 horizontal_alignment = 1
 text = "ZORRO"
@@ -80,18 +80,18 @@ text = "ZORRO"
 [node name="GenderLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 480.0
-offset_top = 404.0
+offset_top = 356.0
 offset_right = 800.0
-offset_bottom = 428.0
+offset_bottom = 380.0
 horizontal_alignment = 1
 text = "Masculino"
 
 [node name="SelectedTag" type="Label" parent="."]
 layout_mode = 0
 offset_left = 480.0
-offset_top = 430.0
+offset_top = 384.0
 offset_right = 800.0
-offset_bottom = 456.0
+offset_bottom = 410.0
 theme_override_colors/font_color = Color(0.306, 0.576, 0.314, 1)
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
@@ -124,7 +124,7 @@ offset_top = -8.0
 offset_right = 148.0
 offset_bottom = 24.0
 texture = ExtResource("10_badge")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="FoxFemaleButton" type="Button" parent="CharacterContainer" unique_id=1669359190]
@@ -145,7 +145,7 @@ offset_top = -8.0
 offset_right = 148.0
 offset_bottom = 24.0
 texture = ExtResource("10_badge")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="JucumariMaleButton" type="Button" parent="CharacterContainer" unique_id=1174999222]
@@ -166,7 +166,7 @@ offset_top = -8.0
 offset_right = 148.0
 offset_bottom = 24.0
 texture = ExtResource("10_badge")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="JucumariFemaleButton" type="Button" parent="CharacterContainer" unique_id=812417419]
@@ -187,7 +187,7 @@ offset_top = -8.0
 offset_right = 148.0
 offset_bottom = 24.0
 texture = ExtResource("10_badge")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="CapibaraMaleButton" type="Button" parent="CharacterContainer" unique_id=1579430194]
@@ -208,7 +208,7 @@ offset_top = -8.0
 offset_right = 148.0
 offset_bottom = 24.0
 texture = ExtResource("10_badge")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="CapibaraFemaleButton" type="Button" parent="CharacterContainer" unique_id=1338544659]
@@ -229,7 +229,7 @@ offset_top = -8.0
 offset_right = 148.0
 offset_bottom = 24.0
 texture = ExtResource("10_badge")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="ContinueButton" type="Button" parent="." unique_id=1556041783]
