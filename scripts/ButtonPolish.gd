@@ -1,11 +1,22 @@
 extends Node
 
-# Autoload que agrega una animación suave de hover/presión a TODOS los
-# botones del juego, sin tener que tocar cada escena. Puramente visual:
-# no cambia señales, no intercepta "pressed", no afecta la lógica.
+# Autoload que agrega una animación suave de hover/presión y un sonido de
+# clic a TODOS los botones del juego, sin tener que tocar cada escena.
+# No cambia señales existentes ni afecta la lógica de cada pantalla.
+
+const SONIDO_CLIC := "res://assets/audio/ClickUI.wav"
+
+var _click_player: AudioStreamPlayer
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	_click_player = AudioStreamPlayer.new()
+	_click_player.stream = load(SONIDO_CLIC)
+	_click_player.volume_db = -8.0
+	add_child(_click_player)
+
 	get_tree().node_added.connect(_on_node_added)
 
 
@@ -23,6 +34,12 @@ func _wire_button(button: BaseButton) -> void:
 	button.mouse_exited.connect(_on_unhover.bind(button))
 	button.button_down.connect(_on_press.bind(button))
 	button.button_up.connect(_on_release.bind(button))
+	button.pressed.connect(_on_clicked)
+
+
+func _on_clicked() -> void:
+	_click_player.stop()
+	_click_player.play()
 
 
 func _target_scale(button: BaseButton, factor: float) -> void:
