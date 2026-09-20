@@ -12,6 +12,7 @@ func _ready() -> void:
 	get_node("ChallengesLabel").text = "Mini desafíos superados: " + str(GameState.minidesafios_completados)
 
 	_reaccionar_condor()
+	_presentar_funcionario()
 	_poblar_logros()
 	_animar_economia()
 	_animar_tarjetas()
@@ -84,6 +85,20 @@ func _iniciar_balanceo_condor() -> void:
 	tw.set_loops()
 	tw.tween_property(portrait, "rotation_degrees", 3.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tw.tween_property(portrait, "rotation_degrees", -3.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
+# Mensaje de cierre del funcionario del BDP invitando a las agencias.
+# Entra un poco después que el cóndor para que no aparezcan los dos de golpe.
+func _presentar_funcionario() -> void:
+	var funcionario = get_node("FuncionarioDialog")
+	funcionario.modulate.a = 0.0
+
+	var tw = create_tween()
+	tw.tween_interval(0.5)
+	tw.tween_callback(funcionario.animate_in)
+	tw.tween_callback(func():
+		funcionario.set_message("¡Gracias por recorrer el camino para recibir un premio! Te esperamos en nuestras agencias: https://www.bdp.com.bo/nuestras-oficinas-2/")
+	)
 
 
 func _poblar_logros() -> void:

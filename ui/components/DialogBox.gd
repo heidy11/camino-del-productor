@@ -24,10 +24,13 @@ const DURACION_TIPEO_MAX := 1.8
 var _bob_time := randf() * TAU
 var _base_portrait_y := 0.0
 var _tipeo_tween: Tween = null
+var _url_regex := RegEx.new()
 
 
 func _ready() -> void:
 	_base_portrait_y = get_node("Portrait").position.y
+	_url_regex.compile("(https?://[^\\s]+)")
+	get_node("Bubble/MessageLabel").meta_clicked.connect(_on_link_clicked)
 
 
 func _process(delta: float) -> void:
@@ -38,19 +41,30 @@ func _process(delta: float) -> void:
 
 func set_message(message: String) -> void:
 	var label = get_node("Bubble/MessageLabel")
-	label.text = message
+	label.text = _resaltar_enlaces(message)
 	_iniciar_tipeo(label)
 	_speak_pulse()
 
 
+# Si el mensaje trae un link (como el del funcionario del BDP invitando a
+# las agencias), lo subraya, lo colorea y lo hace clickeable. El resto del
+# texto queda igual.
+func _resaltar_enlaces(texto: String) -> String:
+	return _url_regex.sub(texto, "[u][color=#0e655d][url=$1]$1[/url][/color][/u]", true)
+
+
+func _on_link_clicked(meta) -> void:
+	OS.shell_open(str(meta))
+
+
 # Revela el mensaje letra por letra en vez de mostrarlo de golpe, para darle
 # más presencia al diálogo del cóndor.
-func _iniciar_tipeo(label: Label) -> void:
+func _iniciar_tipeo(label: RichTextLabel) -> void:
 	if _tipeo_tween:
 		_tipeo_tween.kill()
 
 	label.visible_ratio = 0.0
-	var duracion = clamp(label.text.length() * VELOCIDAD_TIPEO, DURACION_TIPEO_MIN, DURACION_TIPEO_MAX)
+	var duracion = clamp(label.get_parsed_text().length() * VELOCIDAD_TIPEO, DURACION_TIPEO_MIN, DURACION_TIPEO_MAX)
 
 	_tipeo_tween = create_tween()
 	_tipeo_tween.tween_property(label, "visible_ratio", 1.0, duracion).set_trans(Tween.TRANS_LINEAR)

@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://bf0am4mofgjj8"]
 
 [ext_resource type="Script" uid="uid://c24jbm3v2jjon" path="res://scripts/Results.gd" id="1_res001"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioResults.png" id="2_bg"]
-[ext_resource type="Texture2D" path="res://assets/icons/seal.png" id="3_seal"]
-[ext_resource type="Texture2D" path="res://assets/icons/coin.png" id="4_coin"]
-[ext_resource type="Theme" path="res://theme/game_theme.tres" id="5_theme"]
+[ext_resource type="Texture2D" uid="uid://deytaolo4nqr4" path="res://assets/backgrounds/EscenarioResults.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://b52voxmkfwbp6" path="res://assets/icons/seal.png" id="3_seal"]
+[ext_resource type="Texture2D" uid="uid://bupcfnif8jo7t" path="res://assets/icons/coin.png" id="4_coin"]
+[ext_resource type="Theme" uid="uid://c6ul1vle7twep" path="res://theme/game_theme.tres" id="5_theme"]
 [ext_resource type="PackedScene" path="res://ui/components/DialogBox.tscn" id="6_dialog"]
-[ext_resource type="Shader" path="res://ui/shaders/outline.gdshader" id="7_outline"]
+[ext_resource type="Shader" uid="uid://vihlr04o1kn1" path="res://ui/shaders/outline.gdshader" id="7_outline"]
+[ext_resource type="Texture2D" uid="uid://cokwl4c32818f" path="res://assets/Funcionario/FuncionarioBDP.png" id="8_funcionario"]
 
 [sub_resource type="ShaderMaterial" id="mat_condor_outline"]
 shader = ExtResource("7_outline")
@@ -23,7 +24,7 @@ grow_vertical = 2
 theme = ExtResource("5_theme")
 script = ExtResource("1_res001")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=745580206]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +35,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Overlay" type="ColorRect" parent="."]
+[node name="Overlay" type="ColorRect" parent="." unique_id=336001105]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,24 +44,26 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.91764706, 0.95686275, 0.972549, 0.22)
 
-[node name="Title" type="Label" parent="."]
-offset_left = 0.0
+[node name="Title" type="Label" parent="." unique_id=1850849443]
+layout_mode = 0
 offset_top = 12.0
 offset_right = 1280.0
 offset_bottom = 46.0
 theme_type_variation = &"TitleLabel"
 theme_override_font_sizes/font_size = 26
-horizontal_alignment = 1
 text = "RESUMEN FINANCIERO DE LA JORNADA"
+horizontal_alignment = 1
 
-[node name="ProfileCard" type="Panel" parent="."]
+[node name="ProfileCard" type="Panel" parent="." unique_id=837966795]
+layout_mode = 0
 offset_left = 340.0
 offset_top = 58.0
 offset_right = 940.0
 offset_bottom = 128.0
 theme_type_variation = &"CardPanel"
 
-[node name="SealIcon" type="TextureRect" parent="."]
+[node name="SealIcon" type="TextureRect" parent="." unique_id=131167181]
+layout_mode = 0
 offset_left = 368.0
 offset_top = 74.0
 offset_right = 408.0
@@ -69,24 +72,27 @@ texture = ExtResource("3_seal")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ProfileLabel" type="Label" parent="."]
+[node name="ProfileLabel" type="Label" parent="." unique_id=1437022303]
+layout_mode = 0
 offset_left = 420.0
 offset_top = 74.0
 offset_right = 910.0
 offset_bottom = 114.0
 theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 24
-vertical_alignment = 1
 text = "Perfil financiero: -"
+vertical_alignment = 1
 
-[node name="EconomyCard" type="Panel" parent="."]
+[node name="EconomyCard" type="Panel" parent="." unique_id=1900315207]
+layout_mode = 0
 offset_left = 50.0
 offset_top = 140.0
 offset_right = 615.0
 offset_bottom = 394.0
 theme_type_variation = &"CardPanel"
 
-[node name="EconomyHeader" type="Label" parent="."]
+[node name="EconomyHeader" type="Label" parent="." unique_id=490881679]
+layout_mode = 0
 offset_left = 70.0
 offset_top = 154.0
 offset_right = 595.0
@@ -95,7 +101,8 @@ theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 19
 text = "ECONOMÍA"
 
-[node name="ObtainedIcon" type="TextureRect" parent="."]
+[node name="ObtainedIcon" type="TextureRect" parent="." unique_id=1385516383]
+layout_mode = 0
 offset_left = 70.0
 offset_top = 190.0
 offset_right = 110.0
@@ -104,17 +111,19 @@ texture = ExtResource("4_coin")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ObtainedLabel" type="Label" parent="."]
+[node name="ObtainedLabel" type="Label" parent="." unique_id=697221138]
+layout_mode = 0
 offset_left = 122.0
 offset_top = 194.0
 offset_right = 595.0
 offset_bottom = 226.0
-theme_override_font_sizes/font_size = 24
 theme_override_colors/font_color = Color(0.71, 0.475, 0.102, 1)
-vertical_alignment = 1
+theme_override_font_sizes/font_size = 24
 text = "Obtenidas: 0 monedas"
+vertical_alignment = 1
 
-[node name="SavedIcon" type="TextureRect" parent="."]
+[node name="SavedIcon" type="TextureRect" parent="." unique_id=400414252]
+layout_mode = 0
 offset_left = 70.0
 offset_top = 246.0
 offset_right = 94.0
@@ -123,14 +132,16 @@ texture = ExtResource("4_coin")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SavedLabel" type="Label" parent="."]
+[node name="SavedLabel" type="Label" parent="." unique_id=828919084]
+layout_mode = 0
 offset_left = 104.0
 offset_top = 247.0
 offset_right = 595.0
 offset_bottom = 269.0
 text = "Ahorradas: 0 monedas"
 
-[node name="InvestedIcon" type="TextureRect" parent="."]
+[node name="InvestedIcon" type="TextureRect" parent="." unique_id=1930565639]
+layout_mode = 0
 offset_left = 70.0
 offset_top = 278.0
 offset_right = 94.0
@@ -139,14 +150,16 @@ texture = ExtResource("4_coin")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="InvestedLabel" type="Label" parent="."]
+[node name="InvestedLabel" type="Label" parent="." unique_id=1289455264]
+layout_mode = 0
 offset_left = 104.0
 offset_top = 279.0
 offset_right = 595.0
 offset_bottom = 301.0
 text = "Invertidas: 0 monedas"
 
-[node name="SpentIcon" type="TextureRect" parent="."]
+[node name="SpentIcon" type="TextureRect" parent="." unique_id=1861669125]
+layout_mode = 0
 offset_left = 70.0
 offset_top = 310.0
 offset_right = 94.0
@@ -155,30 +168,34 @@ texture = ExtResource("4_coin")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SpentLabel" type="Label" parent="."]
+[node name="SpentLabel" type="Label" parent="." unique_id=1693151331]
+layout_mode = 0
 offset_left = 104.0
 offset_top = 311.0
 offset_right = 595.0
 offset_bottom = 333.0
 text = "Gastadas: 0 monedas"
 
-[node name="PointsTotalLabel" type="Label" parent="."]
+[node name="PointsTotalLabel" type="Label" parent="." unique_id=854356863]
+layout_mode = 0
 offset_left = 70.0
 offset_top = 356.0
 offset_right = 595.0
 offset_bottom = 382.0
-theme_override_font_sizes/font_size = 19
 theme_override_colors/font_color = Color(0.71, 0.475, 0.102, 1)
+theme_override_font_sizes/font_size = 19
 text = "Total puntos extra: 0 pts"
 
-[node name="AchievementsCard" type="Panel" parent="."]
+[node name="AchievementsCard" type="Panel" parent="." unique_id=1884943932]
+layout_mode = 0
 offset_left = 635.0
 offset_top = 140.0
 offset_right = 1230.0
 offset_bottom = 394.0
 theme_type_variation = &"CardPanel"
 
-[node name="AchievementsHeader" type="Label" parent="."]
+[node name="AchievementsHeader" type="Label" parent="." unique_id=36366980]
+layout_mode = 0
 offset_left = 655.0
 offset_top = 156.0
 offset_right = 1210.0
@@ -187,39 +204,57 @@ theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 19
 text = "LOGROS"
 
-[node name="SealsLabel" type="Label" parent="."]
+[node name="SealsLabel" type="Label" parent="." unique_id=1883987992]
+layout_mode = 0
 offset_left = 655.0
 offset_top = 198.0
 offset_right = 1210.0
 offset_bottom = 220.0
 text = "Sellos del Guardián: 0"
 
-[node name="ChallengesLabel" type="Label" parent="."]
+[node name="ChallengesLabel" type="Label" parent="." unique_id=2033742294]
+layout_mode = 0
 offset_left = 655.0
 offset_top = 222.0
 offset_right = 1210.0
 offset_bottom = 244.0
 text = "Mini desafíos superados: 0"
 
-[node name="AchievementsList" type="VBoxContainer" parent="."]
+[node name="AchievementsList" type="VBoxContainer" parent="." unique_id=2065215564]
+layout_mode = 0
 offset_left = 655.0
 offset_top = 254.0
 offset_right = 1210.0
 offset_bottom = 378.0
 theme_override_constants/separation = 8
 
-[node name="CondorDialog" parent="." instance=ExtResource("6_dialog")]
-offset_left = 240.0
+[node name="CondorDialog" parent="." unique_id=1871075243 instance=ExtResource("6_dialog")]
+layout_mode = 0
+offset_left = 20.0
 offset_top = 404.0
-offset_right = 1040.0
+offset_right = 610.0
 offset_bottom = 644.0
 theme = ExtResource("5_theme")
 
 [node name="Portrait" parent="CondorDialog" index="0"]
 material = SubResource("mat_condor_outline")
-custom_minimum_size = Vector2(221, 221)
+custom_minimum_size = Vector2(190, 190)
 
-[node name="MenuButton" type="Button" parent="."]
+[node name="FuncionarioDialog" parent="." unique_id=580216574 instance=ExtResource("6_dialog")]
+layout_mode = 0
+offset_left = 630.0
+offset_top = 404.0
+offset_right = 1260.0
+offset_bottom = 644.0
+theme = ExtResource("5_theme")
+
+[node name="Portrait" parent="FuncionarioDialog" index="0"]
+material = SubResource("mat_condor_outline")
+custom_minimum_size = Vector2(190, 190)
+texture = ExtResource("8_funcionario")
+
+[node name="MenuButton" type="Button" parent="." unique_id=43788780]
+layout_mode = 0
 offset_left = 550.0
 offset_top = 660.0
 offset_right = 730.0
@@ -230,3 +265,4 @@ text = "VOLVER AL MENÚ"
 [connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]
 
 [editable path="CondorDialog"]
+[editable path="FuncionarioDialog"]

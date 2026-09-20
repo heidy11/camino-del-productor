@@ -126,7 +126,7 @@ material = SubResource("mat_condor_outline")
 custom_minimum_size = Vector2(200, 200)
 
 [node name="MessageLabel" parent="CondorDialog/Bubble" index="0"]
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/normal_font_size = 20
 text = "Bienvenido a esta comunidad de los Andes bolivianos, donde cada decisión cuenta.
 
 Te acompañaré mientras aprendes a producir, administrar tus recursos y prepararte para el futuro."
