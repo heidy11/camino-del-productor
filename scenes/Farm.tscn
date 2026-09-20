@@ -170,10 +170,10 @@ material = SubResource("mat_condor_outline")
 custom_minimum_size = Vector2(130, 130)
 
 [node name="PlotHighlight" type="Panel" parent="." unique_id=64254712]
-offset_left = 746.00006
-offset_top = 431.0
-offset_right = 871.93933
-offset_bottom = 736.31665
+offset_left = 765.0
+offset_top = 425.00006
+offset_right = 897.9649
+offset_bottom = 714.6959
 rotation = 4.1887903
 scale = Vector2(1.1193855, -0.86311346)
 theme_override_styles/panel = SubResource("sb_plot_highlight")
