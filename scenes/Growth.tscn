@@ -10,27 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cenhija7m4vcd" path="res://assets/props/agriculture/Regadera.png" id="11_regadera"]
 [ext_resource type="Texture2D" uid="uid://bt1vlf0vwcap1" path="res://assets/icons/status_error.png" id="12_risk"]
 [ext_resource type="PackedScene" path="res://ui/components/StatusIndicator.tscn" id="13_status"]
-[ext_resource type="Shader" path="res://ui/shaders/outline.gdshader" id="14_outline"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
-font_color = Color(0.10980392, 0.13333334, 0.19215687, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_vognv"]
-font_color = Color(0.14509805, 0.18039216, 0.21568628, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_w28mw"]
-font_color = Color(0.14901961, 0.1254902, 0.16862746, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_hcd26"]
-font_color = Color(0.12156863, 0.1254902, 0.14509805, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_wlxg1"]
-font_color = Color(0.19215687, 0.1764706, 0.18039216, 1)
-
-[sub_resource type="ShaderMaterial" id="mat_condor_outline"]
-shader = ExtResource("14_outline")
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/outline_width = 22.0
+[ext_resource type="Shader" uid="uid://vihlr04o1kn1" path="res://ui/shaders/outline.gdshader" id="14_outline"]
 
 [sub_resource type="StyleBoxFlat" id="sb_title_banner"]
 bg_color = Color(1, 0.976, 0.941, 0.97)
@@ -46,6 +26,30 @@ corner_radius_bottom_left = 18
 shadow_color = Color(0.16, 0.09, 0.03, 0.22)
 shadow_size = 8
 shadow_offset = Vector2(0, 3)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
+font_color = Color(0.10980392, 0.13333334, 0.19215687, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vognv"]
+font_color = Color(1, 0.976, 0.941, 1)
+outline_size = 6
+outline_color = Color(0.1, 0.06, 0.02, 1)
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.25)
+
+[sub_resource type="ShaderMaterial" id="mat_condor_outline"]
+shader = ExtResource("14_outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 22.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_w28mw"]
+font_color = Color(0.14901961, 0.1254902, 0.16862746, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hcd26"]
+font_color = Color(0.12156863, 0.1254902, 0.14509805, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wlxg1"]
+font_color = Color(0.19215687, 0.1764706, 0.18039216, 1)
 
 [node name="Growth" type="Control" unique_id=1805660410]
 layout_mode = 3
@@ -77,33 +81,33 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.91764706, 0.95686275, 0.972549, 0.45)
 
-[node name="TitleBanner" type="Panel" parent="."]
+[node name="TitleBanner" type="Panel" parent="." unique_id=1968780733]
 layout_mode = 0
-offset_left = 400.0
-offset_top = 24.0
-offset_right = 880.0
-offset_bottom = 78.0
+offset_left = 360.0
+offset_top = 20.0
+offset_right = 920.0
+offset_bottom = 82.0
 theme_override_styles/panel = SubResource("sb_title_banner")
 
 [node name="Title" type="Label" parent="." unique_id=583212951]
 layout_mode = 0
-offset_left = 400.0
-offset_top = 24.0
-offset_right = 880.0
-offset_bottom = 78.0
-theme_override_font_sizes/font_size = 24
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_left = 360.0
+offset_top = 20.0
+offset_right = 920.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 30
 text = "TU CULTIVO ESTÁ CRECIENDO"
 label_settings = SubResource("LabelSettings_jdr30")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CropLabel" type="Label" parent="." unique_id=1896831125]
 layout_mode = 0
-offset_left = 170.0
-offset_top = 302.0
-offset_right = 670.0
-offset_bottom = 328.0
-theme_override_font_sizes/font_size = 20
+offset_left = 140.0
+offset_top = 298.0
+offset_right = 700.0
+offset_bottom = 332.0
+theme_override_font_sizes/font_size = 24
 text = "🌱 Cargando cultivo..."
 label_settings = SubResource("LabelSettings_vognv")
 horizontal_alignment = 1
@@ -237,9 +241,9 @@ stretch_mode = 5
 
 [node name="RegaderaProp" type="TextureRect" parent="." unique_id=1083825562]
 layout_mode = 0
-offset_left = 67.0
+offset_left = 7.0
 offset_top = 281.0
-offset_right = 269.0
+offset_right = 209.0
 offset_bottom = 441.0
 texture = ExtResource("11_regadera")
 expand_mode = 1
@@ -247,10 +251,10 @@ stretch_mode = 5
 
 [node name="CondorDialog" parent="." unique_id=1223535655 instance=ExtResource("9_dialog")]
 layout_mode = 0
-offset_left = 90.0
-offset_top = 92.0
-offset_right = 570.0
-offset_bottom = 292.0
+offset_left = 21.0
+offset_top = 93.0
+offset_right = 634.0
+offset_bottom = 316.0
 
 [node name="Portrait" parent="CondorDialog" index="0"]
 material = SubResource("mat_condor_outline")
@@ -258,141 +262,191 @@ custom_minimum_size = Vector2(182, 182)
 
 [node name="ChallengePanel" type="Panel" parent="." unique_id=341695666]
 layout_mode = 0
-offset_left = 756.0
-offset_top = 53.0
-offset_right = 1117.0
-offset_bottom = 301.0
+offset_left = 690.0
+offset_top = 100.0
+offset_right = 1270.0
+offset_bottom = 390.0
 
 [node name="QuestionLabel" type="Label" parent="ChallengePanel" unique_id=2082727775]
 layout_mode = 0
-offset_left = 11.0
-offset_top = 24.0
-offset_right = 324.0
-offset_bottom = 73.0
+offset_left = 22.0
+offset_top = 14.0
+offset_right = 558.0
+offset_bottom = 78.0
+theme_override_font_sizes/font_size = 20
 text = "Si tienes monedas, ¿qué opción te ayuda
 a prepararte para un imprevisto?"
 label_settings = SubResource("LabelSettings_w28mw")
+autowrap_mode = 3
 
 [node name="OptionAButton" type="Button" parent="ChallengePanel" unique_id=1498687335]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 92.0
-offset_right = 240.0
-offset_bottom = 123.0
+offset_left = 22.0
+offset_top = 86.0
+offset_right = 558.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 18
 text = "Gastar todas las monedas"
+autowrap_mode = 3
 
 [node name="OptionBButton" type="Button" parent="ChallengePanel" unique_id=643191356]
 layout_mode = 0
-offset_left = 42.0
-offset_top = 137.0
-offset_right = 194.0
-offset_bottom = 168.0
+offset_left = 22.0
+offset_top = 160.0
+offset_right = 558.0
+offset_bottom = 226.0
+theme_override_font_sizes/font_size = 18
 text = "Guardar una parte"
+autowrap_mode = 3
 
 [node name="OptionCButton" type="Button" parent="ChallengePanel" unique_id=720697713]
+visible = false
 layout_mode = 0
-offset_left = 39.0
-offset_top = 176.0
-offset_right = 286.0
-offset_bottom = 207.0
+offset_left = 22.0
+offset_top = 234.0
+offset_right = 558.0
+offset_bottom = 300.0
+theme_override_font_sizes/font_size = 18
 text = "Comprar algo que no necesitas"
+autowrap_mode = 3
 
 [node name="ResultStatus" parent="ChallengePanel" unique_id=548796057 instance=ExtResource("13_status")]
 visible = false
 layout_mode = 0
-offset_left = 16.0
-offset_top = 214.0
-offset_right = 340.0
-offset_bottom = 240.0
+offset_left = 22.0
+offset_top = 240.0
+offset_right = 558.0
+offset_bottom = 266.0
 
 [node name="ContinueButton" type="Button" parent="." unique_id=286523051]
 layout_mode = 0
-offset_left = 352.0
-offset_top = 595.0
-offset_right = 455.0
-offset_bottom = 626.0
-text = "CONTINUAR
-"
+offset_left = 313.0
+offset_top = 588.0
+offset_right = 493.0
+offset_bottom = 640.0
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 22
+text = "CONTINUAR"
+
+[node name="EventDim" type="ColorRect" parent="." unique_id=3312445210]
+visible = false
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.05, 0.04, 0.02, 0.55)
 
 [node name="EventPanel" type="Panel" parent="." unique_id=65125909]
 visible = false
 layout_mode = 0
-offset_left = 780.0
-offset_top = 449.0
-offset_right = 1125.0
-offset_bottom = 700.0
+offset_left = 290.0
+offset_top = 150.0
+offset_right = 990.0
+offset_bottom = 580.0
 
 [node name="EventIcon" type="TextureRect" parent="EventPanel" unique_id=1452539470]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 30.0
-offset_right = 80.0
-offset_bottom = 90.0
+offset_left = 40.0
+offset_top = 34.0
+offset_right = 160.0
+offset_bottom = 154.0
 texture = ExtResource("5_sun")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="EventTitle" type="Label" parent="EventPanel" unique_id=2066202271]
 layout_mode = 0
-offset_left = 108.0
-offset_top = 45.0
-offset_right = 260.0
-offset_bottom = 68.0
+offset_left = 180.0
+offset_top = 56.0
+offset_right = 600.0
+offset_bottom = 106.0
+theme_override_font_sizes/font_size = 32
 text = "EVENTO CLIMÁTICO"
 label_settings = SubResource("LabelSettings_hcd26")
 
 [node name="RiskBadge" type="TextureRect" parent="EventPanel" unique_id=674980196]
 visible = false
 layout_mode = 0
-offset_left = 260.0
-offset_top = 42.0
-offset_right = 284.0
-offset_bottom = 66.0
+offset_left = 610.0
+offset_top = 60.0
+offset_right = 654.0
+offset_bottom = 104.0
 texture = ExtResource("12_risk")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="EventDescription" type="Label" parent="EventPanel" unique_id=1539609813]
 layout_mode = 0
-offset_left = 28.0
-offset_top = 86.0
-offset_right = 320.0
-offset_bottom = 176.0
+offset_left = 40.0
+offset_top = 176.0
+offset_right = 660.0
+offset_bottom = 276.0
+theme_override_font_sizes/font_size = 22
 text = "El clima puede afectar tu producción.
 Prepárate para enfrentar el imprevisto."
 label_settings = SubResource("LabelSettings_wlxg1")
 autowrap_mode = 3
 
 [node name="EventButton" type="Button" parent="EventPanel" unique_id=2083778271]
+visible = false
 layout_mode = 0
-offset_left = 122.0
-offset_top = 190.0
-offset_right = 225.0
-offset_bottom = 221.0
+offset_left = 250.0
+offset_top = 310.0
+offset_right = 450.0
+offset_bottom = 372.0
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 20
 text = "CONTINUAR"
 
-[node name="CarpaButton" type="Button" parent="EventPanel"]
+[node name="CarpaButton" type="Button" parent="EventPanel" unique_id=1105030453]
 visible = false
 layout_mode = 0
-offset_left = 20.0
-offset_top = 188.0
-offset_right = 165.0
-offset_bottom = 222.0
+offset_left = 40.0
+offset_top = 300.0
+offset_right = 340.0
+offset_bottom = 372.0
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
 text = "COMPRAR CARPA (30)"
 
-[node name="ArriesgarseButton" type="Button" parent="EventPanel"]
+[node name="ArriesgarseButton" type="Button" parent="EventPanel" unique_id=937444876]
 visible = false
 layout_mode = 0
-offset_left = 172.0
-offset_top = 188.0
-offset_right = 325.0
-offset_bottom = 222.0
+offset_left = 360.0
+offset_top = 300.0
+offset_right = 660.0
+offset_bottom = 372.0
+theme_type_variation = &"SecondaryButton"
+theme_override_font_sizes/font_size = 18
 text = "ARRIESGARSE"
 
 [node name="WeatherEffects" parent="." unique_id=117314706 instance=ExtResource("10_weather")]
 layout_mode = 1
 offset_top = 2.0
 offset_right = 2.0
+
+[node name="ResultBanner" type="Panel" parent="." unique_id=2003859844]
+visible = false
+layout_mode = 0
+offset_left = 140.0
+offset_top = 150.0
+offset_right = 1140.0
+offset_bottom = 570.0
+mouse_filter = 2
+
+[node name="ResultLabel" type="Label" parent="ResultBanner" unique_id=1539561342]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.55)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 90
+text = "¡CORRECTO!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="ChallengePanel/OptionAButton" to="." method="_on_option_a_button_pressed"]
 [connection signal="pressed" from="ChallengePanel/OptionBButton" to="." method="_on_option_b_button_pressed"]

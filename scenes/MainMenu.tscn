@@ -1,8 +1,26 @@
 [gd_scene format=3 uid="uid://deelhqp5wl561"]
 
 [ext_resource type="Script" uid="uid://bfrljxrrby4sd" path="res://scripts/MainMenu.gd" id="1_yqorp"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioMainMenu.png" id="2_bg"]
-[ext_resource type="Theme" path="res://theme/game_theme.tres" id="3_theme"]
+[ext_resource type="Texture2D" uid="uid://c5grup331d424" path="res://assets/backgrounds/EscenarioMainMenu.png" id="2_bg"]
+[ext_resource type="Theme" uid="uid://c6ul1vle7twep" path="res://theme/game_theme.tres" id="3_theme"]
+[ext_resource type="Texture2D" uid="uid://df3ot6wq0as72" path="res://assets/LogoBDP/MenuConLogo_transparente.png" id="4_menuart"]
+
+[sub_resource type="StyleBoxFlat" id="sb_menu_hitbox_normal"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="sb_menu_hitbox_pressed"]
+bg_color = Color(1, 0.78, 0.3, 0.3)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+
+[sub_resource type="StyleBoxFlat" id="sb_menu_hitbox_hover"]
+bg_color = Color(1, 0.85, 0.4, 0.16)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
 
 [node name="MainMenu" type="Control" unique_id=160020476]
 layout_mode = 3
@@ -27,54 +45,78 @@ stretch_mode = 6
 
 [node name="Title" type="Label" parent="." unique_id=410727992]
 layout_mode = 0
-offset_left = 175.0
-offset_top = 96.0
-offset_right = 1105.0
+offset_left = 140.0
+offset_top = 88.0
+offset_right = 1140.0
 offset_bottom = 152.0
 theme_type_variation = &"TitleLabel"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 52
 text = "EL CAMINO DEL PRODUCTOR"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Subtitle" type="Label" parent="." unique_id=1822566422]
 layout_mode = 0
 offset_left = 175.0
-offset_top = 156.0
+offset_top = 158.0
 offset_right = 1105.0
-offset_bottom = 186.0
+offset_bottom = 188.0
 theme_type_variation = &"SubtitleLabel"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
 text = "Aprende a producir, ahorrar y tomar mejores decisiones."
+horizontal_alignment = 1
 
-[node name="MenuCard" type="Panel" parent="."]
+[node name="MenuArt" type="TextureRect" parent="." unique_id=-445766181]
 layout_mode = 0
-offset_left = 478.0
-offset_top = 372.0
-offset_right = 823.0
-offset_bottom = 606.0
-theme_type_variation = &"CardPanel"
+offset_left = 440.0
+offset_top = 210.0
+offset_right = 840.0
+offset_bottom = 690.0
+texture = ExtResource("4_menuart")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="MenuButtons" type="VBoxContainer" parent="." unique_id=2084042397]
-layout_mode = 0
-offset_left = 508.0
-offset_top = 402.0
-offset_right = 793.0
-offset_bottom = 576.0
-theme_override_constants/separation = 16
+[node name="MenuButtons" type="Control" parent="." unique_id=2084042397]
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
 
 [node name="NewGameButton" type="Button" parent="MenuButtons" unique_id=212051859]
-layout_mode = 2
-theme_type_variation = &"PrimaryButton"
-text = "NUEVA PARTIDA"
+layout_mode = 0
+offset_left = 450.0
+offset_top = 434.0
+offset_right = 828.0
+offset_bottom = 495.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("sb_menu_hitbox_normal")
+theme_override_styles/pressed = SubResource("sb_menu_hitbox_pressed")
+theme_override_styles/hover = SubResource("sb_menu_hitbox_hover")
+theme_override_styles/focus = SubResource("sb_menu_hitbox_normal")
 
 [node name="AlbumButton" type="Button" parent="MenuButtons" unique_id=1310273367]
-layout_mode = 2
-theme_type_variation = &"SecondaryButton"
-text = "ÁLBUM DE LOGROS"
+layout_mode = 0
+offset_left = 450.0
+offset_top = 512.0
+offset_right = 828.0
+offset_bottom = 575.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("sb_menu_hitbox_normal")
+theme_override_styles/pressed = SubResource("sb_menu_hitbox_pressed")
+theme_override_styles/hover = SubResource("sb_menu_hitbox_hover")
+theme_override_styles/focus = SubResource("sb_menu_hitbox_normal")
 
 [node name="ExitButton" type="Button" parent="MenuButtons" unique_id=103465756]
-layout_mode = 2
-theme_type_variation = &"SecondaryButton"
-text = "SALIR"
+layout_mode = 0
+offset_left = 450.0
+offset_top = 596.0
+offset_right = 828.0
+offset_bottom = 659.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("sb_menu_hitbox_normal")
+theme_override_styles/pressed = SubResource("sb_menu_hitbox_pressed")
+theme_override_styles/hover = SubResource("sb_menu_hitbox_hover")
+theme_override_styles/focus = SubResource("sb_menu_hitbox_normal")
 
 [connection signal="pressed" from="MenuButtons/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="MenuButtons/AlbumButton" to="." method="_on_album_button_pressed"]

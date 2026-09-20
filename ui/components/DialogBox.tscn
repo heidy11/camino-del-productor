@@ -3,6 +3,25 @@
 [ext_resource type="Script" path="res://ui/components/DialogBox.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/condor/CondorNeutral.png" id="2_condor"]
 
+[sub_resource type="StyleBoxFlat" id="sb_dialog_bubble"]
+bg_color = Color(1, 0.976, 0.941, 0.97)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.95, 0.73, 0.22, 0.9)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.16, 0.09, 0.03, 0.22)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
+content_margin_left = 22.0
+content_margin_top = 16.0
+content_margin_right = 22.0
+content_margin_bottom = 16.0
+
 [node name="DialogBox" type="HBoxContainer"]
 theme_override_constants/separation = 14
 script = ExtResource("1_script")
@@ -17,9 +36,16 @@ stretch_mode = 5
 [node name="Bubble" type="PanelContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"CardPanel"
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("sb_dialog_bubble")
 
 [node name="MessageLabel" type="Label" parent="Bubble"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.227, 0.165, 0.102, 1)
+theme_override_colors/font_shadow_color = Color(0.16, 0.09, 0.03, 0.18)
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/line_spacing = 4
+vertical_alignment = 1
 autowrap_mode = 3
 text = "El Cóndor Guardián te acompaña."

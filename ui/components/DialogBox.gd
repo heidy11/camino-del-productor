@@ -17,8 +17,13 @@ const POSES = {
 	"triste": "res://assets/condor/condorTriste.png",
 }
 
+const VELOCIDAD_TIPEO := 0.028  # segundos por letra
+const DURACION_TIPEO_MIN := 0.15
+const DURACION_TIPEO_MAX := 1.8
+
 var _bob_time := randf() * TAU
 var _base_portrait_y := 0.0
+var _tipeo_tween: Tween = null
 
 
 func _ready() -> void:
@@ -32,8 +37,23 @@ func _process(delta: float) -> void:
 
 
 func set_message(message: String) -> void:
-	get_node("Bubble/MessageLabel").text = message
+	var label = get_node("Bubble/MessageLabel")
+	label.text = message
+	_iniciar_tipeo(label)
 	_speak_pulse()
+
+
+# Revela el mensaje letra por letra en vez de mostrarlo de golpe, para darle
+# más presencia al diálogo del cóndor.
+func _iniciar_tipeo(label: Label) -> void:
+	if _tipeo_tween:
+		_tipeo_tween.kill()
+
+	label.visible_ratio = 0.0
+	var duracion = clamp(label.text.length() * VELOCIDAD_TIPEO, DURACION_TIPEO_MIN, DURACION_TIPEO_MAX)
+
+	_tipeo_tween = create_tween()
+	_tipeo_tween.tween_property(label, "visible_ratio", 1.0, duracion).set_trans(Tween.TRANS_LINEAR)
 
 
 func set_portrait(texture: Texture2D) -> void:

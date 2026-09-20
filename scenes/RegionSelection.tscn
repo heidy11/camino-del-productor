@@ -1,18 +1,55 @@
 [gd_scene format=3 uid="uid://d4j1gueusfcu2"]
 
 [ext_resource type="Script" uid="uid://mih1lk3uq2gk" path="res://scripts/RegionSelection.gd" id="1_e6hxf"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioRegionSelection.png" id="2_bg"]
-[ext_resource type="Theme" path="res://theme/game_theme.tres" id="3_theme"]
+[ext_resource type="Texture2D" uid="uid://cbw6rg1mtlgsp" path="res://assets/backgrounds/EscenarioRegionSelection.png" id="2_bg"]
+[ext_resource type="Theme" uid="uid://c6ul1vle7twep" path="res://theme/game_theme.tres" id="3_theme"]
 
-[sub_resource type="StyleBoxFlat" id="sb_andes_glow"]
-bg_color = Color(0, 1, 0.9, 1)
-corner_radius_top_left = 22
-corner_radius_top_right = 22
-corner_radius_bottom_right = 22
-corner_radius_bottom_left = 22
+[sub_resource type="StyleBoxFlat" id="sb_locked_gray_valles"]
+content_margin_bottom = 292.0
+bg_color = Color(0.12, 0.12, 0.13, 0.58)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 0.35)
+
+[sub_resource type="StyleBoxFlat" id="sb_locked_gray_llanos"]
+content_margin_bottom = 464.0
+bg_color = Color(0.12, 0.12, 0.13, 0.58)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 0.35)
+
+[sub_resource type="StyleBoxFlat" id="sb_transparent"]
+content_margin_bottom = 494.0
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="sb_transparent_pressed"]
+content_margin_bottom = 494.0
+bg_color = Color(1, 1, 1, 0.12)
+
+[sub_resource type="StyleBoxFlat" id="sb_transparent_hover"]
+content_margin_bottom = 494.0
+bg_color = Color(1, 1, 1, 0.06)
 
 [sub_resource type="CanvasItemMaterial" id="mat_neon_add"]
 blend_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="sb_glow_border"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 1, 0.9, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 1, 0.9, 0.55)
+shadow_size = 14
 
 [node name="RegionSelection" type="Control" unique_id=578081286]
 layout_mode = 3
@@ -37,64 +74,136 @@ stretch_mode = 6
 
 [node name="Title" type="Label" parent="." unique_id=315049328]
 layout_mode = 0
-offset_left = 0.0
 offset_top = 34.0
 offset_right = 1280.0
 offset_bottom = 80.0
 theme_type_variation = &"TitleLabel"
 theme_override_font_sizes/font_size = 34
-horizontal_alignment = 1
 text = "SELECCIONA TU REGIÓN"
+horizontal_alignment = 1
 
-[node name="AndesGlow" type="Panel" parent="."]
-material = SubResource("mat_neon_add")
+[node name="VallesButton" type="Button" parent="." unique_id=1963215984]
 layout_mode = 0
-offset_left = 268.0
-offset_top = 448.0
-offset_right = 512.0
-offset_bottom = 632.0
-modulate = Color(1, 1, 1, 0)
-theme_override_styles/panel = SubResource("sb_andes_glow")
-
-[node name="RegionRow" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 280.0
-offset_top = 460.0
-offset_right = 1000.0
-offset_bottom = 620.0
-theme_override_constants/separation = 30
-
-[node name="AndesButton" type="Button" parent="RegionRow" unique_id=810351599]
-custom_minimum_size = Vector2(220, 160)
-layout_mode = 2
-theme_type_variation = &"SelectionCard"
-text = "ANDES
-Disponible"
-
-[node name="VallesButton" type="Button" parent="RegionRow" unique_id=1963215984]
-custom_minimum_size = Vector2(220, 160)
-layout_mode = 2
+offset_left = 476.0
+offset_top = 227.0
+offset_right = 672.0
+offset_bottom = 522.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("sb_locked_gray_valles")
+theme_override_styles/pressed = SubResource("sb_locked_gray_valles")
+theme_override_styles/hover = SubResource("sb_locked_gray_valles")
+theme_override_styles/disabled = SubResource("sb_locked_gray_valles")
 disabled = true
-theme_type_variation = &"SelectionCard"
+
+[node name="Label" type="Label" parent="VallesButton" unique_id=820193666]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 51.0
+offset_right = -1.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.85)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
 text = "VALLES
 Próximamente"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="LlanosButton" type="Button" parent="RegionRow" unique_id=949448136]
-custom_minimum_size = Vector2(220, 160)
-layout_mode = 2
+[node name="LlanosButton" type="Button" parent="." unique_id=949448136]
+layout_mode = 0
+offset_left = 726.0
+offset_top = 140.0
+offset_right = 892.0
+offset_bottom = 607.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("sb_locked_gray_llanos")
+theme_override_styles/pressed = SubResource("sb_locked_gray_llanos")
+theme_override_styles/hover = SubResource("sb_locked_gray_llanos")
+theme_override_styles/disabled = SubResource("sb_locked_gray_llanos")
 disabled = true
-theme_type_variation = &"SelectionCard"
+
+[node name="Label" type="Label" parent="LlanosButton" unique_id=1433676713]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 68.0
+offset_bottom = -55.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.85)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
 text = "LLANOS
 Próximamente"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="AndesButton" type="Button" parent="." unique_id=810351599]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 67.0
+offset_right = 414.0
+offset_bottom = 561.0
+theme_override_styles/normal = SubResource("sb_transparent")
+theme_override_styles/pressed = SubResource("sb_transparent_pressed")
+theme_override_styles/hover = SubResource("sb_transparent_hover")
+theme_override_styles/focus = SubResource("sb_transparent")
+
+[node name="AndesGlow" type="Panel" parent="AndesButton" unique_id=374177044]
+modulate = Color(1, 1, 1, 0.55)
+material = SubResource("mat_neon_add")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 78.0
+offset_right = 32.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_glow_border")
+
+[node name="Label" type="Label" parent="AndesButton" unique_id=951691440]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 29.0
+offset_top = 77.0
+offset_right = 29.0
+offset_bottom = 84.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "ANDES
+Disponible"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="BackButton" type="Button" parent="." unique_id=2052806088]
 layout_mode = 0
-offset_left = 570.0
-offset_top = 646.0
-offset_right = 710.0
-offset_bottom = 690.0
+offset_left = 24.0
+offset_top = 664.0
+offset_right = 164.0
+offset_bottom = 708.0
 theme_type_variation = &"SecondaryButton"
 text = "VOLVER"
 
-[connection signal="pressed" from="RegionRow/AndesButton" to="." method="_on_andes_button_pressed"]
+[connection signal="pressed" from="AndesButton" to="." method="_on_andes_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

@@ -83,9 +83,13 @@ func _caminar_hacia_terreno() -> void:
 	caminando = true
 
 	var player_sprite = get_node("PlayerSprite")
-	var plot = get_node("PlotHighlight")
 
-	var destino_x = plot.position.x - player_sprite.size.x - 20.0
+	# PlotHighlight está rotado/escalado (no es un rectángulo recto), así que
+	# su "position" no corresponde a donde se ve la parcela en pantalla.
+	# Este destino está ajustado a mano sobre el centro visual real de la
+	# parcela, bien a la derecha (junto al pozo) y más arriba que la posición inicial.
+	var destino_x = 830.0
+	var destino_y_base = _player_base_y - 45.0
 	var distancia = abs(destino_x - player_sprite.position.x)
 	var duracion = clamp(distancia / CAMINAR_VELOCIDAD, 0.3, 1.6)
 
@@ -94,6 +98,7 @@ func _caminar_hacia_terreno() -> void:
 
 	var tw = create_tween()
 	tw.tween_property(player_sprite, "position:x", destino_x, duracion).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.parallel().tween_property(self, "_player_base_y", destino_y_base, duracion).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tw.tween_callback(_on_llegada_al_terreno)
 
 
@@ -230,7 +235,10 @@ func _on_cultivo_button_mouse_entered(boton: Button) -> void:
 		return
 	boton.pivot_offset = boton.size / 2.0
 	var tw = create_tween()
-	tw.tween_property(boton, "scale", Vector2(1.08, 1.08), 0.15).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.set_parallel(true)
+	tw.tween_property(boton, "scale", Vector2(1.15, 1.15), 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(boton, "rotation_degrees", 3.0, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(boton, "modulate", Color(1.1, 1.1, 1.02, 1.0), 0.22).set_trans(Tween.TRANS_SINE)
 
 
 func _on_cultivo_button_mouse_exited(boton: Button) -> void:
@@ -238,7 +246,10 @@ func _on_cultivo_button_mouse_exited(boton: Button) -> void:
 		return
 	boton.pivot_offset = boton.size / 2.0
 	var tw = create_tween()
-	tw.tween_property(boton, "scale", Vector2(1.0, 1.0), 0.15).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.set_parallel(true)
+	tw.tween_property(boton, "scale", Vector2(1.0, 1.0), 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.tween_property(boton, "rotation_degrees", 0.0, 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.tween_property(boton, "modulate", Color(1, 1, 1, 1), 0.28).set_trans(Tween.TRANS_SINE)
 
 
 func _on_papa_button_pressed() -> void:

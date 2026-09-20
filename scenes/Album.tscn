@@ -1,14 +1,63 @@
 [gd_scene format=3 uid="uid://bnl06n5im5r3t"]
 
 [ext_resource type="Script" uid="uid://r0sxufq766h" path="res://scripts/Album.gd" id="1_alb001"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioAlbum.png" id="2_bg"]
-[ext_resource type="Texture2D" path="res://assets/icons/seal.png" id="3_seal"]
-[ext_resource type="Theme" path="res://theme/game_theme.tres" id="4_theme"]
-[ext_resource type="Texture2D" path="res://assets/icons/badge_ahorro.png" id="5_ahorro"]
-[ext_resource type="Texture2D" path="res://assets/icons/badge_productor.png" id="6_productor"]
-[ext_resource type="Texture2D" path="res://assets/icons/badge_futuro.png" id="7_futuro"]
-[ext_resource type="Texture2D" path="res://assets/icons/badge_inversor.png" id="8_inversor"]
-[ext_resource type="Texture2D" path="res://assets/icons/badge_aprendiz.png" id="9_aprendiz"]
+[ext_resource type="Texture2D" uid="uid://bh5gxu6t1o5nf" path="res://assets/backgrounds/EscenarioAlbum.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://b52voxmkfwbp6" path="res://assets/icons/seal.png" id="3_seal"]
+[ext_resource type="Theme" uid="uid://c6ul1vle7twep" path="res://theme/game_theme.tres" id="4_theme"]
+[ext_resource type="Texture2D" uid="uid://dejja1eecn6wl" path="res://assets/album/GuardianDelAhorro.png" id="5_ahorro"]
+[ext_resource type="Texture2D" uid="uid://b8qq5m0faekrm" path="res://assets/album/ProductorResponsable.png" id="6_productor"]
+[ext_resource type="Texture2D" uid="uid://c64m4klr1owjv" path="res://assets/album/PreparadoParaElFuturo_transparente.png" id="7_futuro"]
+[ext_resource type="Texture2D" uid="uid://cn5j28phc62cg" path="res://assets/album/InversorInteligente_transparente.png" id="8_inversor"]
+[ext_resource type="Texture2D" uid="uid://dmyaqxhbbtx1e" path="res://assets/album/AprendizFinanciero_transparente.png" id="9_aprendiz"]
+
+[sub_resource type="CanvasItemMaterial" id="mat_badge_glow_add"]
+blend_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="sb_badge_glow"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.92, 0.65, 0.95)
+corner_radius_top_left = 93
+corner_radius_top_right = 93
+corner_radius_bottom_right = 93
+corner_radius_bottom_left = 93
+shadow_color = Color(1, 0.85, 0.4, 0.55)
+shadow_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_4w4ln"]
+line_spacing = 2.0
+font_size = 18
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1373w"]
+font_size = 18
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v3epl"]
+font_size = 18
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5olt6"]
+font_size = 18
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_uo7of"]
+font_size = 18
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tyc8v"]
+font_size = 24
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 5
 
 [node name="Album" type="Control" unique_id=158364568]
 layout_mode = 3
@@ -20,7 +69,7 @@ grow_vertical = 2
 theme = ExtResource("4_theme")
 script = ExtResource("1_alb001")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1022534000]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,146 +80,231 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Title" type="Label" parent="."]
-offset_left = 0.0
+[node name="Title" type="Label" parent="." unique_id=2077485394]
+visible = false
+layout_mode = 0
 offset_top = 16.0
 offset_right = 1280.0
 offset_bottom = 50.0
 theme_type_variation = &"TitleLabel"
 theme_override_font_sizes/font_size = 28
-horizontal_alignment = 1
 text = "CAMINO DEL GUARDIÁN"
+horizontal_alignment = 1
 
-[node name="SealBadge" type="Panel" parent="."]
-offset_left = 555.0
-offset_top = 62.0
-offset_right = 725.0
-offset_bottom = 100.0
-theme_type_variation = &"CardPanel"
-
-[node name="SealIcon" type="TextureRect" parent="."]
-offset_left = 568.0
-offset_top = 70.0
-offset_right = 596.0
-offset_bottom = 98.0
+[node name="SealIcon" type="TextureRect" parent="." unique_id=941832955]
+layout_mode = 0
+offset_left = 572.0
+offset_top = 133.0
+offset_right = 600.0
+offset_bottom = 161.0
 texture = ExtResource("3_seal")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SealsLabel" type="Label" parent="."]
-offset_left = 604.0
-offset_top = 72.0
-offset_right = 714.0
-offset_bottom = 94.0
+[node name="SealsLabel" type="Label" parent="." unique_id=693768809]
+layout_mode = 0
+offset_left = 618.0
+offset_top = 133.0
+offset_right = 728.0
+offset_bottom = 156.0
 theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 16
 text = "Sellos: 0"
 
-[node name="Badge1Icon" type="TextureRect" parent="."]
-offset_left = 379.0
-offset_top = 142.0
-offset_right = 469.0
-offset_bottom = 232.0
+[node name="Badge1Glow" type="Panel" parent="." unique_id=-1076511195]
+visible = false
+material = SubResource("mat_badge_glow_add")
+layout_mode = 0
+offset_left = 213.0
+offset_top = 238.0
+offset_right = 399.0
+offset_bottom = 424.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_badge_glow")
+
+[node name="Badge1Icon" type="TextureRect" parent="." unique_id=1772335411]
+layout_mode = 0
+offset_left = 221.0
+offset_top = 246.0
+offset_right = 391.0
+offset_bottom = 416.0
 texture = ExtResource("5_ahorro")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Badge1Label" type="Label" parent="."]
-offset_left = 334.0
-offset_top = 236.0
-offset_right = 514.0
-offset_bottom = 280.0
-autowrap_mode = 3
-theme_override_font_sizes/font_size = 15
+[node name="Badge1Label" type="Label" parent="." unique_id=2135842309]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 423.0
+offset_right = 390.0
+offset_bottom = 477.0
+theme_override_colors/font_outline_color = Color(1, 0.95, 0.85, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "Guardián
+ del Ahorro"
+label_settings = SubResource("LabelSettings_4w4ln")
 horizontal_alignment = 1
-text = "Guardián del Ahorro"
+autowrap_mode = 3
 
-[node name="Badge2Icon" type="TextureRect" parent="."]
-offset_left = 571.0
-offset_top = 142.0
-offset_right = 661.0
-offset_bottom = 232.0
+[node name="Badge2Glow" type="Panel" parent="." unique_id=-1076511194]
+visible = false
+material = SubResource("mat_badge_glow_add")
+layout_mode = 0
+offset_left = 379.0
+offset_top = 239.0
+offset_right = 565.0
+offset_bottom = 425.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_badge_glow")
+
+[node name="Badge2Icon" type="TextureRect" parent="." unique_id=2053456233]
+layout_mode = 0
+offset_left = 387.0
+offset_top = 247.0
+offset_right = 557.0
+offset_bottom = 417.0
 texture = ExtResource("6_productor")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Badge2Label" type="Label" parent="."]
-offset_left = 526.0
-offset_top = 236.0
-offset_right = 706.0
-offset_bottom = 280.0
-autowrap_mode = 3
-theme_override_font_sizes/font_size = 15
+[node name="Badge2Label" type="Label" parent="." unique_id=1453231525]
+layout_mode = 0
+offset_left = 404.0
+offset_top = 419.0
+offset_right = 554.0
+offset_bottom = 474.0
+theme_override_colors/font_outline_color = Color(1, 0.95, 0.85, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "Productor 
+Responsable"
+label_settings = SubResource("LabelSettings_1373w")
 horizontal_alignment = 1
-text = "Productor Responsable"
+autowrap_mode = 3
 
-[node name="Badge3Icon" type="TextureRect" parent="."]
-offset_left = 763.0
-offset_top = 142.0
-offset_right = 853.0
-offset_bottom = 232.0
+[node name="Badge3Glow" type="Panel" parent="." unique_id=-1076511193]
+visible = false
+material = SubResource("mat_badge_glow_add")
+layout_mode = 0
+offset_left = 549.0
+offset_top = 239.0
+offset_right = 735.0
+offset_bottom = 425.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_badge_glow")
+
+[node name="Badge3Icon" type="TextureRect" parent="." unique_id=842360056]
+layout_mode = 0
+offset_left = 557.0
+offset_top = 247.0
+offset_right = 727.0
+offset_bottom = 417.0
 texture = ExtResource("7_futuro")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Badge3Label" type="Label" parent="."]
-offset_left = 718.0
-offset_top = 236.0
-offset_right = 898.0
-offset_bottom = 280.0
-autowrap_mode = 3
-theme_override_font_sizes/font_size = 15
-horizontal_alignment = 1
+[node name="Badge3Label" type="Label" parent="." unique_id=718588949]
+layout_mode = 0
+offset_left = 561.0
+offset_top = 421.0
+offset_right = 731.0
+offset_bottom = 476.0
+theme_override_colors/font_outline_color = Color(1, 0.95, 0.85, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
 text = "Preparado para el Futuro"
+label_settings = SubResource("LabelSettings_v3epl")
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="Badge4Icon" type="TextureRect" parent="."]
-offset_left = 955.0
-offset_top = 142.0
-offset_right = 1045.0
-offset_bottom = 232.0
+[node name="Badge4Glow" type="Panel" parent="." unique_id=-1076511192]
+visible = false
+material = SubResource("mat_badge_glow_add")
+layout_mode = 0
+offset_left = 720.0
+offset_top = 239.0
+offset_right = 906.0
+offset_bottom = 425.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_badge_glow")
+
+[node name="Badge4Icon" type="TextureRect" parent="." unique_id=1309830317]
+layout_mode = 0
+offset_left = 728.0
+offset_top = 247.0
+offset_right = 898.0
+offset_bottom = 417.0
 texture = ExtResource("8_inversor")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Badge4Label" type="Label" parent="."]
-offset_left = 910.0
-offset_top = 236.0
-offset_right = 1090.0
-offset_bottom = 280.0
-autowrap_mode = 3
-theme_override_font_sizes/font_size = 15
+[node name="Badge4Label" type="Label" parent="." unique_id=77671075]
+layout_mode = 0
+offset_left = 740.0
+offset_top = 418.0
+offset_right = 890.0
+offset_bottom = 473.0
+theme_override_colors/font_outline_color = Color(1, 0.95, 0.85, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "Inversor 
+Inteligente"
+label_settings = SubResource("LabelSettings_5olt6")
 horizontal_alignment = 1
-text = "Inversor Inteligente"
+autowrap_mode = 3
 
-[node name="Badge5Icon" type="TextureRect" parent="."]
-offset_left = 379.0
-offset_top = 300.0
-offset_right = 469.0
-offset_bottom = 390.0
+[node name="Badge5Glow" type="Panel" parent="." unique_id=-1076511191]
+visible = false
+material = SubResource("mat_badge_glow_add")
+layout_mode = 0
+offset_left = 885.0
+offset_top = 239.0
+offset_right = 1071.0
+offset_bottom = 425.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_badge_glow")
+
+[node name="Badge5Icon" type="TextureRect" parent="." unique_id=2030106879]
+layout_mode = 0
+offset_left = 893.0
+offset_top = 247.0
+offset_right = 1063.0
+offset_bottom = 417.0
 texture = ExtResource("9_aprendiz")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Badge5Label" type="Label" parent="."]
-offset_left = 334.0
-offset_top = 394.0
-offset_right = 514.0
-offset_bottom = 438.0
+[node name="Badge5Label" type="Label" parent="." unique_id=1681736518]
+layout_mode = 0
+offset_left = 906.0
+offset_top = 423.0
+offset_right = 1056.0
+offset_bottom = 478.0
+theme_override_colors/font_outline_color = Color(1, 0.95, 0.85, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "Aprendiz 
+Financiero"
+label_settings = SubResource("LabelSettings_uo7of")
+horizontal_alignment = 1
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 15
-horizontal_alignment = 1
-text = "Aprendiz Financiero"
 
-[node name="CosmeticNote" type="Label" parent="."]
-offset_left = 300.0
-offset_top = 470.0
-offset_right = 980.0
-offset_bottom = 494.0
+[node name="CosmeticNote" type="Label" parent="." unique_id=105272625]
+layout_mode = 0
+offset_left = 282.0
+offset_top = 494.0
+offset_right = 1040.0
+offset_bottom = 528.0
+theme_override_colors/font_outline_color = Color(1, 0.95, 0.85, 0.9)
+theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 13
-horizontal_alignment = 1
 text = "Los emblemas son coleccionables y no otorgan ventajas de juego."
+label_settings = SubResource("LabelSettings_tyc8v")
+horizontal_alignment = 1
 
-[node name="BackButton" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="." unique_id=1253501449]
+layout_mode = 0
 offset_left = 550.0
 offset_top = 620.0
 offset_right = 730.0

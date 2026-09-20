@@ -4,6 +4,71 @@ extends Control
 const ESCALA_MIN := 0.55
 const ESCALA_MAX := 1.15
 const COSTO_CARPA := 30
+const COLOR_RESULTADO_CORRECTO := Color(0.157, 0.678, 0.376, 0.96)
+const COLOR_RESULTADO_INCORRECTO := Color(0.792, 0.204, 0.180, 0.96)
+
+const TRIVIA_PREGUNTAS := [
+	{
+		"principal": {
+			"pregunta": "Quieres comprar una pelota nueva en un mes. ¿Cuál es la mejor forma de lograrlo?",
+			"opciones": [
+				"Gastar todo tu dinero apenas lo recibes.",
+				"Guardar un poco de dinero cada semana hasta juntar lo suficiente.",
+			],
+			"correcta": 1,
+			"explicacion": "Guardar un poco cada semana te ayuda a alcanzar tu meta sin gastar todo de una vez.",
+		},
+		"secundaria": {
+			"pregunta": "Ana recibe 10 bolivianos de propina cada semana y guarda 2 en su alcancía. ¿Qué está haciendo bien?",
+			"opciones": [
+				"Está ahorrando una parte de su dinero para el futuro.",
+				"Está gastando todo su dinero en dulces.",
+			],
+			"correcta": 0,
+			"explicacion": "Guardar una parte de lo que recibes, aunque sea poco, es un buen hábito de ahorro.",
+		},
+	},
+	{
+		"principal": {
+			"pregunta": "Tienes dinero ahorrado. ¿Cuál de estas opciones es una necesidad y no solo un gusto?",
+			"opciones": [
+				"Comprar útiles escolares para estudiar.",
+				"Comprar un juguete nuevo aunque ya tienes varios.",
+			],
+			"correcta": 0,
+			"explicacion": "Las necesidades son cosas que de verdad necesitamos, como los útiles escolares. Los gustos, como un juguete extra, pueden esperar.",
+		},
+		"secundaria": {
+			"pregunta": "Pedro tiene 20 bolivianos. Necesita cuadernos para el colegio, pero también quiere un videojuego nuevo. ¿Qué debería comprar primero?",
+			"opciones": [
+				"Los cuadernos, porque los necesita para estudiar.",
+				"El videojuego, porque le gusta más.",
+			],
+			"correcta": 0,
+			"explicacion": "Cuando el dinero es limitado, primero se cubren las necesidades y después los gustos.",
+		},
+	},
+	{
+		"principal": {
+			"pregunta": "Quieres juntar dinero para comprar una bicicleta. ¿Qué te ayuda más a lograrlo?",
+			"opciones": [
+				"Ponerte una meta y anotar cuánto ahorras cada semana.",
+				"Esperar a ver si algún día te alcanza el dinero, sin ningún plan.",
+			],
+			"correcta": 0,
+			"explicacion": "Tener una meta clara y anotar tu ahorro te ayuda a saber cuánto te falta y a no rendirte.",
+		},
+		"secundaria": {
+			"pregunta": "Sofía quiere comprar un libro que cuesta 30 bolivianos. Decide ahorrar 5 bolivianos cada semana. ¿Cuántas semanas necesitará ahorrar?",
+			"opciones": [
+				"6 semanas.",
+				"3 semanas.",
+			],
+			"correcta": 0,
+			"explicacion": "30 dividido entre 5 es 6, así que Sofía necesita ahorrar durante 6 semanas para lograr su meta.",
+		},
+	},
+]
 
 var progreso = 0.0
 var tiempo_crecimiento = 10.0
@@ -19,6 +84,10 @@ var stage_textures: Array = []
 var stage_index := -1
 var brillo_cosecha_mostrado = false
 var crop_icons: Array = []
+
+var opcion_buttons: Array = []
+var pregunta_actual: Dictionary = {}
+var pregunta_respondida := false
 
 func _obtener_crop_icons() -> Array:
 	# Recoge el CropIcon original y cualquier duplicado (CropIcon2, CropIcon3, ...)
@@ -77,6 +146,96 @@ func _ready() -> void:
 	condor.set_message("Si ahorras hoy, mañana podrás invertir en tu producción.")
 	condor.animate_in()
 
+	opcion_buttons = [
+		get_node("ChallengePanel/OptionAButton"),
+		get_node("ChallengePanel/OptionBButton"),
+		get_node("ChallengePanel/OptionCButton"),
+	]
+	_iniciar_desafio()
+
+	_animar_entrada_escenario()
+	_iniciar_balanceo_regadera()
+	_conectar_hover_continuar()
+
+
+# Pequeña entrada escalonada para que la pantalla no aparezca de golpe:
+# título, etiqueta del cultivo, barra de progreso y el panel del desafío.
+func _animar_entrada_escenario() -> void:
+	var titulo = get_node("TitleBanner")
+	titulo.modulate.a = 0.0
+	titulo.pivot_offset = titulo.size / 2.0
+	titulo.scale = Vector2(0.85, 0.85)
+	var tw_titulo = create_tween()
+	tw_titulo.set_parallel(true)
+	tw_titulo.tween_property(titulo, "modulate:a", 1.0, 0.3)
+	tw_titulo.tween_property(titulo, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	var title_label = get_node("Title")
+	title_label.modulate.a = 0.0
+	var tw_title_label = create_tween()
+	tw_title_label.tween_property(title_label, "modulate:a", 1.0, 0.3)
+
+	var etiqueta = get_node("CropLabel")
+	var pos_original = etiqueta.position.y
+	etiqueta.modulate.a = 0.0
+	etiqueta.position.y = pos_original - 10.0
+	var tw_etiqueta = create_tween()
+	tw_etiqueta.set_parallel(true)
+	tw_etiqueta.tween_property(etiqueta, "modulate:a", 1.0, 0.35).set_delay(0.15)
+	tw_etiqueta.tween_property(etiqueta, "position:y", pos_original, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT).set_delay(0.15)
+
+	var barra = get_node("GrowthProgress")
+	barra.modulate.a = 0.0
+	var tw_barra = create_tween()
+	tw_barra.tween_property(barra, "modulate:a", 1.0, 0.35).set_delay(0.25)
+
+	var regadera = get_node("RegaderaProp")
+	regadera.modulate.a = 0.0
+	regadera.pivot_offset = Vector2(regadera.size.x / 2.0, regadera.size.y)
+	regadera.scale = Vector2(0.8, 0.8)
+	var tw_regadera = create_tween()
+	tw_regadera.set_parallel(true)
+	tw_regadera.tween_property(regadera, "modulate:a", 1.0, 0.35).set_delay(0.3)
+	tw_regadera.tween_property(regadera, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(0.3)
+
+	var panel = get_node("ChallengePanel")
+	panel.modulate.a = 0.0
+	panel.pivot_offset = panel.size / 2.0
+	panel.scale = Vector2(0.9, 0.9)
+	var tw_panel = create_tween()
+	tw_panel.set_parallel(true)
+	tw_panel.tween_property(panel, "modulate:a", 1.0, 0.35).set_delay(0.35)
+	tw_panel.tween_property(panel, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(0.35)
+
+
+# Balanceo suave y continuo de la regadera para que la escena se sienta viva.
+func _iniciar_balanceo_regadera() -> void:
+	var regadera = get_node("RegaderaProp")
+	regadera.pivot_offset = Vector2(regadera.size.x / 2.0, regadera.size.y)
+	var tw = create_tween()
+	tw.set_loops()
+	tw.tween_property(regadera, "rotation_degrees", 3.0, 1.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_property(regadera, "rotation_degrees", -3.0, 1.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
+func _conectar_hover_continuar() -> void:
+	var boton = get_node("ContinueButton")
+	boton.mouse_entered.connect(_on_continue_hover)
+	boton.mouse_exited.connect(_on_continue_unhover)
+
+
+func _on_continue_hover() -> void:
+	var boton = get_node("ContinueButton")
+	boton.pivot_offset = boton.size / 2.0
+	var tw = create_tween()
+	tw.tween_property(boton, "scale", Vector2(1.06, 1.06), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _on_continue_unhover() -> void:
+	var boton = get_node("ContinueButton")
+	var tw = create_tween()
+	tw.tween_property(boton, "scale", Vector2(1.0, 1.0), 0.18).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
 
 func _process(delta: float) -> void:
 	var growth_progress = get_node("GrowthProgress")
@@ -132,6 +291,25 @@ func _brillo_cosecha_lista() -> void:
 		tw_scale.tween_property(icon, "scale", escala_original, 0.22).set_trans(Tween.TRANS_SINE)
 
 
+func _mostrar_panel_evento() -> void:
+	var dim = get_node("EventDim")
+	dim.visible = true
+	dim.modulate.a = 0.0
+	var tw_dim = create_tween()
+	tw_dim.tween_property(dim, "modulate:a", 1.0, 0.25)
+
+	var panel = get_node("EventPanel")
+	panel.visible = true
+	panel.modulate.a = 0.0
+	panel.pivot_offset = panel.size / 2.0
+	panel.scale = Vector2(0.85, 0.85)
+
+	var tw = create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(panel, "modulate:a", 1.0, 0.25)
+	tw.tween_property(panel, "scale", Vector2(1.0, 1.0), 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
 func generar_evento() -> void:
 	if evento_generado:
 		return
@@ -153,7 +331,7 @@ func generar_evento() -> void:
 
 	risk_badge.visible = false
 	event_button.visible = false
-	get_node("EventPanel").visible = true
+	_mostrar_panel_evento()
 
 	if evento == "Soleado":
 		event_title.text = "☀️ DÍA SOLEADO"
@@ -318,6 +496,7 @@ func _on_continue_button_pressed() -> void:
 		return
 
 	GameState.produccion = produccion_final
+	GameState.produccion_base = produccion_base
 
 	print("Cosechando producción: ", GameState.produccion)
 
@@ -326,53 +505,90 @@ func _on_continue_button_pressed() -> void:
 
 
 func _on_option_a_button_pressed() -> void:
-
-	if desafio_completado:
-		return
-
-	desafio_completado = true
-	GameState.salud_financiera = max(0, GameState.salud_financiera - 5)
-
-	var mensaje = "El dinero gastado ya no estará disponible para afrontar un imprevisto."
-	get_node("CondorDialog").set_pose("preocupado")
-	get_node("CondorDialog").set_message(mensaje)
-	_mostrar_resultado_desafio(false, "Incorrecto")
-
-	print("Respuesta incorrecta")
-	print(mensaje)
+	_on_opcion_pressed(0)
 
 
 func _on_option_b_button_pressed() -> void:
-	if desafio_completado:
+	_on_opcion_pressed(1)
+
+
+func _on_option_c_button_pressed() -> void:
+	_on_opcion_pressed(2)
+
+
+func _iniciar_desafio() -> void:
+	if GameState.ciclo_actual <= 1:
+		# Primer ciclo (primera cosecha): se elige una pregunta al azar
+		# y se recuerda cuál fue, para usar su pregunta relacionada en el siguiente ciclo.
+		var idx = randi() % TRIVIA_PREGUNTAS.size()
+		GameState.trivia_indice_elegido = idx
+		_mostrar_pregunta(TRIVIA_PREGUNTAS[idx]["principal"])
+	else:
+		# Segundo ciclo (segunda cosecha): pregunta secundaria relacionada
+		# con la que se respondió en el ciclo anterior.
+		var idx = GameState.trivia_indice_elegido
+		if idx < 0 or idx >= TRIVIA_PREGUNTAS.size():
+			idx = randi() % TRIVIA_PREGUNTAS.size()
+		_mostrar_pregunta(TRIVIA_PREGUNTAS[idx]["secundaria"])
+
+
+func _mostrar_pregunta(datos: Dictionary) -> void:
+	pregunta_actual = datos
+	pregunta_respondida = false
+
+	get_node("ChallengePanel/QuestionLabel").text = datos["pregunta"]
+
+	var status = get_node("ChallengePanel/ResultStatus")
+	status.visible = false
+
+	var letras = ["A", "B", "C"]
+	var opciones: Array = datos["opciones"]
+	var y = 86.0
+	var alto_fila = 74.0
+
+	for i in range(opcion_buttons.size()):
+		var boton: Button = opcion_buttons[i]
+		if i < opciones.size():
+			boton.visible = true
+			boton.text = letras[i] + ") " + opciones[i]
+			boton.offset_top = y
+			boton.offset_bottom = y + alto_fila - 8.0
+			y += alto_fila
+		else:
+			boton.visible = false
+
+	status.offset_top = y + 6.0
+	status.offset_bottom = y + 32.0
+
+
+func _on_opcion_pressed(indice: int) -> void:
+	if pregunta_respondida or pregunta_actual.is_empty():
 		return
+	if indice >= pregunta_actual["opciones"].size():
+		return
+
+	pregunta_respondida = true
+
+	var acierto: bool = indice == pregunta_actual["correcta"]
+	var mensaje: String = pregunta_actual["explicacion"]
+	var condor = get_node("CondorDialog")
+
+	if acierto:
+		condor.set_pose("celebrando")
+	else:
+		GameState.salud_financiera = max(0, GameState.salud_financiera - 5)
+		condor.set_pose("preocupado")
+
+	condor.set_message(mensaje)
+	_mostrar_resultado_desafio(acierto, "¡Correcto!" if acierto else "Incorrecto")
+	_mostrar_animacion_resultado(acierto)
+
+	print("Respuesta ", "correcta" if acierto else "incorrecta")
+	print(mensaje)
 
 	desafio_completado = true
 	GameState.minidesafios_completados += 1
 	GameState.otorgar_sello("Mini desafío financiero superado")
-
-	var mensaje = "¡Correcto! Guardar una parte de tus monedas ayuda a prepararte para imprevistos."
-	get_node("CondorDialog").set_pose("celebrando")
-	get_node("CondorDialog").set_message(mensaje)
-	_mostrar_resultado_desafio(true, "¡Correcto!")
-
-	print("¡Correcto!")
-	print(mensaje)
-
-func _on_option_c_button_pressed() -> void:
-
-	if desafio_completado:
-		return
-
-	desafio_completado = true
-	GameState.salud_financiera = max(0, GameState.salud_financiera - 5)
-
-	var mensaje = "Comprar algo innecesario reduce los recursos disponibles para el futuro."
-	get_node("CondorDialog").set_pose("preocupado")
-	get_node("CondorDialog").set_message(mensaje)
-	_mostrar_resultado_desafio(false, "Incorrecto")
-
-	print("Respuesta incorrecta")
-	print(mensaje)
 
 
 func _mostrar_resultado_desafio(acierto: bool, mensaje: String) -> void:
@@ -388,8 +604,51 @@ func _mostrar_resultado_desafio(acierto: bool, mensaje: String) -> void:
 	tw.parallel().tween_property(status, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
+func _mostrar_animacion_resultado(acierto: bool) -> void:
+	var banner: Panel = get_node("ResultBanner")
+	var label: Label = get_node("ResultBanner/ResultLabel")
+
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = COLOR_RESULTADO_CORRECTO if acierto else COLOR_RESULTADO_INCORRECTO
+	estilo.corner_radius_top_left = 36
+	estilo.corner_radius_top_right = 36
+	estilo.corner_radius_bottom_right = 36
+	estilo.corner_radius_bottom_left = 36
+	banner.add_theme_stylebox_override("panel", estilo)
+
+	label.text = "¡CORRECTO!" if acierto else "INCORRECTO"
+
+	banner.visible = true
+	banner.modulate.a = 0.0
+	banner.scale = Vector2(0.82, 0.82)
+	banner.pivot_offset = banner.size / 2.0
+
+	var tw = create_tween()
+	tw.tween_property(banner, "modulate:a", 1.0, 0.12)
+	tw.parallel().tween_property(banner, "scale", Vector2(1.0, 1.0), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(0.65)
+	tw.tween_property(banner, "modulate:a", 0.0, 0.25)
+	tw.tween_callback(func(): banner.visible = false)
+
+
 func _on_event_button_pressed() -> void:
 	if not evento_generado:
 		return
 
-	get_node("EventPanel").visible = false
+	var dim = get_node("EventDim")
+	var tw_dim = create_tween()
+	tw_dim.tween_property(dim, "modulate:a", 0.0, 0.2)
+	tw_dim.tween_callback(func(): dim.visible = false)
+
+	var panel = get_node("EventPanel")
+	var tw = create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.2)
+	tw.tween_property(panel, "scale", Vector2(0.9, 0.9), 0.2)
+	tw.chain().tween_callback(_on_panel_evento_oculto.bind(panel))
+
+
+func _on_panel_evento_oculto(panel: Panel) -> void:
+	panel.visible = false
+	panel.modulate.a = 1.0
+	panel.scale = Vector2(1.0, 1.0)

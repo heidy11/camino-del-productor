@@ -13,6 +13,13 @@
 [ext_resource type="Shader" uid="uid://vihlr04o1kn1" path="res://ui/shaders/outline.gdshader" id="12_outline"]
 [ext_resource type="Texture2D" uid="uid://cpfa84agdjxeo" path="res://assets/props/effects/ShadowOval.png" id="13_shadow"]
 
+[sub_resource type="StyleBoxFlat" id="sb_top_bar"]
+bg_color = Color(0.08, 0.06, 0.03, 0.62)
+border_width_bottom = 3
+border_color = Color(0.95, 0.73, 0.22, 0.85)
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 6
+
 [sub_resource type="ShaderMaterial" id="mat_player_outline"]
 shader = ExtResource("12_outline")
 shader_parameter/outline_color = Color(1, 1, 1, 1)
@@ -101,42 +108,52 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="TitlePanel" type="ColorRect" parent="." unique_id=1684781493]
+[node name="TitlePanel" type="Panel" parent="." unique_id=1684781493]
 offset_right = 1280.0
-offset_bottom = 60.0
-color = Color(0, 0, 0, 0.35)
+offset_bottom = 68.0
+theme_override_styles/panel = SubResource("sb_top_bar")
 
 [node name="Title" type="Label" parent="." unique_id=831368784]
 offset_left = 20.0
-offset_top = 16.0
-offset_right = 500.0
-offset_bottom = 44.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+offset_top = 14.0
+offset_right = 620.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1, 0.976, 0.941, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 27
 text = "LA FINCA DE LAS ALTURAS"
+vertical_alignment = 1
 
 [node name="CoinIcon" type="TextureRect" parent="." unique_id=499109623]
-offset_left = 900.0
-offset_top = 46.0
-offset_right = 924.0
-offset_bottom = 70.0
+offset_left = 895.0
+offset_top = 38.0
+offset_right = 923.0
+offset_bottom = 66.0
 texture = ExtResource("5_coin")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="CycleLabel" type="Label" parent="." unique_id=1045630393]
 offset_left = 950.0
-offset_top = 16.0
+offset_top = 10.0
 offset_right = 1260.0
-offset_bottom = 39.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(1, 0.976, 0.941, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
 text = "Ciclo 1 / 2"
 
 [node name="MoneyLabel" type="Label" parent="." unique_id=942790951]
-offset_left = 930.0
-offset_top = 46.0
+offset_left = 933.0
+offset_top = 38.0
 offset_right = 1260.0
-offset_bottom = 69.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 0.976, 0.941, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
 text = "Monedas: 0"
 
 [node name="PlayerShadow" type="TextureRect" parent="." unique_id=1827265122]
@@ -150,9 +167,9 @@ stretch_mode = 5
 
 [node name="PlayerSprite" type="TextureRect" parent="." unique_id=430270223]
 material = SubResource("mat_player_outline")
-offset_left = 88.0
-offset_top = 445.0
-offset_right = 264.0
+offset_left = 70.0
+offset_top = 405.0
+offset_right = 281.0
 offset_bottom = 643.0
 texture = ExtResource("6_player")
 expand_mode = 1
@@ -170,10 +187,10 @@ material = SubResource("mat_condor_outline")
 custom_minimum_size = Vector2(130, 130)
 
 [node name="PlotHighlight" type="Panel" parent="." unique_id=64254712]
-offset_left = 765.0
-offset_top = 425.00006
-offset_right = 897.9649
-offset_bottom = 714.6959
+offset_left = 755.0
+offset_top = 431.0
+offset_right = 887.9649
+offset_bottom = 720.69586
 rotation = 4.1887903
 scale = Vector2(1.1193855, -0.86311346)
 theme_override_styles/panel = SubResource("sb_plot_highlight")
@@ -226,10 +243,11 @@ icon = ExtResource("10_pala")
 
 [node name="PapaButton" type="Button" parent="." unique_id=619243516]
 visible = false
-offset_left = 400.0
-offset_top = 550.0
-offset_right = 540.0
-offset_bottom = 660.0
+offset_left = 345.0
+offset_top = 344.0
+offset_right = 555.0
+offset_bottom = 514.0
+theme_override_font_sizes/font_size = 22
 text = "PAPA"
 icon = ExtResource("3_papa")
 icon_alignment = 1
@@ -238,10 +256,11 @@ expand_icon = true
 
 [node name="QuinuaButton" type="Button" parent="." unique_id=1296148857]
 visible = false
-offset_left = 560.0
-offset_top = 550.0
-offset_right = 700.0
-offset_bottom = 660.0
+offset_left = 585.0
+offset_top = 344.0
+offset_right = 795.0
+offset_bottom = 514.0
+theme_override_font_sizes/font_size = 22
 text = "QUINUA"
 icon = ExtResource("4_quinua")
 icon_alignment = 1

@@ -21,10 +21,13 @@ func _ready() -> void:
 
 func change_scene(path: String) -> void:
 	if _busy:
+		MusicManager.reproducir_para_escena(path)
 		get_tree().change_scene_to_file(path)
 		return
 
 	_busy = true
+
+	MusicManager.reproducir_para_escena(path)
 
 	var tw_out = create_tween()
 	tw_out.tween_property(_rect, "color:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)

@@ -27,24 +27,63 @@ func _ready() -> void:
 	_tilcayo_base_y = get_node("TilcayoSprite").position.y
 
 	var condor = get_node("CondorDialog")
-	condor.set_pose("saludando")
-	condor.set_message("¡Bienvenido a la Feria de las Alturas! El tilcayo te pagará por tu cosecha.")
+	var resultado = _evaluar_resultado_produccion()
+	condor.set_pose(resultado["pose"])
+	condor.set_message(resultado["mensaje"])
 	condor.animate_in()
 
 	actualizar_feria()
 	actualizar_saldo_superior()
+	_animar_tarjeta_estadisticas()
+
+
+# Compara la producción base (antes del imprevisto climático) con la final
+# para que el cóndor explique qué pasó, en vez de un saludo genérico.
+func _evaluar_resultado_produccion() -> Dictionary:
+	var base = GameState.produccion_base
+	var final = GameState.produccion
+	var cultivo = GameState.cultivo.to_lower()
+
+	if base <= 0 or final == base:
+		return {
+			"pose": "saludando",
+			"mensaje": "¡Bienvenido a la Feria de las Alturas! Produjiste las " + str(final) + " unidades de " + cultivo + " que esperabas.",
+		}
+
+	var porcentaje = int(round(abs(final - base) / float(base) * 100.0))
+	var frase_evento = _frase_evento(GameState.evento_actual)
+
+	if final < base:
+		return {
+			"pose": "preocupado",
+			"mensaje": "Podías producir " + str(base) + " unidades de " + cultivo + ", pero " + frase_evento + " te hizo perder un " + str(porcentaje) + "% y solo produjiste " + str(final) + " unidades.",
+		}
+
+	return {
+		"pose": "celebrando",
+		"mensaje": "¡Buena noticia! Gracias a " + frase_evento + ", produjiste un " + str(porcentaje) + "% más de lo previsto: " + str(final) + " unidades de " + cultivo + " en vez de " + str(base) + ".",
+	}
+
+
+func _frase_evento(evento: String) -> String:
+	match evento:
+		"Helada":
+			return "una helada"
+		"Lluvia":
+			return "la lluvia"
+		"Soleado":
+			return "el buen clima"
+		_:
+			return "un imprevisto"
 
 
 func actualizar_feria() -> void:
 	var crop_label = get_node("CropLabel")
-	var production_label = get_node("ProductionLabel")
 	var price_label = get_node("PriceLabel")
-	var total_label = get_node("TotalLabel")
 	var crop_icon = get_node("CropIcon")
 
 	crop_label.text = GameState.cultivo
-	production_label.text = str(GameState.produccion) + " unidades"
-	price_label.text = str(precio_por_unidad) + " monedas por unidad"
+	price_label.text = "¡Cada unidad vale " + str(precio_por_unidad) + " monedas!"
 
 	if GameState.cultivo == "Quinua":
 		crop_icon.texture = load("res://assets/crops/quinua/QuinuaMadura.png")
@@ -53,7 +92,52 @@ func actualizar_feria() -> void:
 
 	ganancia = GameState.produccion * precio_por_unidad
 
-	total_label.text = str(ganancia) + " monedas"
+
+# Anima toda la tarjeta de producción/venta/ganancia: los íconos aparecen
+# con un rebote escalonado, los números cuentan desde 0, y los íconos quedan
+# con un balanceo suave continuo para que la tarjeta se sienta viva.
+func _animar_tarjeta_estadisticas() -> void:
+	var iconos = [get_node("CropIcon"), get_node("PriceIcon"), get_node("TotalIcon")]
+	var retraso = 0.0
+	for icono in iconos:
+		icono.pivot_offset = icono.size / 2.0
+		icono.modulate.a = 0.0
+		icono.scale = Vector2(0.3, 0.3)
+		icono.rotation_degrees = -12.0
+
+		var tw = create_tween()
+		tw.tween_interval(retraso)
+		tw.tween_property(icono, "modulate:a", 1.0, 0.25)
+		tw.parallel().tween_property(icono, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.parallel().tween_property(icono, "rotation_degrees", 0.0, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_callback(_iniciar_balanceo_icono.bind(icono))
+		retraso += 0.15
+
+	_animar_contador(get_node("ProductionLabel"), GameState.produccion, " unidades", 0.5)
+	_animar_contador(get_node("TotalLabel"), ganancia, " monedas", 0.75)
+
+
+func _iniciar_balanceo_icono(icono: TextureRect) -> void:
+	if not is_instance_valid(icono):
+		return
+	var tw = create_tween()
+	tw.set_loops()
+	tw.tween_property(icono, "rotation_degrees", 6.0, 1.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_property(icono, "rotation_degrees", -6.0, 1.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
+func _animar_contador(label: Label, valor_final: int, sufijo: String, retraso: float) -> void:
+	label.text = "0" + sufijo
+	label.pivot_offset = label.size / 2.0
+	label.scale = Vector2(0.7, 0.7)
+
+	var tw = create_tween()
+	tw.tween_interval(retraso)
+	tw.tween_property(label, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_method(
+		func(v: float): label.text = str(int(round(v))) + sufijo,
+		0.0, float(valor_final), 0.6
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func actualizar_saldo_superior() -> void:

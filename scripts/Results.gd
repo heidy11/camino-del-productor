@@ -7,27 +7,13 @@ func _ready() -> void:
 	var perfil = GameState.calcular_perfil_financiero()
 
 	get_node("ProfileLabel").text = "Perfil financiero: " + perfil
-	get_node("ObtainedLabel").text = "Obtenidas: " + str(GameState.monedas_obtenidas)
-	get_node("SavedLabel").text = "Ahorradas: " + str(GameState.monedas_ahorradas)
-	get_node("InvestedLabel").text = "Invertidas: " + str(GameState.monedas_invertidas)
-	get_node("SpentLabel").text = "Gastadas: " + str(GameState.monedas_gastadas)
-
-	get_node("PointsAhorroLabel").text = "Ahorro: " + _formatear_puntos(GameState.puntos_ahorro)
-	get_node("PointsInvertirLabel").text = "Inversión: " + _formatear_puntos(GameState.puntos_invertir)
-	get_node("PointsGastarLabel").text = "Gasto: " + _formatear_puntos(GameState.puntos_gastar)
-	get_node("PointsTotalLabel").text = "Total puntos extra: " + _formatear_puntos(GameState.puntos_extra_total())
-
-	get_node("HealthLabel").text = "Salud financiera: " + str(GameState.salud_financiera)
-	get_node("ProductivityLabel").text = "Productividad: " + str(GameState.productividad)
-	get_node("ResilienceLabel").text = "Resiliencia: " + str(GameState.resiliencia)
-	get_node("GoalLabel").text = "Meta de ahorro alcanzada: " + ("Sí" if GameState.meta_alcanzada() else "No")
 
 	get_node("SealsLabel").text = "Sellos del Guardián: " + str(GameState.sellos)
 	get_node("ChallengesLabel").text = "Mini desafíos superados: " + str(GameState.minidesafios_completados)
 
 	_reaccionar_condor()
 	_poblar_logros()
-	_animar_barras()
+	_animar_economia()
 	_animar_tarjetas()
 
 
@@ -38,6 +24,36 @@ func _formatear_puntos(valor: int) -> String:
 		return str(valor) + " pts"
 	else:
 		return "0 pts"
+
+
+# Contador animado de dinero: cuenta desde 0 hasta el valor final para dar
+# una sensación más dinámica al resumen (en vez de mostrar el número fijo).
+func _animar_fila_dinero(label: Label, etiqueta: String, monedas: int, sufijo_puntos: String = "") -> void:
+	var tw = create_tween()
+	tw.tween_method(
+		func(v: float):
+			var texto = etiqueta + ": " + str(int(round(v))) + " monedas"
+			if sufijo_puntos != "":
+				texto += "  (" + sufijo_puntos + ")"
+			label.text = texto,
+		0.0, float(monedas), 0.7
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+func _animar_economia() -> void:
+	_animar_fila_dinero(get_node("ObtainedLabel"), "Obtenidas", GameState.monedas_obtenidas)
+	_animar_fila_dinero(get_node("SavedLabel"), "Ahorradas", GameState.monedas_ahorradas, _formatear_puntos(GameState.puntos_ahorro))
+	_animar_fila_dinero(get_node("InvestedLabel"), "Invertidas", GameState.monedas_invertidas, _formatear_puntos(GameState.puntos_invertir))
+	_animar_fila_dinero(get_node("SpentLabel"), "Gastadas", GameState.monedas_gastadas, _formatear_puntos(GameState.puntos_gastar))
+
+	var total_label = get_node("PointsTotalLabel")
+	total_label.text = "Total puntos extra: 0 pts"
+	total_label.pivot_offset = total_label.size / 2.0
+	var tw = create_tween()
+	tw.tween_interval(0.6)
+	tw.tween_callback(func(): total_label.text = "Total puntos extra: " + _formatear_puntos(GameState.puntos_extra_total()))
+	tw.tween_property(total_label, "scale", Vector2(1.15, 1.15), 0.12).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(total_label, "scale", Vector2(1.0, 1.0), 0.18).set_trans(Tween.TRANS_SINE)
 
 
 func _reaccionar_condor() -> void:
@@ -55,6 +71,19 @@ func _reaccionar_condor() -> void:
 			condor.set_message("Esta jornada fue dura para tu economía. La próxima vez piensa bien antes de arriesgarte o gastar.")
 
 	condor.animate_in()
+	_iniciar_balanceo_condor()
+
+
+# Pequeño balanceo continuo (además del "respirar" que ya trae el retrato)
+# para que el cóndor, ahora más grande, se sienta con más vida en esta pantalla.
+func _iniciar_balanceo_condor() -> void:
+	var portrait = get_node("CondorDialog/Portrait")
+	portrait.pivot_offset = portrait.size / 2.0
+
+	var tw = create_tween()
+	tw.set_loops()
+	tw.tween_property(portrait, "rotation_degrees", 3.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_property(portrait, "rotation_degrees", -3.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func _poblar_logros() -> void:
@@ -88,20 +117,8 @@ func _poblar_logros() -> void:
 		index += 1
 
 
-func _animar_barras() -> void:
-	_animar_barra(get_node("HealthBar"), float(GameState.salud_financiera))
-	_animar_barra(get_node("ProductivityBar"), float(GameState.productividad))
-	_animar_barra(get_node("ResilienceBar"), float(GameState.resiliencia))
-
-
-func _animar_barra(barra: ProgressBar, valor_final: float) -> void:
-	barra.value = 0.0
-	var tw = create_tween()
-	tw.tween_property(barra, "value", valor_final, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-
-
 func _animar_tarjetas() -> void:
-	for nombre in ["ProfileCard", "EconomyCard", "IndicatorsCard", "AchievementsCard"]:
+	for nombre in ["ProfileCard", "EconomyCard", "AchievementsCard"]:
 		var card = get_node(nombre)
 		card.modulate.a = 0.0
 		card.pivot_offset = card.size / 2.0

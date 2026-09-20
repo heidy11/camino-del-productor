@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameState="*uid://bawfh1b60pnw3"
 SceneTransition="*res://scripts/SceneTransition.gd"
 ButtonPolish="*res://scripts/ButtonPolish.gd"
+MusicManager="*res://scripts/MusicManager.gd"
 
 [display]
 

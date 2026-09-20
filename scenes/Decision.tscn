@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioDecision.png" id="2_bg"]
 [ext_resource type="Texture2D" path="res://assets/icons/coin.png" id="3_coin"]
 [ext_resource type="Texture2D" path="res://assets/props/financial/ChanchitoBDP.png" id="4_ahorro"]
-[ext_resource type="Texture2D" path="res://assets/icons/invest.png" id="5_invest"]
-[ext_resource type="Texture2D" path="res://assets/icons/spend.png" id="6_spend"]
+[ext_resource type="Texture2D" path="res://assets/decision/Inversion.png" id="5_invest"]
+[ext_resource type="Texture2D" path="res://assets/decision/DateUnGusto_transparente.png" id="6_spend"]
 [ext_resource type="Theme" path="res://theme/game_theme.tres" id="7_theme"]
 [ext_resource type="PackedScene" path="res://ui/components/DialogBox.tscn" id="8_dialog"]
 [ext_resource type="Shader" path="res://ui/shaders/outline.gdshader" id="9_outline"]
@@ -73,9 +73,13 @@ stretch_mode = 5
 [node name="MoneyLabel" type="Label" parent="." unique_id=1895417606]
 layout_mode = 0
 offset_left = 620.0
-offset_top = 64.0
-offset_right = 780.0
-offset_bottom = 87.0
+offset_top = 60.0
+offset_right = 800.0
+offset_bottom = 88.0
+theme_override_colors/font_color = Color(1, 0.976, 0.941, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 19
 text = "Tienes: 0 monedas"
 
 [node name="GoalLabel" type="Label" parent="."]
@@ -83,27 +87,34 @@ layout_mode = 0
 offset_left = 0.0
 offset_top = 92.0
 offset_right = 1280.0
-offset_bottom = 112.0
-theme_override_colors/font_color = Color(0.11, 0.14, 0.2, 1)
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 0.976, 0.941, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 text = "Meta de ahorro: 0 / 100"
 
 [node name="QuestionLabel" type="Label" parent="." unique_id=1359997324]
 layout_mode = 0
 offset_left = 0.0
-offset_top = 128.0
+offset_top = 126.0
 offset_right = 1280.0
-offset_bottom = 152.0
-theme_override_font_sizes/font_size = 20
+offset_bottom = 156.0
+theme_override_colors/font_color = Color(1, 0.976, 0.941, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
 text = "¿Qué quieres hacer con tus monedas?"
 
 [node name="SaveButton" type="Button" parent="." unique_id=1006306978]
-offset_left = 300.0
-offset_top = 185.0
-offset_right = 500.0
-offset_bottom = 345.0
+offset_left = 270.0
+offset_top = 170.0
+offset_right = 490.0
+offset_bottom = 360.0
 theme_type_variation = &"SelectionCard"
+theme_override_font_sizes/font_size = 20
 text = "AHORRAR"
 icon = ExtResource("4_ahorro")
 icon_alignment = 1
@@ -111,99 +122,108 @@ vertical_icon_alignment = 0
 expand_icon = true
 
 [node name="SaveCost" type="Label" parent="."]
-offset_left = 300.0
-offset_top = 354.0
-offset_right = 500.0
-offset_bottom = 376.0
+offset_left = 270.0
+offset_top = 366.0
+offset_right = 490.0
+offset_bottom = 392.0
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 text = "AHORRA 50 MONEDAS"
 
 [node name="SaveEffect" type="Label" parent="."]
-offset_left = 300.0
-offset_top = 378.0
-offset_right = 500.0
-offset_bottom = 400.0
+offset_left = 270.0
+offset_top = 394.0
+offset_right = 490.0
+offset_bottom = 418.0
 theme_override_colors/font_color = Color(0.2, 0.45, 0.22, 1)
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "+5 PUNTOS EXTRA"
 
 [node name="InvestButton" type="Button" parent="." unique_id=320860457]
-offset_left = 540.0
-offset_top = 185.0
-offset_right = 740.0
-offset_bottom = 345.0
+offset_left = 530.0
+offset_top = 170.0
+offset_right = 750.0
+offset_bottom = 360.0
 theme_type_variation = &"SelectionCard"
-text = ""
+theme_override_font_sizes/font_size = 20
+text = "INVERTIR"
 icon = ExtResource("5_invest")
 icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
 [node name="InvestCost" type="Label" parent="."]
-offset_left = 540.0
-offset_top = 354.0
-offset_right = 740.0
-offset_bottom = 376.0
+offset_left = 530.0
+offset_top = 366.0
+offset_right = 750.0
+offset_bottom = 392.0
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 text = "INVIERTE 100 MONEDAS"
 
 [node name="InvestEffect" type="Label" parent="."]
-offset_left = 540.0
-offset_top = 378.0
-offset_right = 740.0
-offset_bottom = 400.0
+offset_left = 530.0
+offset_top = 394.0
+offset_right = 750.0
+offset_bottom = 418.0
 theme_override_colors/font_color = Color(0.2, 0.45, 0.22, 1)
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "+10 PUNTOS EXTRA"
 
 [node name="SpendButton" type="Button" parent="." unique_id=701275252]
-offset_left = 780.0
-offset_top = 185.0
-offset_right = 980.0
-offset_bottom = 345.0
+offset_left = 790.0
+offset_top = 170.0
+offset_right = 1010.0
+offset_bottom = 360.0
 theme_type_variation = &"SelectionCard"
-text = ""
+theme_override_font_sizes/font_size = 20
+text = "DATE UN GUSTO"
 icon = ExtResource("6_spend")
 icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
 [node name="SpendCost" type="Label" parent="."]
-offset_left = 780.0
-offset_top = 354.0
-offset_right = 980.0
-offset_bottom = 376.0
+offset_left = 790.0
+offset_top = 366.0
+offset_right = 1010.0
+offset_bottom = 392.0
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 text = "UTILIZA 100 MONEDAS"
 
 [node name="SpendEffect" type="Label" parent="."]
-offset_left = 780.0
-offset_top = 378.0
-offset_right = 980.0
-offset_bottom = 400.0
+offset_left = 790.0
+offset_top = 394.0
+offset_right = 1010.0
+offset_bottom = 418.0
 theme_override_colors/font_color = Color(0.749, 0.2, 0.169, 1)
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "-15 PUNTOS EXTRA"
 
 [node name="InvestToolsButton" type="Button" parent="." unique_id=320860458]
 visible = false
-offset_left = 440.0
-offset_top = 185.0
-offset_right = 640.0
-offset_bottom = 345.0
+offset_left = 400.0
+offset_top = 170.0
+offset_right = 620.0
+offset_bottom = 360.0
 theme_type_variation = &"SelectionCard"
+theme_override_font_sizes/font_size = 20
 text = "HERRAMIENTAS"
 icon = ExtResource("10_herramientas")
 icon_alignment = 1
@@ -212,34 +232,37 @@ expand_icon = true
 
 [node name="InvestToolsCost" type="Label" parent="."]
 visible = false
-offset_left = 440.0
-offset_top = 354.0
-offset_right = 640.0
-offset_bottom = 376.0
+offset_left = 400.0
+offset_top = 366.0
+offset_right = 620.0
+offset_bottom = 392.0
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 text = "INVIERTE 100 MONEDAS"
 
 [node name="InvestToolsEffect" type="Label" parent="."]
 visible = false
-offset_left = 440.0
-offset_top = 378.0
-offset_right = 640.0
-offset_bottom = 400.0
+offset_left = 400.0
+offset_top = 394.0
+offset_right = 620.0
+offset_bottom = 418.0
 theme_override_colors/font_color = Color(0.2, 0.45, 0.22, 1)
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "+10 PUNTOS EXTRA"
 
 [node name="InvestSeedsButton" type="Button" parent="." unique_id=320860459]
 visible = false
-offset_left = 680.0
-offset_top = 185.0
+offset_left = 660.0
+offset_top = 170.0
 offset_right = 880.0
-offset_bottom = 345.0
+offset_bottom = 360.0
 theme_type_variation = &"SelectionCard"
+theme_override_font_sizes/font_size = 20
 text = "SEMILLAS"
 icon = ExtResource("11_semillas")
 icon_alignment = 1
@@ -248,34 +271,37 @@ expand_icon = true
 
 [node name="InvestSeedsCost" type="Label" parent="."]
 visible = false
-offset_left = 680.0
-offset_top = 354.0
+offset_left = 660.0
+offset_top = 366.0
 offset_right = 880.0
-offset_bottom = 376.0
+offset_bottom = 392.0
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 text = "INVIERTE 100 MONEDAS"
 
 [node name="InvestSeedsEffect" type="Label" parent="."]
 visible = false
-offset_left = 680.0
-offset_top = 378.0
+offset_left = 660.0
+offset_top = 394.0
 offset_right = 880.0
-offset_bottom = 400.0
+offset_bottom = 418.0
 theme_override_colors/font_color = Color(0.2, 0.45, 0.22, 1)
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "+10 PUNTOS EXTRA"
 
 [node name="SpendCandyButton" type="Button" parent="." unique_id=701275253]
 visible = false
-offset_left = 440.0
-offset_top = 185.0
-offset_right = 640.0
-offset_bottom = 345.0
+offset_left = 400.0
+offset_top = 170.0
+offset_right = 620.0
+offset_bottom = 360.0
 theme_type_variation = &"SelectionCard"
+theme_override_font_sizes/font_size = 20
 text = "DULCES"
 icon = ExtResource("12_dulces")
 icon_alignment = 1
@@ -284,34 +310,37 @@ expand_icon = true
 
 [node name="SpendCandyCost" type="Label" parent="."]
 visible = false
-offset_left = 440.0
-offset_top = 354.0
-offset_right = 640.0
-offset_bottom = 376.0
+offset_left = 400.0
+offset_top = 366.0
+offset_right = 620.0
+offset_bottom = 392.0
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 text = "UTILIZA 100 MONEDAS"
 
 [node name="SpendCandyEffect" type="Label" parent="."]
 visible = false
-offset_left = 440.0
-offset_top = 378.0
-offset_right = 640.0
-offset_bottom = 400.0
+offset_left = 400.0
+offset_top = 394.0
+offset_right = 620.0
+offset_bottom = 418.0
 theme_override_colors/font_color = Color(0.749, 0.2, 0.169, 1)
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "-15 PUNTOS EXTRA"
 
 [node name="SpendGamesButton" type="Button" parent="." unique_id=701275254]
 visible = false
-offset_left = 680.0
-offset_top = 185.0
+offset_left = 660.0
+offset_top = 170.0
 offset_right = 880.0
-offset_bottom = 345.0
+offset_bottom = 360.0
 theme_type_variation = &"SelectionCard"
+theme_override_font_sizes/font_size = 20
 text = "VIDEOJUEGOS"
 icon = ExtResource("13_videojuegos")
 icon_alignment = 1
@@ -320,24 +349,26 @@ expand_icon = true
 
 [node name="SpendGamesCost" type="Label" parent="."]
 visible = false
-offset_left = 680.0
-offset_top = 354.0
+offset_left = 660.0
+offset_top = 366.0
 offset_right = 880.0
-offset_bottom = 376.0
+offset_bottom = 392.0
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 text = "UTILIZA 100 MONEDAS"
 
 [node name="SpendGamesEffect" type="Label" parent="."]
 visible = false
-offset_left = 680.0
-offset_top = 378.0
+offset_left = 660.0
+offset_top = 394.0
 offset_right = 880.0
-offset_bottom = 400.0
+offset_bottom = 418.0
 theme_override_colors/font_color = Color(0.749, 0.2, 0.169, 1)
 theme_override_colors/font_outline_color = Color(1, 0.976, 0.941, 1)
 theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "-15 PUNTOS EXTRA"
 
@@ -352,6 +383,16 @@ offset_bottom = 590.0
 material = SubResource("mat_condor_outline")
 custom_minimum_size = Vector2(130, 130)
 
+[node name="NoFundsButton" type="Button" parent="." unique_id=3401882201]
+visible = false
+offset_left = 490.0
+offset_top = 240.0
+offset_right = 790.0
+offset_bottom = 300.0
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 20
+text = "VER RESULTADOS"
+
 [connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="InvestButton" to="." method="_on_invest_button_pressed"]
 [connection signal="pressed" from="SpendButton" to="." method="_on_spend_button_pressed"]
@@ -359,5 +400,6 @@ custom_minimum_size = Vector2(130, 130)
 [connection signal="pressed" from="InvestSeedsButton" to="." method="_on_invest_seeds_button_pressed"]
 [connection signal="pressed" from="SpendCandyButton" to="." method="_on_spend_candy_button_pressed"]
 [connection signal="pressed" from="SpendGamesButton" to="." method="_on_spend_games_button_pressed"]
+[connection signal="pressed" from="NoFundsButton" to="." method="_on_no_funds_button_pressed"]
 
 [editable path="CondorDialog"]

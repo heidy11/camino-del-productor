@@ -1,13 +1,105 @@
 extends Control
 
+const COSTO_AHORRAR := 50
+const COSTO_INVERTIR := 100
+const COSTO_GASTAR := 100
+
 
 func _ready() -> void:
 	actualizar_dinero()
+
+	# Si el jugador llegó sin monedas (por ejemplo, tras arriesgarse en varias
+	# heladas seguidas sin comprar protección), no hay ninguna decisión real
+	# que tomar: antes esto dejaba las 3 tarjetas deshabilitadas sin ninguna
+	# forma de continuar. Ahora se corta la partida con una explicación.
+	if GameState.monedas <= 0:
+		_mostrar_sin_monedas()
+		return
+
+	_actualizar_costos()
+	_conectar_hover(["SaveButton", "InvestButton", "SpendButton", "InvestToolsButton", "InvestSeedsButton", "SpendCandyButton", "SpendGamesButton"])
+	_animar_entrada_principal()
 
 	var condor = get_node("CondorDialog")
 	condor.set_pose("pensativo")
 	condor.set_message("Piensa bien: la decisión que elijas tendrá una consecuencia. ¡Podrás ganar puntos extra o perderlos!")
 	condor.animate_in()
+
+
+# Corta la partida cuando no queda ni una moneda para decidir. En vez de
+# dejar las tarjetas bloqueadas sin salida, se explica qué pasó y se ofrece
+# ir directo al resumen final (Results ya recalcula el perfil financiero
+# con los datos que dejó la partida, así que no hace falta una pantalla nueva).
+func _mostrar_sin_monedas() -> void:
+	get_node("QuestionLabel").text = "No te queda ninguna moneda para decidir"
+
+	for nombre in ["SaveButton", "InvestButton", "SpendButton", "SaveCost", "SaveEffect", "InvestCost", "InvestEffect", "SpendCost", "SpendEffect"]:
+		get_node(nombre).visible = false
+
+	var boton = get_node("NoFundsButton")
+	boton.visible = true
+	boton.modulate.a = 0.0
+	boton.pivot_offset = boton.size / 2.0
+	boton.scale = Vector2(0.7, 0.7)
+	var tw = create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(boton, "modulate:a", 1.0, 0.3).set_delay(0.3)
+	tw.tween_property(boton, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(0.3)
+
+	var condor = get_node("CondorDialog")
+	condor.set_pose("preocupado")
+	condor.set_message("Te quedaste sin monedas por algunas decisiones difíciles. No pasa nada, así se aprende: ¡vuelve a intentarlo la próxima vez!")
+	condor.animate_in()
+
+
+func _on_no_funds_button_pressed() -> void:
+	await SceneTransition.change_scene("res://scenes/Results.tscn")
+
+
+# Entrada escalonada de las 3 tarjetas principales (Ahorrar / Invertir /
+# Date un gusto) para que la pantalla se sienta viva desde el primer momento.
+func _animar_entrada_principal() -> void:
+	var retraso = 0.0
+	for nombre in ["SaveButton", "InvestButton", "SpendButton"]:
+		var boton = get_node(nombre)
+		boton.pivot_offset = boton.size / 2.0
+		boton.modulate.a = 0.0
+		boton.scale = Vector2(0.6, 0.6)
+		boton.rotation_degrees = -8.0
+
+		var tw = create_tween()
+		tw.tween_interval(retraso)
+		tw.tween_property(boton, "modulate:a", 1.0, 0.25)
+		tw.parallel().tween_property(boton, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.parallel().tween_property(boton, "rotation_degrees", 0.0, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		retraso += 0.12
+
+
+# Mismo pop dinámico (escala + leve giro + brillo) en las 7 tarjetas de
+# decisión, tanto las principales como las que se despliegan al elegir.
+func _conectar_hover(nombres: Array) -> void:
+	for nombre in nombres:
+		var boton = get_node(nombre)
+		boton.mouse_entered.connect(_on_opcion_hover.bind(boton))
+		boton.mouse_exited.connect(_on_opcion_unhover.bind(boton))
+
+
+func _on_opcion_hover(boton: Button) -> void:
+	if boton.disabled or not boton.visible:
+		return
+	boton.pivot_offset = boton.size / 2.0
+	var tw = create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(boton, "scale", Vector2(1.06, 1.06), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(boton, "rotation_degrees", 2.0, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _on_opcion_unhover(boton: Button) -> void:
+	boton.pivot_offset = boton.size / 2.0
+	var tw = create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(boton, "scale", Vector2(1.0, 1.0), 0.22).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.tween_property(boton, "rotation_degrees", 0.0, 0.22).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func actualizar_dinero() -> void:
@@ -16,6 +108,22 @@ func actualizar_dinero() -> void:
 
 	money_label.text = "Tienes: " + str(GameState.monedas) + " monedas"
 	goal_label.text = "Meta de ahorro: " + str(GameState.monedas_ahorradas) + " / " + str(GameState.meta_ahorro)
+
+
+# Nunca se puede pedir más de lo que el jugador realmente tiene: si tiene
+# menos que el objetivo, la decisión usa todas sus monedas disponibles.
+func _costo_real(objetivo: int) -> int:
+	return min(objetivo, GameState.monedas)
+
+
+func _actualizar_costos() -> void:
+	get_node("SaveCost").text = "AHORRA " + str(_costo_real(COSTO_AHORRAR)) + " MONEDAS"
+	get_node("InvestCost").text = "INVIERTE " + str(_costo_real(COSTO_INVERTIR)) + " MONEDAS"
+	get_node("SpendCost").text = "UTILIZA " + str(_costo_real(COSTO_GASTAR)) + " MONEDAS"
+	get_node("InvestToolsCost").text = "INVIERTE " + str(_costo_real(COSTO_INVERTIR)) + " MONEDAS"
+	get_node("InvestSeedsCost").text = "INVIERTE " + str(_costo_real(COSTO_INVERTIR)) + " MONEDAS"
+	get_node("SpendCandyCost").text = "UTILIZA " + str(_costo_real(COSTO_GASTAR)) + " MONEDAS"
+	get_node("SpendGamesCost").text = "UTILIZA " + str(_costo_real(COSTO_GASTAR)) + " MONEDAS"
 
 
 func _bloquear_botones() -> void:
@@ -54,14 +162,14 @@ func _desplegar_subopciones(categoria: String) -> void:
 	var condor = get_node("CondorDialog")
 
 	if categoria == "invertir":
-		get_node("QuestionLabel").text = "¿En qué quieres invertir tus 100 monedas?"
+		get_node("QuestionLabel").text = "¿En qué quieres invertir tus " + str(_costo_real(COSTO_INVERTIR)) + " monedas?"
 		condor.set_pose("explicando")
 		condor.set_message("Las herramientas mejoran tu trabajo y las semillas hacen crecer tu próxima cosecha. ¡Tú decides!")
 		_mostrar_subopciones(["InvestToolsButton", "InvestToolsCost", "InvestToolsEffect", "InvestSeedsButton", "InvestSeedsCost", "InvestSeedsEffect"])
 	else:
-		get_node("QuestionLabel").text = "¿En qué quieres gastar tus 100 monedas?"
+		get_node("QuestionLabel").text = "¿Con qué te vas a dar un gusto con tus " + str(_costo_real(COSTO_GASTAR)) + " monedas?"
 		condor.set_pose("preocupado")
-		condor.set_message("Cuidado: gastar sin pensar puede costarte puntos extra.")
+		condor.set_message("Cuidado: darte un gusto sin pensar puede costarte puntos extra.")
 		_mostrar_subopciones(["SpendCandyButton", "SpendCandyCost", "SpendCandyEffect", "SpendGamesButton", "SpendGamesCost", "SpendGamesEffect"])
 
 
@@ -171,9 +279,10 @@ func _continuar() -> void:
 # PROCESAR UNA DECISIÓN (AHORRAR / INVERTIR / GASTAR)
 # ==========================================
 
-func _procesar_decision(categoria: String, cantidad: int, boton: Button) -> void:
-	if GameState.monedas < cantidad:
-		print("No tienes suficientes monedas para esta decisión.")
+func _procesar_decision(categoria: String, objetivo: int, boton: Button) -> void:
+	var cantidad = _costo_real(objetivo)
+	if cantidad <= 0:
+		print("No tienes monedas para esta decisión.")
 		return
 
 	GameState.monedas -= cantidad
@@ -207,24 +316,24 @@ func _procesar_decision(categoria: String, cantidad: int, boton: Button) -> void
 
 
 func _on_save_button_pressed() -> void:
-	_procesar_decision("ahorrar", 50, get_node("SaveButton"))
+	_procesar_decision("ahorrar", COSTO_AHORRAR, get_node("SaveButton"))
 
 
 func _on_invest_tools_button_pressed() -> void:
 	GameState.veces_herramientas += 1
-	_procesar_decision("invertir", 100, get_node("InvestToolsButton"))
+	_procesar_decision("invertir", COSTO_INVERTIR, get_node("InvestToolsButton"))
 
 
 func _on_invest_seeds_button_pressed() -> void:
 	GameState.veces_semillas += 1
-	_procesar_decision("invertir", 100, get_node("InvestSeedsButton"))
+	_procesar_decision("invertir", COSTO_INVERTIR, get_node("InvestSeedsButton"))
 
 
 func _on_spend_candy_button_pressed() -> void:
 	GameState.veces_dulces += 1
-	_procesar_decision("gastar", 100, get_node("SpendCandyButton"))
+	_procesar_decision("gastar", COSTO_GASTAR, get_node("SpendCandyButton"))
 
 
 func _on_spend_games_button_pressed() -> void:
 	GameState.veces_videojuegos += 1
-	_procesar_decision("gastar", 100, get_node("SpendGamesButton"))
+	_procesar_decision("gastar", COSTO_GASTAR, get_node("SpendGamesButton"))

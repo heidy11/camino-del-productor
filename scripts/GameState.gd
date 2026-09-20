@@ -19,6 +19,7 @@ var cultivo = ""
 
 var ciclo_actual = 0
 var produccion = 0
+var produccion_base = 0
 const MAX_CICLOS = 2
 
 
@@ -72,6 +73,7 @@ var veces_carpa_comprada = 0
 # ==========================================
 
 var minidesafios_completados = 0
+var trivia_indice_elegido = -1
 
 
 # ==========================================
@@ -112,6 +114,7 @@ func nueva_partida():
 
 	ciclo_actual = 0
 	produccion = 0
+	produccion_base = 0
 
 	monedas = 50
 
@@ -134,6 +137,7 @@ func nueva_partida():
 	veces_carpa_comprada = 0
 
 	minidesafios_completados = 0
+	trivia_indice_elegido = -1
 
 	logros.clear()
 
