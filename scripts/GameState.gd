@@ -19,14 +19,14 @@ var cultivo = ""
 
 var ciclo_actual = 0
 var produccion = 0
-const MAX_CICLOS = 3
+const MAX_CICLOS = 2
 
 
 # ==========================================
 # ECONOMÍA
 # ==========================================
 
-var monedas = 0
+var monedas = 50
 
 var monedas_obtenidas = 0
 var monedas_ahorradas = 0
@@ -45,7 +45,7 @@ var fondo_emergencia = 0
 # META FINANCIERA
 # ==========================================
 
-var meta_ahorro = 150
+var meta_ahorro = 100
 var proteccion_activa = false
 
 
@@ -63,6 +63,8 @@ var resiliencia = 0
 # ==========================================
 
 var evento_actual = ""
+var historial_clima = []
+var veces_carpa_comprada = 0
 
 
 # ==========================================
@@ -82,6 +84,20 @@ var sellos = 0
 
 
 # ==========================================
+# PUNTOS EXTRA (DECISIONES FINANCIERAS)
+# ==========================================
+
+var puntos_ahorro = 0
+var puntos_invertir = 0
+var puntos_gastar = 0
+
+var veces_herramientas = 0
+var veces_semillas = 0
+var veces_dulces = 0
+var veces_videojuegos = 0
+
+
+# ==========================================
 # NUEVA PARTIDA
 # ==========================================
 
@@ -97,7 +113,7 @@ func nueva_partida():
 	ciclo_actual = 0
 	produccion = 0
 
-	monedas = 0
+	monedas = 50
 
 	monedas_obtenidas = 0
 	monedas_ahorradas = 0
@@ -106,7 +122,7 @@ func nueva_partida():
 
 	fondo_emergencia = 0
 
-	meta_ahorro = 150
+	meta_ahorro = 100
 	proteccion_activa = false
 
 	salud_financiera = 100
@@ -114,12 +130,23 @@ func nueva_partida():
 	resiliencia = 0
 
 	evento_actual = ""
+	historial_clima.clear()
+	veces_carpa_comprada = 0
 
 	minidesafios_completados = 0
 
 	logros.clear()
 
 	sellos = 0
+
+	puntos_ahorro = 0
+	puntos_invertir = 0
+	puntos_gastar = 0
+
+	veces_herramientas = 0
+	veces_semillas = 0
+	veces_dulces = 0
+	veces_videojuegos = 0
 
 
 # ==========================================
@@ -157,3 +184,22 @@ func meta_alcanzada() -> bool:
 
 func ciclo_final_completado() -> bool:
 	return ciclo_actual >= MAX_CICLOS or meta_alcanzada()
+
+
+# ==========================================
+# RESULTADO FINAL (REACCION DEL CONDOR)
+# ==========================================
+
+func puntos_extra_total() -> int:
+	return puntos_ahorro + puntos_invertir + puntos_gastar
+
+
+func resultado_final() -> String:
+	var ganancia = productividad + puntos_extra_total()
+
+	if ganancia >= 130:
+		return "feliz"
+	elif ganancia >= 100:
+		return "dudoso"
+	else:
+		return "triste"

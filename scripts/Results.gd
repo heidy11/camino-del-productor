@@ -11,7 +11,11 @@ func _ready() -> void:
 	get_node("SavedLabel").text = "Ahorradas: " + str(GameState.monedas_ahorradas)
 	get_node("InvestedLabel").text = "Invertidas: " + str(GameState.monedas_invertidas)
 	get_node("SpentLabel").text = "Gastadas: " + str(GameState.monedas_gastadas)
-	get_node("EmergencyLabel").text = "Fondo de emergencia: " + str(GameState.fondo_emergencia)
+
+	get_node("PointsAhorroLabel").text = "Ahorro: " + _formatear_puntos(GameState.puntos_ahorro)
+	get_node("PointsInvertirLabel").text = "Inversión: " + _formatear_puntos(GameState.puntos_invertir)
+	get_node("PointsGastarLabel").text = "Gasto: " + _formatear_puntos(GameState.puntos_gastar)
+	get_node("PointsTotalLabel").text = "Total puntos extra: " + _formatear_puntos(GameState.puntos_extra_total())
 
 	get_node("HealthLabel").text = "Salud financiera: " + str(GameState.salud_financiera)
 	get_node("ProductivityLabel").text = "Productividad: " + str(GameState.productividad)
@@ -21,9 +25,36 @@ func _ready() -> void:
 	get_node("SealsLabel").text = "Sellos del Guardián: " + str(GameState.sellos)
 	get_node("ChallengesLabel").text = "Mini desafíos superados: " + str(GameState.minidesafios_completados)
 
+	_reaccionar_condor()
 	_poblar_logros()
 	_animar_barras()
 	_animar_tarjetas()
+
+
+func _formatear_puntos(valor: int) -> String:
+	if valor > 0:
+		return "+" + str(valor) + " pts"
+	elif valor < 0:
+		return str(valor) + " pts"
+	else:
+		return "0 pts"
+
+
+func _reaccionar_condor() -> void:
+	var condor = get_node("CondorDialog")
+	var resultado = GameState.resultado_final()
+
+	condor.set_pose(resultado)
+
+	match resultado:
+		"feliz":
+			condor.set_message("¡Excelente trabajo! Tu producción y tus decisiones hicieron crecer tu economía. ¡Sigue así!")
+		"dudoso":
+			condor.set_message("Un resultado parejo... con más producción, ahorro e inversión podrías ganar aún más puntos extra.")
+		_:
+			condor.set_message("Esta jornada fue dura para tu economía. La próxima vez piensa bien antes de arriesgarte o gastar.")
+
+	condor.animate_in()
 
 
 func _poblar_logros() -> void:

@@ -1,10 +1,30 @@
 [gd_scene format=3 uid="uid://cr1hky6lxu5ah"]
 
 [ext_resource type="Script" uid="uid://c7h7gpkcmenaw" path="res://scripts/Market.gd" id="1_byv1b"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioMarket.png" id="2_bg"]
-[ext_resource type="Texture2D" path="res://assets/crops/papa/PapaMadura.png" id="3_papa"]
-[ext_resource type="Texture2D" path="res://assets/icons/coin.png" id="4_coin"]
-[ext_resource type="Theme" path="res://theme/game_theme.tres" id="5_theme"]
+[ext_resource type="Texture2D" uid="uid://bdt7njb3skbi3" path="res://assets/backgrounds/EscenarioMarket.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://dhdaip535kxi6" path="res://assets/crops/papa/PapaMadura.png" id="3_papa"]
+[ext_resource type="Texture2D" uid="uid://bupcfnif8jo7t" path="res://assets/icons/coin.png" id="4_coin"]
+[ext_resource type="Theme" uid="uid://c6ul1vle7twep" path="res://theme/game_theme.tres" id="5_theme"]
+[ext_resource type="Texture2D" uid="uid://dxn4eencyru15" path="res://assets/characters/zorro/ZorroMasculino.png" id="6_player"]
+[ext_resource type="Texture2D" uid="uid://nrly86i6agw1" path="res://assets/characters/tilcayo/Tilcayo.png" id="7_tilcayo"]
+[ext_resource type="PackedScene" path="res://ui/components/DialogBox.tscn" id="8_dialog"]
+[ext_resource type="Shader" uid="uid://vihlr04o1kn1" path="res://ui/shaders/outline.gdshader" id="9_outline"]
+[ext_resource type="Texture2D" path="res://assets/props/effects/ShadowOval.png" id="10_shadow"]
+
+[sub_resource type="ShaderMaterial" id="mat_condor_outline"]
+shader = ExtResource("9_outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 22.0
+
+[sub_resource type="ShaderMaterial" id="mat_player_outline"]
+shader = ExtResource("9_outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 8.0
+
+[sub_resource type="ShaderMaterial" id="mat_tilcayo_outline"]
+shader = ExtResource("9_outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 18.0
 
 [node name="Market" type="Control" unique_id=1515062040]
 layout_mode = 3
@@ -27,46 +47,79 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="TitlePanel" type="ColorRect" parent="."]
-offset_left = 0.0
-offset_top = 0.0
+[node name="TitlePanel" type="ColorRect" parent="." unique_id=438241957]
+layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 60.0
 color = Color(0, 0, 0, 0.35)
 
 [node name="Title" type="Label" parent="." unique_id=521782835]
 layout_mode = 0
-offset_left = 0.0
 offset_top = 14.0
 offset_right = 1280.0
 offset_bottom = 48.0
 theme_type_variation = &"TitleLabel"
 theme_override_font_sizes/font_size = 28
-horizontal_alignment = 1
 text = "FERIA DE LAS ALTURAS"
+horizontal_alignment = 1
 
-[node name="StatsCard" type="Panel" parent="."]
+[node name="MoneyIcon" type="TextureRect" parent="." unique_id=354784006]
+layout_mode = 0
+offset_left = 990.0
+offset_top = 68.0
+offset_right = 1014.0
+offset_bottom = 92.0
+texture = ExtResource("4_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoneyLabel" type="Label" parent="." unique_id=242676756]
+layout_mode = 0
+offset_left = 1022.0
+offset_top = 68.0
+offset_right = 1210.0
+offset_bottom = 92.0
+theme_override_colors/font_color = Color(1, 0.976, 0.941, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.14, 0.2, 1)
+theme_override_constants/outline_size = 4
+text = "Tienes: 0 monedas"
+
+[node name="CondorDialog" parent="." unique_id=995029045 instance=ExtResource("8_dialog")]
+layout_mode = 0
+offset_left = 375.0
+offset_top = 92.0
+offset_right = 905.0
+offset_bottom = 232.0
+theme = ExtResource("5_theme")
+
+[node name="Portrait" parent="CondorDialog" index="0"]
+material = SubResource("mat_condor_outline")
+custom_minimum_size = Vector2(130, 130)
+
+[node name="StatsCard" type="Panel" parent="." unique_id=824841748]
+layout_mode = 0
 offset_left = 100.0
-offset_top = 150.0
+offset_top = 245.0
 offset_right = 1180.0
-offset_bottom = 440.0
+offset_bottom = 493.0
 theme_type_variation = &"CardPanel"
 
-[node name="ProductionHeader" type="Label" parent="."]
+[node name="ProductionHeader" type="Label" parent="." unique_id=1772718582]
+layout_mode = 0
 offset_left = 150.0
-offset_top = 178.0
+offset_top = 273.0
 offset_right = 410.0
-offset_bottom = 202.0
+offset_bottom = 297.0
 theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 18
 text = "PRODUCCIÓN"
 
-[node name="CropIcon" type="TextureRect" parent="."]
+[node name="CropIcon" type="TextureRect" parent="." unique_id=1134402307]
 layout_mode = 0
 offset_left = 190.0
-offset_top = 210.0
+offset_top = 305.0
 offset_right = 310.0
-offset_bottom = 330.0
+offset_bottom = 425.0
 texture = ExtResource("3_papa")
 expand_mode = 1
 stretch_mode = 5
@@ -74,35 +127,37 @@ stretch_mode = 5
 [node name="CropLabel" type="Label" parent="." unique_id=785843677]
 layout_mode = 0
 offset_left = 150.0
-offset_top = 336.0
+offset_top = 431.0
 offset_right = 410.0
-offset_bottom = 359.0
-horizontal_alignment = 1
+offset_bottom = 454.0
 text = "Papa"
+horizontal_alignment = 1
 
 [node name="ProductionLabel" type="Label" parent="." unique_id=1256797876]
 layout_mode = 0
 offset_left = 150.0
-offset_top = 360.0
+offset_top = 455.0
 offset_right = 410.0
-offset_bottom = 383.0
-horizontal_alignment = 1
+offset_bottom = 478.0
 text = "70 unidades"
+horizontal_alignment = 1
 
-[node name="Arrow1" type="Label" parent="."]
+[node name="Arrow1" type="Label" parent="." unique_id=70644467]
+layout_mode = 0
 offset_left = 405.0
-offset_top = 255.0
+offset_top = 350.0
 offset_right = 465.0
-offset_bottom = 305.0
+offset_bottom = 400.0
 theme_override_colors/font_color = Color(0.09, 0.639, 0.596, 1)
 theme_override_font_sizes/font_size = 36
 text = "→"
 
-[node name="VentaHeader" type="Label" parent="."]
+[node name="VentaHeader" type="Label" parent="." unique_id=1638514123]
+layout_mode = 0
 offset_left = 490.0
-offset_top = 178.0
+offset_top = 273.0
 offset_right = 750.0
-offset_bottom = 202.0
+offset_bottom = 297.0
 theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 18
 text = "VENTA"
@@ -110,45 +165,47 @@ text = "VENTA"
 [node name="PriceLabel" type="Label" parent="." unique_id=2078445714]
 layout_mode = 0
 offset_left = 490.0
-offset_top = 230.0
+offset_top = 325.0
 offset_right = 750.0
-offset_bottom = 255.0
-horizontal_alignment = 1
+offset_bottom = 350.0
 text = "2 monedas por unidad"
+horizontal_alignment = 1
 
 [node name="SellButton" type="Button" parent="." unique_id=99688049]
 layout_mode = 0
 offset_left = 540.0
-offset_top = 275.0
+offset_top = 370.0
 offset_right = 700.0
-offset_bottom = 320.0
+offset_bottom = 415.0
 theme_type_variation = &"PrimaryButton"
 text = "VENDER"
 
-[node name="Arrow2" type="Label" parent="."]
+[node name="Arrow2" type="Label" parent="." unique_id=392915343]
+layout_mode = 0
 offset_left = 755.0
-offset_top = 255.0
+offset_top = 350.0
 offset_right = 815.0
-offset_bottom = 305.0
+offset_bottom = 400.0
 theme_override_colors/font_color = Color(0.09, 0.639, 0.596, 1)
 theme_override_font_sizes/font_size = 36
 text = "→"
 
-[node name="GananciaHeader" type="Label" parent="."]
+[node name="GananciaHeader" type="Label" parent="." unique_id=183473521]
+layout_mode = 0
 offset_left = 850.0
-offset_top = 178.0
+offset_top = 273.0
 offset_right = 1130.0
-offset_bottom = 202.0
+offset_bottom = 297.0
 theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 18
 text = "GANANCIA"
 
-[node name="TotalIcon" type="TextureRect" parent="."]
+[node name="TotalIcon" type="TextureRect" parent="." unique_id=1766681028]
 layout_mode = 0
 offset_left = 955.0
-offset_top = 210.0
+offset_top = 305.0
 offset_right = 1025.0
-offset_bottom = 280.0
+offset_bottom = 375.0
 texture = ExtResource("4_coin")
 expand_mode = 1
 stretch_mode = 5
@@ -156,12 +213,56 @@ stretch_mode = 5
 [node name="TotalLabel" type="Label" parent="." unique_id=2034852827]
 layout_mode = 0
 offset_left = 850.0
-offset_top = 290.0
+offset_top = 385.0
 offset_right = 1130.0
-offset_bottom = 316.0
+offset_bottom = 411.0
 theme_type_variation = &"CardTitleLabel"
 theme_override_font_sizes/font_size = 18
-horizontal_alignment = 1
 text = "140 monedas"
+horizontal_alignment = 1
+
+[node name="PlayerShadow" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 396.0
+offset_top = 636.0
+offset_right = 556.0
+offset_bottom = 692.0
+texture = ExtResource("10_shadow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerSprite" type="TextureRect" parent="." unique_id=430270224]
+layout_mode = 0
+material = SubResource("mat_player_outline")
+offset_left = 369.0
+offset_top = 438.0
+offset_right = 582.0
+offset_bottom = 678.0
+texture = ExtResource("6_player")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TilcayoShadow" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 760.0
+offset_top = 650.0
+offset_right = 879.0
+offset_bottom = 692.0
+texture = ExtResource("10_shadow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TilcayoSprite" type="TextureRect" parent="." unique_id=1085667951]
+layout_mode = 0
+material = SubResource("mat_tilcayo_outline")
+offset_left = 741.0
+offset_top = 445.0
+offset_right = 899.0
+offset_bottom = 685.0
+texture = ExtResource("7_tilcayo")
+expand_mode = 1
+stretch_mode = 5
 
 [connection signal="pressed" from="SellButton" to="." method="_on_sell_button_pressed"]
+
+[editable path="CondorDialog"]

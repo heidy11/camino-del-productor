@@ -1,15 +1,16 @@
 [gd_scene format=3 uid="uid://1ulj7md36ni4"]
 
 [ext_resource type="Script" uid="uid://bei1pt8at4hwg" path="res://scripts/Growth.gd" id="1_mbqei"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/EscenarioGrowth.png" id="2_bg"]
-[ext_resource type="Texture2D" path="res://assets/icons/papa.png" id="4_papa"]
-[ext_resource type="Texture2D" path="res://assets/icons/sun.png" id="5_sun"]
-[ext_resource type="Theme" path="res://theme/game_theme.tres" id="8_theme"]
+[ext_resource type="Texture2D" uid="uid://ch233dkrbetp7" path="res://assets/backgrounds/EscenarioGrowth.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://2h0s8upmywdc" path="res://assets/icons/papa.png" id="4_papa"]
+[ext_resource type="Texture2D" uid="uid://dupvqd0rdpbo5" path="res://assets/icons/sun.png" id="5_sun"]
+[ext_resource type="Theme" uid="uid://c6ul1vle7twep" path="res://theme/game_theme.tres" id="8_theme"]
 [ext_resource type="PackedScene" path="res://ui/components/DialogBox.tscn" id="9_dialog"]
 [ext_resource type="PackedScene" path="res://ui/components/WeatherEffects.tscn" id="10_weather"]
-[ext_resource type="Texture2D" path="res://assets/props/agriculture/Regadera.png" id="11_regadera"]
-[ext_resource type="Texture2D" path="res://assets/icons/status_error.png" id="12_risk"]
+[ext_resource type="Texture2D" uid="uid://cenhija7m4vcd" path="res://assets/props/agriculture/Regadera.png" id="11_regadera"]
+[ext_resource type="Texture2D" uid="uid://bt1vlf0vwcap1" path="res://assets/icons/status_error.png" id="12_risk"]
 [ext_resource type="PackedScene" path="res://ui/components/StatusIndicator.tscn" id="13_status"]
+[ext_resource type="Shader" path="res://ui/shaders/outline.gdshader" id="14_outline"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jdr30"]
 font_color = Color(0.10980392, 0.13333334, 0.19215687, 1)
@@ -25,6 +26,26 @@ font_color = Color(0.12156863, 0.1254902, 0.14509805, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wlxg1"]
 font_color = Color(0.19215687, 0.1764706, 0.18039216, 1)
+
+[sub_resource type="ShaderMaterial" id="mat_condor_outline"]
+shader = ExtResource("14_outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 22.0
+
+[sub_resource type="StyleBoxFlat" id="sb_title_banner"]
+bg_color = Color(1, 0.976, 0.941, 0.97)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.95, 0.73, 0.22, 0.9)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.16, 0.09, 0.03, 0.22)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
 
 [node name="Growth" type="Control" unique_id=1805660410]
 layout_mode = 3
@@ -47,7 +68,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Overlay" type="ColorRect" parent="."]
+[node name="Overlay" type="ColorRect" parent="." unique_id=102481043]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,57 +77,184 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.91764706, 0.95686275, 0.972549, 0.45)
 
+[node name="TitleBanner" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 24.0
+offset_right = 880.0
+offset_bottom = 78.0
+theme_override_styles/panel = SubResource("sb_title_banner")
+
 [node name="Title" type="Label" parent="." unique_id=583212951]
 layout_mode = 0
-offset_left = 407.0
-offset_top = 40.0
-offset_right = 636.0
-offset_bottom = 63.0
+offset_left = 400.0
+offset_top = 24.0
+offset_right = 880.0
+offset_bottom = 78.0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
 text = "TU CULTIVO ESTÁ CRECIENDO"
 label_settings = SubResource("LabelSettings_jdr30")
 
-[node name="CropIcon" type="TextureRect" parent="."]
+[node name="CropLabel" type="Label" parent="." unique_id=1896831125]
 layout_mode = 0
-offset_left = 380.0
-offset_top = 380.0
-offset_right = 460.0
-offset_bottom = 460.0
+offset_left = 170.0
+offset_top = 302.0
+offset_right = 670.0
+offset_bottom = 328.0
+theme_override_font_sizes/font_size = 20
+text = "🌱 Cargando cultivo..."
+label_settings = SubResource("LabelSettings_vognv")
+horizontal_alignment = 1
+
+[node name="GrowthProgress" type="ProgressBar" parent="." unique_id=1890482776]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 342.0
+offset_right = 690.0
+offset_bottom = 370.0
+
+[node name="CropIcon" type="TextureRect" parent="." unique_id=2117516389]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 419.0
+offset_right = 200.0
+offset_bottom = 505.0
 texture = ExtResource("4_papa")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RegaderaProp" type="TextureRect" parent="."]
+[node name="CropIcon12" type="TextureRect" parent="." unique_id=1804623108]
 layout_mode = 0
-offset_left = 468.0
-offset_top = 415.0
-offset_right = 528.0
-offset_bottom = 465.0
+offset_left = 552.0
+offset_top = 464.0
+offset_right = 611.0
+offset_bottom = 550.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon11" type="TextureRect" parent="." unique_id=1033478003]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 496.0
+offset_right = 515.0
+offset_bottom = 582.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon10" type="TextureRect" parent="." unique_id=982218037]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 448.0
+offset_right = 547.0
+offset_bottom = 534.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon9" type="TextureRect" parent="." unique_id=1686806883]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 480.0
+offset_right = 451.0
+offset_bottom = 566.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon8" type="TextureRect" parent="." unique_id=2089270702]
+layout_mode = 0
+offset_left = 424.0
+offset_top = 432.0
+offset_right = 483.0
+offset_bottom = 518.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon7" type="TextureRect" parent="." unique_id=99754189]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 464.0
+offset_right = 387.0
+offset_bottom = 550.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon6" type="TextureRect" parent="." unique_id=2018505756]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 416.0
+offset_right = 419.0
+offset_bottom = 502.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon5" type="TextureRect" parent="." unique_id=1474708273]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 448.0
+offset_right = 323.0
+offset_bottom = 534.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon4" type="TextureRect" parent="." unique_id=1602384817]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 432.0
+offset_right = 259.0
+offset_bottom = 518.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon3" type="TextureRect" parent="." unique_id=244936808]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 387.0
+offset_right = 288.0
+offset_bottom = 473.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CropIcon2" type="TextureRect" parent="." unique_id=1330406994]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 400.0
+offset_right = 355.0
+offset_bottom = 486.0
+texture = ExtResource("4_papa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RegaderaProp" type="TextureRect" parent="." unique_id=1083825562]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 281.0
+offset_right = 269.0
+offset_bottom = 441.0
 texture = ExtResource("11_regadera")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CropLabel" type="Label" parent="." unique_id=1896831125]
-layout_mode = 0
-offset_left = 251.0
-offset_top = 379.0
-offset_right = 421.0
-offset_bottom = 402.0
-text = "🌱 Cargando cultivo..."
-label_settings = SubResource("LabelSettings_vognv")
-
-[node name="GrowthProgress" type="ProgressBar" parent="." unique_id=1890482776]
-layout_mode = 0
-offset_left = 340.0
-offset_top = 336.0
-offset_right = 568.0
-offset_bottom = 363.0
-
-[node name="CondorDialog" parent="." instance=ExtResource("9_dialog")]
+[node name="CondorDialog" parent="." unique_id=1223535655 instance=ExtResource("9_dialog")]
 layout_mode = 0
 offset_left = 90.0
-offset_top = 140.0
+offset_top = 92.0
 offset_right = 570.0
-offset_bottom = 250.0
+offset_bottom = 292.0
+
+[node name="Portrait" parent="CondorDialog" index="0"]
+material = SubResource("mat_condor_outline")
+custom_minimum_size = Vector2(182, 182)
 
 [node name="ChallengePanel" type="Panel" parent="." unique_id=341695666]
 layout_mode = 0
@@ -149,7 +297,7 @@ offset_right = 286.0
 offset_bottom = 207.0
 text = "Comprar algo que no necesitas"
 
-[node name="ResultStatus" parent="ChallengePanel" instance=ExtResource("13_status")]
+[node name="ResultStatus" parent="ChallengePanel" unique_id=548796057 instance=ExtResource("13_status")]
 visible = false
 layout_mode = 0
 offset_left = 16.0
@@ -174,7 +322,7 @@ offset_top = 449.0
 offset_right = 1125.0
 offset_bottom = 700.0
 
-[node name="EventIcon" type="TextureRect" parent="EventPanel"]
+[node name="EventIcon" type="TextureRect" parent="EventPanel" unique_id=1452539470]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 30.0
@@ -193,8 +341,9 @@ offset_bottom = 68.0
 text = "EVENTO CLIMÁTICO"
 label_settings = SubResource("LabelSettings_hcd26")
 
-[node name="RiskBadge" type="TextureRect" parent="EventPanel"]
+[node name="RiskBadge" type="TextureRect" parent="EventPanel" unique_id=674980196]
 visible = false
+layout_mode = 0
 offset_left = 260.0
 offset_top = 42.0
 offset_right = 284.0
@@ -209,10 +358,10 @@ offset_left = 28.0
 offset_top = 86.0
 offset_right = 320.0
 offset_bottom = 176.0
-autowrap_mode = 3
 text = "El clima puede afectar tu producción.
 Prepárate para enfrentar el imprevisto."
 label_settings = SubResource("LabelSettings_wlxg1")
+autowrap_mode = 3
 
 [node name="EventButton" type="Button" parent="EventPanel" unique_id=2083778271]
 layout_mode = 0
@@ -222,11 +371,35 @@ offset_right = 225.0
 offset_bottom = 221.0
 text = "CONTINUAR"
 
-[node name="WeatherEffects" parent="." instance=ExtResource("10_weather")]
+[node name="CarpaButton" type="Button" parent="EventPanel"]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 188.0
+offset_right = 165.0
+offset_bottom = 222.0
+text = "COMPRAR CARPA (30)"
+
+[node name="ArriesgarseButton" type="Button" parent="EventPanel"]
+visible = false
+layout_mode = 0
+offset_left = 172.0
+offset_top = 188.0
+offset_right = 325.0
+offset_bottom = 222.0
+text = "ARRIESGARSE"
+
+[node name="WeatherEffects" parent="." unique_id=117314706 instance=ExtResource("10_weather")]
 layout_mode = 1
+offset_top = 2.0
+offset_right = 2.0
 
 [connection signal="pressed" from="ChallengePanel/OptionAButton" to="." method="_on_option_a_button_pressed"]
 [connection signal="pressed" from="ChallengePanel/OptionBButton" to="." method="_on_option_b_button_pressed"]
 [connection signal="pressed" from="ChallengePanel/OptionCButton" to="." method="_on_option_c_button_pressed"]
 [connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="EventPanel/EventButton" to="." method="_on_event_button_pressed"]
+[connection signal="pressed" from="EventPanel/CarpaButton" to="." method="_on_carpa_button_pressed"]
+[connection signal="pressed" from="EventPanel/ArriesgarseButton" to="." method="_on_arriesgarse_button_pressed"]
+
+[editable path="CondorDialog"]

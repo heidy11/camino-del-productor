@@ -12,6 +12,9 @@ const POSES = {
 	"celebrando": "res://assets/condor/CondorSaludando.png",
 	"preocupado": "res://assets/condor/CondorPreocupado.png",
 	"neutral": "res://assets/condor/CondorNeutral.png",
+	"feliz": "res://assets/condor/CondorFeliz.png",
+	"dudoso": "res://assets/condor/Condordudoso.png",
+	"triste": "res://assets/condor/condorTriste.png",
 }
 
 var _bob_time := randf() * TAU

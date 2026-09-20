@@ -1,6 +1,10 @@
 extends Control
 
 
+const ESCALA_MIN := 0.55
+const ESCALA_MAX := 1.15
+const COSTO_CARPA := 30
+
 var progreso = 0.0
 var tiempo_crecimiento = 10.0
 var crecimiento_completo = false
@@ -9,50 +13,64 @@ var evento_generado = false
 var evento = ""
 var produccion_base = 100
 var produccion_final = 100
+var nombre_cultivo_actual = ""
 
-var usa_etapas_papa = false
-var papa_stage_textures = []
-var papa_stage_index = -1
-
-var usa_quinua = false
-var quinua_brote_textura: Texture2D = null
-var quinua_madura_textura: Texture2D = null
-var quinua_madura_mostrada = false
+var stage_textures: Array = []
+var stage_index := -1
 var brillo_cosecha_mostrado = false
+var crop_icons: Array = []
+
+func _obtener_crop_icons() -> Array:
+	# Recoge el CropIcon original y cualquier duplicado (CropIcon2, CropIcon3, ...)
+	# que se haya creado en el editor para formar el montículo del cultivo,
+	# de modo que todos crezcan y cambien de etapa juntos.
+	var nodos: Array = []
+	for hijo in get_children():
+		if hijo is TextureRect and String(hijo.name).begins_with("CropIcon"):
+			nodos.append(hijo)
+	return nodos
+
 
 func _ready() -> void:
 	var crop_label = get_node("CropLabel")
 	var growth_progress = get_node("GrowthProgress")
-	var crop_icon = get_node("CropIcon")
+	crop_icons = _obtener_crop_icons()
 
 	if GameState.cultivo == "Papa":
-		crop_label.text = "🥔 PAPA"
+		nombre_cultivo_actual = "Papa"
+		crop_label.text = "La Papa está creciendo"
 		tiempo_crecimiento = 10.0
-		produccion_base = 100
-		usa_etapas_papa = true
-		papa_stage_textures = [
+		produccion_base = int(round(100.0 * GameState.productividad / 100.0))
+		stage_textures = [
 			load("res://assets/crops/papa/PapaSemilla.png"),
 			load("res://assets/crops/papa/PapaBrote.png"),
 			load("res://assets/crops/papa/PapaCreciendo.png"),
 			load("res://assets/crops/papa/PapaMadura.png"),
 		]
-		papa_stage_index = 0
-		crop_icon.texture = papa_stage_textures[0]
 	elif GameState.cultivo == "Quinua":
-		crop_label.text = "🌾 QUINUA"
+		nombre_cultivo_actual = "Quinua"
+		crop_label.text = "La Quinua está creciendo"
 		tiempo_crecimiento = 6.0
-		produccion_base = 70
-		usa_quinua = true
-		quinua_brote_textura = load("res://assets/crops/quinua/QuinuaBrote.png")
-		quinua_madura_textura = load("res://assets/crops/quinua/QuinuaMadura.png")
-		crop_icon.texture = quinua_brote_textura
+		produccion_base = int(round(70.0 * GameState.productividad / 100.0))
+		stage_textures = [
+			load("res://assets/crops/quinua/QuinuaSemilla.png"),
+			load("res://assets/crops/quinua/QuinuaBrote.png"),
+			load("res://assets/crops/quinua/QuinuaCreciendo.png"),
+			load("res://assets/crops/quinua/QuinuaMadura.png"),
+		]
 	else:
-		crop_label.text = "🌱 SIN CULTIVO"
+		crop_label.text = "Tu cultivo está creciendo"
+		stage_textures = []
 
+	stage_index = 0
 	produccion_final = produccion_base
 	growth_progress.value = 0
-	crop_icon.pivot_offset = crop_icon.size / 2.0
-	crop_icon.scale = Vector2(1, 1) if usa_etapas_papa else Vector2(0.35, 0.35)
+
+	for icon in crop_icons:
+		if stage_textures.size() > 0:
+			icon.texture = stage_textures[0]
+		icon.pivot_offset = icon.size / 2.0
+		icon.scale = Vector2(ESCALA_MIN, ESCALA_MIN)
 
 	var condor = get_node("CondorDialog")
 	condor.set_pose("explicando")
@@ -62,61 +80,68 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	var growth_progress = get_node("GrowthProgress")
-	var crop_icon = get_node("CropIcon")
 
 	if progreso < 100:
 		progreso += (100.0 / tiempo_crecimiento) * delta
 		growth_progress.value = progreso
 
-		if usa_etapas_papa:
-			var stage = clamp(int(progreso / 25.0), 0, 3)
-			if stage != papa_stage_index:
-				papa_stage_index = stage
-				crop_icon.texture = papa_stage_textures[stage]
-		elif usa_quinua:
-			var factor = 0.35 + (progreso / 100.0) * 0.85
-			crop_icon.scale = Vector2(factor, factor)
-		else:
-			var factor = 0.3 + (progreso / 100.0) * 0.9
-			crop_icon.scale = Vector2(factor, factor)
+		if stage_textures.size() > 0:
+			var stage = clamp(int(progreso / 25.0), 0, stage_textures.size() - 1)
+			if stage != stage_index:
+				stage_index = stage
+				for icon in crop_icons:
+					icon.texture = stage_textures[stage]
+				_pulso_cambio_etapa()
+
+		var factor = lerp(ESCALA_MIN, ESCALA_MAX, progreso / 100.0)
+		for icon in crop_icons:
+			icon.pivot_offset = icon.size / 2.0
+			icon.scale = Vector2(factor, factor)
 
 		if progreso >= 100:
 			progreso = 100
 			crecimiento_completo = true
-			if usa_quinua and not quinua_madura_mostrada:
-				quinua_madura_mostrada = true
-				crop_icon.texture = quinua_madura_textura
-				crop_icon.scale = Vector2(1.0, 1.0)
-			_brillo_cosecha_lista(crop_icon)
+			if nombre_cultivo_actual != "":
+				get_node("CropLabel").text = "¡La " + nombre_cultivo_actual + " está lista para cosechar!"
+			_brillo_cosecha_lista()
 			print("El cultivo está listo para cosechar")
 
 
-func _brillo_cosecha_lista(crop_icon: TextureRect) -> void:
+func _pulso_cambio_etapa() -> void:
+	for icon in crop_icons:
+		var tw = create_tween()
+		tw.tween_property(icon, "modulate", Color(1.3, 1.3, 1.05, 1.0), 0.12).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(icon, "modulate", Color(1, 1, 1, 1), 0.22).set_trans(Tween.TRANS_SINE)
+
+
+func _brillo_cosecha_lista() -> void:
 	if brillo_cosecha_mostrado:
 		return
 	brillo_cosecha_mostrado = true
 
-	crop_icon.pivot_offset = crop_icon.size / 2.0
-	var escala_original = crop_icon.scale
+	for icon in crop_icons:
+		icon.pivot_offset = icon.size / 2.0
+		var escala_original = icon.scale
 
-	var tw = create_tween()
-	tw.tween_property(crop_icon, "modulate", Color(1.5, 1.5, 1.1, 1.0), 0.18).set_trans(Tween.TRANS_SINE)
-	tw.tween_property(crop_icon, "modulate", Color(1, 1, 1, 1), 0.28).set_trans(Tween.TRANS_SINE)
+		var tw = create_tween()
+		tw.tween_property(icon, "modulate", Color(1.5, 1.5, 1.1, 1.0), 0.18).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(icon, "modulate", Color(1, 1, 1, 1), 0.28).set_trans(Tween.TRANS_SINE)
 
-	var tw_scale = create_tween()
-	tw_scale.tween_property(crop_icon, "scale", escala_original * 1.15, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw_scale.tween_property(crop_icon, "scale", escala_original, 0.22).set_trans(Tween.TRANS_SINE)
-			
+		var tw_scale = create_tween()
+		tw_scale.tween_property(icon, "scale", escala_original * 1.15, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw_scale.tween_property(icon, "scale", escala_original, 0.22).set_trans(Tween.TRANS_SINE)
+
+
 func generar_evento() -> void:
 	if evento_generado:
 		return
-	
+
 	var eventos = ["Soleado", "Lluvia", "Helada"]
 	evento = eventos.pick_random()
-	
+
 	GameState.evento_actual = evento
 	evento_generado = true
-	
+
 	var event_title = get_node("EventPanel/EventTitle")
 	var event_description = get_node("EventPanel/EventDescription")
 	var event_button = get_node("EventPanel/EventButton")
@@ -127,49 +152,146 @@ func generar_evento() -> void:
 	var risk_badge = get_node("EventPanel/RiskBadge")
 
 	risk_badge.visible = false
+	event_button.visible = false
+	get_node("EventPanel").visible = true
 
 	if evento == "Soleado":
 		event_title.text = "☀️ DÍA SOLEADO"
-		event_description.text = "El clima favorece el crecimiento de tu cultivo."
-		produccion_final = produccion_base
 		event_icon.texture = load("res://assets/icons/sun.png")
 		background.texture = load("res://assets/backgrounds/EscenarioGrowthVarianteSoleada.png")
 		condor.set_pose("neutral")
-		condor.set_message(event_description.text)
 		weather.set_weather("soleado")
+
+		var factor = randf_range(1.00, 1.15)
+		produccion_final = int(round(produccion_base * factor))
+		if factor >= 1.08:
+			event_description.text = "¡El clima favoreció mucho tu cultivo! Produjiste más de lo esperado."
+		else:
+			event_description.text = "El clima favorece el crecimiento de tu cultivo."
+		condor.set_message(event_description.text)
+
+		GameState.historial_clima.append(evento)
+		GameState.proteccion_activa = false
+		event_button.visible = true
+		print("Evento climático: ", evento)
+		print("Producción final: ", produccion_final)
 
 	elif evento == "Lluvia":
 		event_title.text = "🌧️ LLUVIA"
-		event_description.text = "La lluvia puede beneficiar tu cultivo, pero también puede generar riesgos."
-		produccion_final = produccion_base
 		event_icon.texture = load("res://assets/icons/rain.png")
 		background.texture = load("res://assets/backgrounds/EscenarioGrowthVarianteLluvia.png")
 		condor.set_pose("senalando")
-		condor.set_message(event_description.text)
 		weather.set_weather("lluvia")
+
+		var factor = randf_range(0.85, 1.10)
+		produccion_final = int(round(produccion_base * factor))
+		if factor < 1.0:
+			event_description.text = "La lluvia fue intensa y afectó un poco tu producción."
+		else:
+			event_description.text = "La lluvia benefició tu cultivo este ciclo."
+		condor.set_message(event_description.text)
+
+		GameState.historial_clima.append(evento)
+		GameState.proteccion_activa = false
+		event_button.visible = true
+		print("Evento climático: ", evento)
+		print("Producción final: ", produccion_final)
 
 	elif evento == "Helada":
 		event_title.text = "❄️ HELADA"
 		event_icon.texture = load("res://assets/icons/frost.png")
 		background.texture = load("res://assets/backgrounds/EscenarioGrowthVarianteHelada.png")
 		risk_badge.visible = true
-		if GameState.proteccion_activa:
-			event_description.text = "Gracias a tu inversión preventiva, el daño de la helada fue menor."
-			produccion_final = produccion_base * 0.85
-		else:
-			event_description.text = "Una helada puede reducir tu producción si no estás preparado."
-			produccion_final = produccion_base * 0.7
-		condor.set_pose("preocupado")
-		condor.set_message(event_description.text)
 		weather.set_weather("helada")
 		_sacudir_pantalla()
+		_resolver_helada()
 
+
+func _es_segunda_helada_seguida() -> bool:
+	return GameState.historial_clima.size() > 0 and GameState.historial_clima[-1] == "Helada"
+
+
+func _resolver_helada() -> void:
+	var condor = get_node("CondorDialog")
+	var event_description = get_node("EventPanel/EventDescription")
+	var event_button = get_node("EventPanel/EventButton")
+
+	if GameState.proteccion_activa:
+		condor.set_pose("preocupado")
+		event_description.text = "Gracias a tu inversión anterior, podrás afrontar mejor esta helada."
+		condor.set_message(event_description.text)
+		_finalizar_helada("inversion")
+	elif GameState.monedas >= COSTO_CARPA:
+		condor.set_pose("pensativo")
+		var msg = "¡Se acerca una helada! Tienes " + str(GameState.monedas) + " monedas. ¿Compras una carpa antiheladas por " + str(COSTO_CARPA) + " monedas para proteger tu cultivo?"
+		event_description.text = msg
+		condor.set_message(msg)
+		event_button.visible = false
+		get_node("EventPanel/CarpaButton").visible = true
+		get_node("EventPanel/ArriesgarseButton").visible = true
+	else:
+		condor.set_pose("preocupado")
+		event_description.text = "No te alcanza para una carpa antiheladas, pero puedes proteger parte de tu cultivo con lo que tienes a mano."
+		condor.set_message(event_description.text)
+		_finalizar_helada("parcial_gratis")
+
+
+func _on_carpa_button_pressed() -> void:
+	GameState.monedas -= COSTO_CARPA
+	GameState.veces_carpa_comprada += 1
+	get_node("EventPanel/CarpaButton").visible = false
+	get_node("EventPanel/ArriesgarseButton").visible = false
+	_finalizar_helada("carpa")
+
+
+func _on_arriesgarse_button_pressed() -> void:
+	get_node("EventPanel/CarpaButton").visible = false
+	get_node("EventPanel/ArriesgarseButton").visible = false
+	_finalizar_helada("arriesgo")
+
+
+func _finalizar_helada(tipo_proteccion: String) -> void:
+	var segunda_seguida = _es_segunda_helada_seguida()
+	var factor: float
+	var mensaje: String
+
+	match tipo_proteccion:
+		"inversion":
+			factor = randf_range(0.65, 0.85)
+			mensaje = "Gracias a tu inversión anterior, el daño de la helada fue menor."
+		"carpa":
+			factor = randf_range(0.70, 0.90)
+			mensaje = "La carpa antiheladas protegió gran parte de tu cultivo."
+		"arriesgo":
+			factor = randf_range(0.15, 0.35)
+			mensaje = "Decidiste arriesgarte sin protección y la helada golpeó fuerte tu cultivo."
+		"parcial_gratis":
+			factor = 0.50
+			mensaje = "No te alcanzaba para la carpa, pero lograste proteger la mitad de tu cultivo con lo que tenías a mano."
+		_:
+			factor = 0.5
+			mensaje = "La helada afectó tu cultivo."
+
+	if segunda_seguida:
+		if tipo_proteccion == "inversion" or tipo_proteccion == "carpa":
+			factor *= randf_range(0.55, 0.8)
+			mensaje += " Es la segunda helada seguida, así que el golpe fue aún más duro de lo normal."
+		else:
+			factor = 0.0
+			mensaje = "Dos heladas seguidas sin protección acabaron con toda tu cosecha de este ciclo."
+
+	produccion_final = int(round(produccion_base * factor))
+	GameState.historial_clima.append("Helada")
 	GameState.proteccion_activa = false
 
-	print("Evento climático: ", evento)
+	var condor = get_node("CondorDialog")
+	condor.set_pose("preocupado" if factor < 0.5 else "pensativo")
+	get_node("EventPanel/EventDescription").text = mensaje
+	condor.set_message(mensaje)
 	get_node("EventPanel").visible = true
-	event_button.visible = true
-	print("Evento climático: ", evento)
+	get_node("EventPanel/EventButton").visible = true
+
+	print("Evento climático: Helada (", tipo_proteccion, ")")
 	print("Producción final: ", produccion_final)
 
 

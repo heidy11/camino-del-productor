@@ -149,3 +149,5 @@ theme_type_variation = &"PrimaryButton"
 text = "CONTINUAR"
 
 [connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
+
+[editable path="CondorDialog"]
